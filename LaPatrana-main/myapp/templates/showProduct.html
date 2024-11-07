@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Productos</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/ShowProduct.css' %}"
+    />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="{% static 'img/Logo-icono.svg' %}"
+      type="image/png"
+    />
+    
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="text-center mb-4">Lista de Productos</h1>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for producto in Productos %}
+        <div class="col">
+          <div class="card h-100" onclick="selectCard(this)">
+            <img src="{% static producto.imgProducto %}" alt="Imagen del producto" class="card-img-top" />
+            <div class="card-body">
+              <h5 class="card-title">{{ producto.nombre }}</h5>
+              <p class="card-text">{{ producto.descripcion }}</p>
+              <p class="card-text">Precio: {{ producto.precio }}</p>
+              {% if producto.disponible %}
+                <div class="disponible" style="color: green">Disponible</div>
+              {% else %}
+                <div class="disponible" style="color: red">No disponible</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+
+    <!-- Logout Button -->
+    <div class="floating-button logout-button">
+      <a href="{% url 'signout'%}" class="btn btn-danger d-none d-md-block">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="btn-text">Cerrar Sesión</span>
+      </a>
+      <a href="{% url 'signout'%}" class="btn btn-danger d-block d-md-none"
+        ><i class="fas fa-sign-out-alt"></i
+      ></a>
+    </div>
+
+    <!-- Back Button -->
+    <div class="floating-button back-button">
+      <a
+        href="#"
+        onclick="history.back()"
+        class="btn btn-secondary d-none d-md-block"
+      >
+        <i class="fas fa-arrow-left"></i>
+        <span class="btn-text">Volver</span>
+      </a>
+      <a
+        href="#"
+        onclick="history.back()"
+        class="btn btn-secondary d-block d-md-none"
+        ><i class="fas fa-arrow-left"></i
+      ></a>
+    </div>
+
+    <script>
+      function selectCard(card) {
+        // Remove the 'selected-card' class from all cards
+        document.querySelectorAll(".card").forEach(function (c) {
+          c.classList.remove("selected-card");
+        });
+        // Add the 'selected-card' class to the clicked card
+        card.classList.add("selected-card");
+      }
+    </script>
+  </body>
+</html>

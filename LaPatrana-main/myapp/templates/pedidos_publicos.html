@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos Públicos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        setInterval(function(){
+            location.reload();
+        }, 10000); // Recarga la página cada 10 segundos
+    </script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+        .card-text {
+            font-size: 1rem;
+            color: #495057;
+        }
+        .estado-pedido {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .estado-pedido.en-preparacion {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">Pedidos en Preparación y Listos para Servir</h2>
+        <div class="row">
+            {% for pedido in pedidos %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Pedido #{{ pedido.numeroPedido }}</h5>
+                        <p class="card-text"><strong>Mesa:</strong> {{ pedido.mesa.numero }}</p>
+                        <p class="card-text"><strong>Producto:</strong> {{ pedido.idProducto.nombre }}</p>
+                        <p class="card-text"><strong>Cantidad:</strong> {{ pedido.cantidad }}</p>
+                        <p class="card-text estado-pedido {% if not pedido.hecho %}en-preparacion{% endif %}">
+                            <strong>Estado:</strong> 
+                            {% if pedido.estado == 'aceptado' %}
+                                En preparación
+                            {% elif pedido.estado == 'listo' %}
+                                Listo para despachar
+                            {% elif pedido.estado == 'despachado' %}
+                                Despachado
+                            {% else %}
+                                Pendiente de aceptación
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

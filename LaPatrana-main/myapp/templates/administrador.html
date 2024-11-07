@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Administrador.css' %}" />
+    <title>Administrador</title>
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+  </head>
+
+  <body>
+    <div id="dashboard-container">
+      <div class="sidebar">
+        <div class="logo">
+          <!-- Logo goes here -->
+          <img src="{% static 'img/Logo.svg' %}" alt="Logo de La Patrana" class="img-fluid mb-3" style="max-width: 100px;" />
+          <hr />
+        </div>
+
+        <div class="sidebar-option">
+          <a href="{% url 'createUser' %}" class="d-flex align-items-center justify-content-start w-100">
+            <i class="fas fa-user-plus"></i> <span>Crear Usuario</span>
+          </a>
+        </div>
+        <div class="sidebar-option">
+          <a href="{% url 'showUsers' %}" class="d-flex align-items-center justify-content-start w-100">
+            <i class="fas fa-users"></i> Ver Usuario</a>
+        </div>
+        <div class="sidebar-option">
+          <a href="{% url 'createProduct' %}" class="d-flex align-items-center justify-content-start w-100">
+            <i class="fas fa-box-open"></i> Crear Productos</a>
+        </div>
+        <div class="sidebar-option">
+          <a href="{% url 'showProduct' %}" class="d-flex align-items-center justify-content-start w-100">
+            <i class="fas fa-boxes"></i> Ver Producto</a>
+        </div>
+        <div class="sidebar-option">
+          <a href="{% url 'crearMesas' %}" class="d-flex align-items-center justify-content-start w-100">
+            <i class="fas fa-boxes"></i> Crear mesas</a>
+        </div>
+        <div class="sidebar-option">
+          <a href="{% url 'verFactura' %}" class="d-flex align-items-center justify-content-start w-100">
+            <i class="fas fa-boxes"></i> Ver Facturas</a>
+        </div>
+        <div class="sidebar-option">
+          <a href="{% url 'signout'%}" class="d-flex align-items-center justify-content-start w-100"> 
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </a>
+        </div>
+
+      </div>
+      <div class="content">
+        <i class="fas fa-bars toggle-sidebar"></i>
+        <!-- Content will be displayed here -->
+      </div>
+    </div>
+    <a href="{% url 'signout' %}" class="btn btn-secondary btn-sm logout">Cerrar Sesión</a>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('.toggle-sidebar').click(function () {
+          $('#dashboard-container').toggleClass('hide-sidebar')
+          $('.logout').toggle() // This will toggle the visibility of the logout button
+        })
+      })
+    </script>
+    
+  </body>
+</html>

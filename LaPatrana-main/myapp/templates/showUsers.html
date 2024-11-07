@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Usuarios</title>
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <!-- DataTable.js -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/ShowUsers.css' %}" />
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+  </head>
+
+  <body>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="texto">Lista de usuarios</h2>
+            <a href="/administrador" class="btn btn-danger" >Volver al menú</a>
+          </div>
+
+          <div class="table-responsive">
+            <table id="datatable-users" class="table">
+              <caption class = "texto">
+                Tabla de usuarios
+              </caption>
+              <thead>
+                <tr>
+                  <th class="centered">id</th>
+                  <th class="centered">Usuario activo?</th>
+                  <th class="centered">Correo electrónico</th>
+                  <th class="centered">Nombre</th>
+                  <th class="centered">Apellido</th>
+                  <th class="centered">Username</th>
+                  <th class="centered">Tipo de empleado</th>
+                  <th class="centered">Opciones</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody_users" ></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Edición de Usuario -->
+    <div class="ventanaGuardarDatos">
+
+      <input type="hidden" id="edit-user-id"/>
+
+      <div
+        class="modal fade"
+        id="editUserModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulario de Edición de Usuario -->
+              <form id="editUserForm">
+                <div class="mb-3">
+                  <label
+                    for="edit-user-firstname"
+                    class="form-label label-text-color"
+                    >Usuario activo?</label
+                  >
+                  <div>
+                    <input
+                      type="radio"
+                      id="option1"
+                      name="option"
+                      value="option1"
+                    />
+                    <label for="option1">Activo</label><br />
+                    <input
+                      type="radio"
+                      id="option2"
+                      name="option"
+                      value="option2"
+                    />
+                    <label for="option2">No activo</label><br />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="edit-user-email"
+                    class="form-label label-text-color"
+                    >Correo electrónico</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="edit-user-email"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="edit-user-firstname"
+                    class="form-label label-text-color"
+                    >Nombre</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit-user-firstname"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="edit-user-lastname"
+                    class="form-label label-text-color"
+                    >Apellido</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit-user-lastname"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="edit-user-username"
+                    class="form-label label-text-color"
+                    >Nombre de usuario</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit-user-username"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="edit-usertype">Selecciona tipo de usuario:</label>
+                  <select id="edit-usertype" name="user-type">
+                    <option value="Mesero">Mesero</option>
+                    <option value="Chef">Chef</option>
+                  </select>
+                </div>
+              </form>
+              <button
+              type="button"
+              class="btn btn-primary"
+              onclick="guardarCambios($('#edit-user-id').val())"
+            >
+              Guardar Cambios
+            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!-- Bootstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- DataTable.js -->
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'js/listUsers.js' %}"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/2.3.3/js/dataTables.buttons.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.bootstrap5.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.html5.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.print.min.js"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

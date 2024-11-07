@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ShowProduct.css' %}" />
+</head>
+<body>
+<div class="container mt-2">
+    <div class="card-body d-flex flex-column">
+        <div class="row">
+          <div class="container my-5">
+            <h1 class="text-center mb-4">Lista de productos disponibles</h1>
+            <form id="pedidoForm" action="{% url 'savePedido' idMesa %}" method="post">
+              {% csrf_token %}
+              <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for producto in Productos %}
+                <div class="col">
+                  <div class="card h-100">
+                    <img src="{% static producto.imgProducto %}" alt="Imagen del producto" class="card-img-top" />
+                    <div class="card-body">
+                      <h5 class="card-title">{{ producto.nombre }}</h5>
+                      <p class="card-text">{{ producto.descripcion }}</p>
+                      <p class="card-text">Precio: {{ producto.precio }}</p>
+                      <div class="form-group mt-3">
+                        <label for="cantidad-{{ producto.idProducto }}">Cantidad:</label>
+                        <input type="number" id="cantidad-{{ producto.idProducto }}" name="cantidad_{{ producto.idProducto }}" class="form-control" value="1" min="1">
+                        <div>
+                          <label for="producto-{{ producto.idProducto }}">Pedir:</label>
+                          <input type="checkbox" id="producto-{{ producto.idProducto }}" name="productos_seleccionados[]" value="{{ producto.idProducto }}">
+                        </div>
+
+
+                      </div>
+                      <div class="form-group mt-3">
+                        <label for="nota-{{ producto.idProducto }}">Nota:</label>
+                        <input type="text" id="nota-{{ producto.idProducto }}" name="notas_{{ producto.idProducto }}" class="form-control" placeholder="Alergias, observaciones, etc.">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <button type="submit" class="btn btn-success mt-3">Realizar pedido</button>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const success = "{{ success|default_if_none:'' }}";
+        if (success) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'El pedido ha sido tomado exitosamente.',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'verMesas' %}";
+                }
+            });
+        }
+
+        const error = "{{ error|default_if_none:'' }}";
+        const errorMessage = "{{ error_message|default_if_none:'' }}";
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'tomarPedido' idMesa %}";
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/Index.css' %}" />
+  <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+  <title>La patrana</title>
+</head>
+
+<body class="d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="d-flex flex-column align-items-center" style="border-radius: 10px; overflow: hidden">
+          <div id="inicio" class="left-section p-4 mt-3 text-center">
+            <img src="{% static 'img/Logo.svg' %}" alt="Logo principal" class="img-fluid mb-3"
+              style="max-width: 255px" />
+            <h1 class="mb-3 display-4" style="font-family: Verdana, Tahoma, sans-serif">
+              LA PATRANA
+            </h1>
+            <form action="" method="post" class="mb-3">
+              {% csrf_token %}
+              <input type="text" name="username" class="form-control mb-3" placeholder="Usuario" />
+              {% if username_error %}
+              <p class="text-white">{{ username_error }}</p>
+              {% endif %}
+              <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" />
+              {% if password_error %}
+              <p class="text-white">{{ password_error }}</p>
+              {% endif %}
+              <button type="submit" class="btn btn-primary btn-block custom-btn" id="Btningresar">
+                Ingresar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  {% if success %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        title: 'Inicio de sesión exitoso',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = "{{ success_url }}";
+      });
+    });
+  </script>
+  {% elif error %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        title: 'Error al iniciar sesión',
+        text: '{{ error_message }}',
+        icon: 'error'
+      });
+    });
+  </script>
+  {% endif %}
+
+</body>
+
+</html>

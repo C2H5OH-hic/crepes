@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Mesas</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/crearmesas.css' %}" />
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Crear Mesas</h1>
+        <form action="{% url 'crearMesas' %}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="num_tables">Número de mesas:</label>
+                <input type="number" id="num_tables" name="num_tables" class="form-control" min="1"required>
+            </div>
+            <div class="form-group">
+                <div class="btn-file btn-upload">
+                    <i class="fas fa-upload"></i> Subir imagen
+                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                </div>
+                <img id="image_preview" class="preview" src="" alt="Previsualización de la imagen" style="display: none;">
+            </div>
+            <button type="submit" class="btn-submit">Crear</button>
+        </form>
+    </div>
+
+    <div class="floating-button logout-button">
+        <a href="{% url 'signout'%}" class="btn btn-danger d-none d-md-block">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="btn-text">Cerrar Sesión</span>
+        </a>
+        <a href="{% url 'signout'%}" class="btn btn-danger d-block d-md-none"
+          ><i class="fas fa-sign-out-alt"></i
+        ></a>
+      </div>
+  
+      <div class="floating-button back-button">
+        <a
+          href="#"
+          onclick="history.back()"
+          class="btn btn-secondary d-none d-md-block"
+        >
+          <i class="fas fa-arrow-left"></i>
+          <span class="btn-text">Volver</span>
+        </a>
+        <a
+          href="#"
+          onclick="history.back()"
+          class="btn btn-secondary d-block d-md-none"
+          ><i class="fas fa-arrow-left"></i
+        ></a>
+      </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+   
+        function previewImage(event) {
+            const imagePreview = document.getElementById('image_preview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+    {% if success %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Creado con éxito',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "{% url 'administrador' %}";
+            });
+        });
+    </script>
+    {% elif error %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Error al registrar el producto',
+                text: '{{ error }}',
+                icon: 'error'
+            });
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

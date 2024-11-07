@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/verFactura.css' %}" />
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+</head>
+<body>
+    <div class="container mt-4">
+        {% if processed_facturas %}
+            {% for processed_factura in processed_facturas %}
+                <div class="invoice-container">
+                    <h1 class="text-center">Factura #{{ processed_factura.factura.idFactura }}</h1>
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="{% static 'img/Logo.svg' %}" alt="Logo principal" class="img-fluid" style="max-width: 255px">
+                    </div>
+                    <table class="table info-table">
+                        <tr>
+                            <th>Número de mesa</th>
+                            <td>{{ processed_factura.factura.mesa.numero }}</td>
+                        </tr>
+                        <tr>
+                            <th>Id del mesero</th>
+                            <td>{{ processed_factura.factura.idMesero.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fecha</th>
+                            <td>{{ processed_factura.factura.hora }}</td>
+                        </tr>
+                    </table>
+                    <table class="table product-table">
+                        <tr>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad</th>
+                        </tr>
+                        {% for producto in processed_factura.productos %}
+                            <tr>
+                                <td class="left-align">{{ producto.nombre }}</td>
+                                <td class="left-align">{{ producto.cantidad }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <th>Total</th>
+                            <td class="left-align">${{ processed_factura.factura.valor }}</td>
+                        </tr>
+                    </table>
+                    <div class="footer text-center">
+                        &copy; 2024 La Patrana. Todos los derechos reservados.
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="container">
+                <h2>No hay facturas disponibles</h2>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

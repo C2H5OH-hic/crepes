@@ -1,0 +1,12 @@
+*{
+font-family: Verdana;
+color: blue;
+}
+body{
+
+    background: linear-gradient(to left, #a36a3d, #9f6336,#a36a3d);
+}
+
+.btn-primary {
+    background-color: #cd681b !important;
+}
