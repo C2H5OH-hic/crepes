@@ -1,0 +1,49 @@
+body {
+    font-family: sans-serif;
+    background-image: url('../img/Fondo.jpg');
+}
+
+h1 {
+    font-family: Helvetica;
+    color: rgb(241, 234, 234);
+}
+
+.selected-card {
+    border: 2px solid #ef8b1b;
+    /* Highlight selected card */
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth transition for hover effect */
+    cursor: pointer;
+    /* Change cursor on hover */
+    background-color: #fbe5ad;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    /* Slightly scale up the card on hover */
+    box-shadow: 0 50px 15px rgba(245, 3, 3, 0.1);
+    /* Add shadow on hover */
+}
+
+/* Custom CSS for floating buttons */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    z-index: 1050;
+    top: 20px;
+    /* Above most elements */
+}
+
+.logout-button {
+    right: 20px;
+    /* Positioned to the right */
+}
+
+.back-button {
+    left: 20px;
+    /* Positioned to the left */
+
+}

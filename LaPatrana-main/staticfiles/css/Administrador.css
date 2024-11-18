@@ -1,0 +1,83 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('../img/Fondo.jpg');
+    margin: 0;
+}
+
+#dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fbe5ad;
+    transition: width 0.5s;
+}
+.btn{
+    background-color: #ff0000;
+}
+.sidebar-option {
+    padding: 10px;
+    border-bottom: 1px solid #000000;
+    transition: background-color 0.3s; 
+}
+
+.sidebar-option:hover {
+    background-color: #ef8b1b; 
+}
+
+.sidebar-option a {
+    color: black; 
+    text-decoration: none; 
+    display: flex;
+    align-items: center;
+    width: 100%; 
+    padding: 10px 0; 
+}
+
+.sidebar-option a i {
+    margin-right: 10px; 
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    position: relative;
+}
+
+.logo {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.logout {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    display: none;
+}
+
+.toggle-sidebar {
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    left: 260px;
+    font-size: 24px;
+    z-index: 1000;
+    color: #ffff;
+}
+
+.hide-sidebar .sidebar {
+    width: 0;
+    overflow: hidden;
+}
+
+.hide-sidebar .logout {
+    display: block;
+}
+
+.hide-sidebar .toggle-sidebar {
+    left: 10px;
+}

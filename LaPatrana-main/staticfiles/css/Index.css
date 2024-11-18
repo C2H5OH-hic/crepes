@@ -1,0 +1,26 @@
+body {
+    background-image: url('../img/Fondo.jpg');
+    height: 100vh;
+    /*background-size: cover; /* Cubre todo el contenedor sin distorsionar la imagen */
+    /*background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+    /*background-position: center; /* Centra la imagen de fondo */
+    /*min-height: 100vh; /* Asegura que el fondo ocupe al menos la altura de la ventana del navegador */
+    /*background-attachment: fixed; /* Fija la imagen de fondo para que no se desplace con el contenido */
+}
+
+
+#inicio{
+    background-color: #fbe5ad;
+    border-radius: 15px;
+    height: 90%;
+}
+
+#Btningresar{
+    background-color: #e48e3f;
+    border-color: wheat;
+    color: black;
+}
+
+.texto-has-olvidado{
+    color: black;
+}

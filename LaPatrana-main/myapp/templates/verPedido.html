@@ -22,7 +22,7 @@
                     <thead class="head-tabla">
                         <tr>
                             <th>ID Pedido</th>
-                            <th>Mesero</th>
+                            <th>Cajero</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Estado del pedido</th>
@@ -32,7 +32,7 @@
                         {% for pedido in pedidos %}
                         <tr>
                             <td data-label="ID Pedido">{{ pedido.idPedido }}</td>
-                            <td data-label="Mesero">{{ pedido.idMesero.username }}</td>
+                            <td data-label="Cajero">{{ pedido.idCajero.username }}</td>
                             <td data-label="Producto">{{ pedido.idProducto.nombre }}</td>
                             <td data-label="Cantidad">{{ pedido.cantidad }}</td>
                             <td data-label="Estado del pedido">{% if pedido.hecho  %} Listo para recoger {% else %} En proceso... {% endif%}</td>

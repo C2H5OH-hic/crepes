@@ -48,28 +48,28 @@
         <h2 class="text-center mb-4">Pedidos en Preparación y Listos para Servir</h2>
         <div class="row">
             {% for pedido in pedidos %}
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Pedido #{{ pedido.numeroPedido }}</h5>
-                        <p class="card-text"><strong>Mesa:</strong> {{ pedido.mesa.numero }}</p>
-                        <p class="card-text"><strong>Producto:</strong> {{ pedido.idProducto.nombre }}</p>
-                        <p class="card-text"><strong>Cantidad:</strong> {{ pedido.cantidad }}</p>
-                        <p class="card-text estado-pedido {% if not pedido.hecho %}en-preparacion{% endif %}">
-                            <strong>Estado:</strong> 
-                            {% if pedido.estado == 'aceptado' %}
-                                En preparación
-                            {% elif pedido.estado == 'listo' %}
-                                Listo para despachar
-                            {% elif pedido.estado == 'despachado' %}
-                                Despachado
-                            {% else %}
-                                Pendiente de aceptación
-                            {% endif %}
-                        </p>
+                {% if pedido.estado != 'despachado' %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Pedido #{{ pedido.idPedido }}</h5>
+                                <p class="card-text"><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</p>
+                                <p class="card-text"><strong>Producto:</strong> {{ pedido.idProducto.nombre }}</p>
+                                <p class="card-text"><strong>Cantidad:</strong> {{ pedido.cantidad }}</p>
+                                <p class="card-text estado-pedido {% if pedido.estado == 'aceptado' %}en-preparacion{% elif pedido.estado == 'listo' %}listo{% endif %}">
+                                    <strong>Estado:</strong> 
+                                    {% if pedido.estado == 'aceptado' %}
+                                        En preparación
+                                    {% elif pedido.estado == 'listo' %}
+                                        Listo para despachar
+                                    {% elif pedido.estado == 'pendiente' %}
+                                        Pendiente de aceptación
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

@@ -25,8 +25,7 @@
                     <thead class="head-tabla">
                         <tr>
                             <th>ID Pedido</th>
-                            <th>Mesero</th>
-                            <th>Mesa</th>
+                            <th>Cliente</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Nota</th>
@@ -35,35 +34,44 @@
                         </tr>
                     </thead>
                     <tbody class="tablaItems">
-                        {% for pedido in pedidos %}
-                        <tr>
-                            <td data-label="ID Pedido">{{ pedido.idPedido }}</td>
-                            <td data-label="Mesero">{{ pedido.idMesero.username }}</td>
-                            <td data-label="Mesa">{{ pedido.mesa.numero }}</td>
-                            <td data-label="Producto">{{ pedido.idProducto.nombre }}</td>
-                            <td data-label="Cantidad">{{ pedido.cantidad }}</td>
-                            <td data-label="Nota">{{ pedido.nota }}</td>
-                            <td data-label="Estado del pedido" class="estado-pedido">
-                                {% if pedido.estado == 'aceptado' %}
-                                    En preparación
-                                {% elif pedido.estado == 'listo' %}
-                                    Listo para despachar
-                                {% elif pedido.estado == 'despachado' %}
-                                    Despachado
-                                {% else %}
-                                    Pendiente de aceptación
-                                {% endif %}
-                            </td>
-                            <td data-label="Acción">
-                                <form method="POST" action="{% url 'cambiar_estado_pedido' pedido.idPedido %}" class="cambiar-estado-form">
-                                    {% csrf_token %}
-                                    <button type="submit" name="estado" value="aceptado" class="btn btn-warning btn-sm mb-1">Aceptar</button>
-                                    <button type="submit" name="estado" value="listo" class="btn btn-success btn-sm mb-1">Marcar como Listo</button>
-                                    <button type="submit" name="estado" value="despachado" class="btn btn-primary btn-sm">Marcar como Despachado</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
+                        {% if pedidos %}
+                            {% for pedido in pedidos %}
+                            <tr>
+                                <td data-label="ID Pedido">{{ pedido.idPedido }}</td>
+                                <td data-label="Cliente">{{ pedido.cliente_nombre }}</td>
+                                <td data-label="Producto">{{ pedido.idProducto.nombre }}</td>
+                                <td data-label="Cantidad">{{ pedido.cantidad }}</td>
+                                <td data-label="Nota">{{ pedido.nota }}</td>
+                                <td data-label="Estado del pedido" class="estado-pedido">
+                                    {% if pedido.estado == 'aceptado' %}
+                                        En preparación
+                                    {% elif pedido.estado == 'listo' %}
+                                        Listo para despachar
+                                    {% elif pedido.estado == 'despachado' %}
+                                        Despachado
+                                    {% else %}
+                                        Pendiente de aceptación
+                                    {% endif %}
+                                </td>
+                                <td data-label="Acción">
+                                    <form method="POST" action="{% url 'cambiar_estado_pedido' pedido.idPedido %}" class="cambiar-estado-form">
+                                        {% csrf_token %}
+                                        {% if pedido.estado == 'pendiente' %}
+                                            <button type="submit" name="estado" value="aceptado" class="btn btn-warning btn-sm mb-1">Aceptar</button>
+                                        {% elif pedido.estado == 'aceptado' %}
+                                            <button type="submit" name="estado" value="listo" class="btn btn-success btn-sm mb-1">Marcar como Listo</button>
+                                        {% elif pedido.estado == 'listo' %}
+                                            <button type="submit" name="estado" value="despachado" class="btn btn-primary btn-sm">Marcar como Despachado</button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center">No hay pedidos disponibles</td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -72,7 +80,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta3/js/bootstrap.min.js"></script>
-    <script src="{% static 'js/cambiar_estado.js' %}"></script>
+    <script>
+        // Este script se elimina temporalmente mientras se realiza la prueba para evitar problemas con la confirmación.
+        // Agrega confirmaciones de acción más adelante si es necesario para mayor robustez.
+    </script>
 </body>
 
 </html>
+
+se subio el codigo?

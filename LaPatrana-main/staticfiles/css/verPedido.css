@@ -1,0 +1,125 @@
+/* VerPedido.css */
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-image: url('../img/Fondo.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.titulos {
+    text-align: center;
+    border-radius: 15px;
+    background-color: #fbe5ad;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    color: black;
+}
+
+.head-tabla {
+    background-color: #87694c; /* Dark background for header */
+    color: white;
+    text-align: center;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(128, 128, 128, 0.2); /* Light gray hover effect */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fbe5ad;
+    color: black; /* Light gray stripe for odd rows */
+}
+
+.table {
+    border-radius: 15px;
+    overflow: hidden; /* Ensures rounded corners are visible */
+    background-color: #eed9a4; /* Light background for the table */
+    color: black;
+    margin: 0 auto; /* Center the table */
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+.table thead th {
+    border-bottom: 2px solid #ffffff;
+}
+
+#botones {
+    background-color: #07730e; /* Dark background for buttons */
+    border: none;
+    color: white;
+    border-radius: 10px;
+}
+
+#botones:hover {
+    background-color: #3fa82a; /* Slightly lighter hover effect for buttons */
+}
+
+.logout {
+    position: fixed; 
+    right: 20px;
+    top: 20px;
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 15px;
+    background-color: #d33; 
+    color: white; 
+    z-index: 1000; 
+}
+
+@media (max-width: 767px) {
+    .titulos {
+       margin-top: 50px;
+    }
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .table {
+        background-color: transparent;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        background-color: rgba(80, 77, 69, 0.9); /* Dark background for mobile cards */
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        color: white;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+        border-bottom: 1px solid #ddd;
+        padding: 8px 10px;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .table td:last-child {
+        border-bottom: 0;
+    }
+}

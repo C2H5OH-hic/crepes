@@ -24,7 +24,7 @@ class CreateUserViewTests(TestCase):
             'name': 'New',
             'lastname': 'User',
             'email': 'newuser@example.com',
-            'Tipo': 'Mesero'
+            'Tipo': 'Cajero'
         })
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'createUser.html')
@@ -39,7 +39,7 @@ class CreateUserViewTests(TestCase):
             'name': '',
             'lastname': '',
             'email': '',
-            'Tipo': 'Mesero'
+            'Tipo': 'Cajero'
         })
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'createUser.html')

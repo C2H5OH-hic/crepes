@@ -16,10 +16,14 @@
         <div class="row">
           <div class="container my-5">
             <h1 class="text-center mb-4">Lista de productos disponibles</h1>
-            <form id="pedidoForm" action="{% url 'savePedido' idMesa %}" method="post">
+            <form id="pedidoForm" action="{% url 'savePedido' %}" method="post">
               {% csrf_token %}
+              <div class="form-group mb-3">
+                <label for="cliente_nombre">Nombre del Cliente:</label>
+                <input type="text" id="cliente_nombre" name="cliente_nombre" class="form-control" placeholder="Nombre del cliente" required>
+              </div>
               <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for producto in Productos %}
+                {% for producto in productos %}
                 <div class="col">
                   <div class="card h-100">
                     <img src="{% static producto.imgProducto %}" alt="Imagen del producto" class="card-img-top" />
@@ -34,8 +38,6 @@
                           <label for="producto-{{ producto.idProducto }}">Pedir:</label>
                           <input type="checkbox" id="producto-{{ producto.idProducto }}" name="productos_seleccionados[]" value="{{ producto.idProducto }}">
                         </div>
-
-
                       </div>
                       <div class="form-group mt-3">
                         <label for="nota-{{ producto.idProducto }}">Nota:</label>
@@ -64,7 +66,7 @@
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "{% url 'verMesas' %}";
+                    window.location.href = "{% url 'tomarPedido' %}";
                 }
             });
         }
@@ -79,7 +81,7 @@
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "{% url 'tomarPedido' idMesa %}";
+                    window.location.href = "{% url 'tomarPedido' %}";
                 }
             });
         }

@@ -1,0 +1,31 @@
+*{
+    box-sizing: border-box;
+    font-family: Helvetica;
+}
+
+body {
+    background: linear-gradient(to left, #a36a3d, #9f6336,#a36a3d); 
+}
+
+.btn-primary {
+    background-color: green !important;
+}
+
+.bg-white {
+    background-color: #8e7964  !important;
+}
+
+.main {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 2%;
+}
+
+
+#Disponible {
+    width: 100px; 
+    font-size: 14px; 
+}
+
+
