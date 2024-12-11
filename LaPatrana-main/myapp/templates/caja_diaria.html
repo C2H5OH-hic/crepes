@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja Diaria</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Caja Diaria</h1>
+        
+        <!-- Tabla de datos de pedidos -->
+        <div class="mb-4">
+            <h2 class="text-center">Resumen de Pedidos</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>Cliente</th>
+                        <th>Productos</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in datos_pedidos %}
+                    <tr>
+                        <td>{{ item.pedido.idPedido }}</td>
+                        <td>{{ item.pedido.cliente_nombre }}</td>
+                        <td>
+                            <ul>
+                                {% for producto in item.productos %}
+                                <li>{{ producto.producto.nombre }} (x{{ producto.cantidad }})</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>${{ item.total_pedido|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Total de la caja -->
+        <div class="text-center mb-4">
+            <h3>Total de la Caja: ${{ total_caja|floatformat:2 }}</h3>
+        </div>
+
+        <!-- Botón para generar el PDF -->
+        <div class="text-center">
+            <p>Genera el informe diario de caja en formato PDF.</p>
+            <a href="{% url 'generar_caja_diaria' %}" class="btn btn-primary">Generar Caja Diaria</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

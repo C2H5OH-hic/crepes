@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Bogota'
+TIME_ZONE = 'America/Santiago'  # Ajusta según tu ubicación
 
 USE_I18N = True
 
@@ -130,3 +130,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'myapp.User'
+
+LOGIN_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

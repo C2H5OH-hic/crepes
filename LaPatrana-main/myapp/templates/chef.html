@@ -1,91 +1,66 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Pedidos</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/chef.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+    <title>Gestión de Pedidos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
-
 <body>
     <div class="container my-5">
-        <a href="{% url 'signout' %}" class="btn btn-danger btn-sm logout float-button">Cerrar Sesión</a>
-        <div class="titulos p-3 mb-4 shadow-sm">
-            <h1>Bienvenido, {{ usuario.username }}</h1>
-            <h2>Lista de Pedidos</h2>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="table-responsive">
-                <table class="table table-hover table-centered table-striped">
-                    <thead class="head-tabla">
-                        <tr>
-                            <th>ID Pedido</th>
-                            <th>Cliente</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Nota</th>
-                            <th>Estado del pedido</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tablaItems">
-                        {% if pedidos %}
-                            {% for pedido in pedidos %}
-                            <tr>
-                                <td data-label="ID Pedido">{{ pedido.idPedido }}</td>
-                                <td data-label="Cliente">{{ pedido.cliente_nombre }}</td>
-                                <td data-label="Producto">{{ pedido.idProducto.nombre }}</td>
-                                <td data-label="Cantidad">{{ pedido.cantidad }}</td>
-                                <td data-label="Nota">{{ pedido.nota }}</td>
-                                <td data-label="Estado del pedido" class="estado-pedido">
-                                    {% if pedido.estado == 'aceptado' %}
-                                        En preparación
-                                    {% elif pedido.estado == 'listo' %}
-                                        Listo para despachar
-                                    {% elif pedido.estado == 'despachado' %}
-                                        Despachado
-                                    {% else %}
-                                        Pendiente de aceptación
-                                    {% endif %}
-                                </td>
-                                <td data-label="Acción">
-                                    <form method="POST" action="{% url 'cambiar_estado_pedido' pedido.idPedido %}" class="cambiar-estado-form">
-                                        {% csrf_token %}
-                                        {% if pedido.estado == 'pendiente' %}
-                                            <button type="submit" name="estado" value="aceptado" class="btn btn-warning btn-sm mb-1">Aceptar</button>
-                                        {% elif pedido.estado == 'aceptado' %}
-                                            <button type="submit" name="estado" value="listo" class="btn btn-success btn-sm mb-1">Marcar como Listo</button>
-                                        {% elif pedido.estado == 'listo' %}
-                                            <button type="submit" name="estado" value="despachado" class="btn btn-primary btn-sm">Marcar como Despachado</button>
-                                        {% endif %}
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="7" class="text-center">No hay pedidos disponibles</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <h1 class="text-center mb-4">Gestión de Pedidos</h1>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Cliente</th>
+                    <th>Productos</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if pedidos_context %}
+                    {% for pedido_data in pedidos_context %}
+                    <tr>
+                        <td>{{ pedido_data.pedido.idPedido }}</td>
+                        <td>{{ pedido_data.pedido.cliente_nombre }}</td>
+                        <td>
+                            <ul>
+                                {% for producto in pedido_data.productos %}
+                                <li>
+                                    {{ producto.producto.nombre }} (Cantidad: {{ producto.cantidad }}) - 
+                                    Estado: {{ producto.get_estado_display }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ pedido_data.pedido.get_estado_display }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'cambiar_estado_pedido' pedido_data.pedido.idPedido %}">
+                                {% csrf_token %}
+                                {% if pedido_data.pedido.estado == 'pendiente' %}
+                                    <button type="submit" name="estado" value="aceptado" class="btn btn-warning">Aceptar</button>
+                                {% elif pedido_data.pedido.estado == 'aceptado' %}
+                                    <button type="submit" name="estado" value="listo" class="btn btn-success">Marcar como Listo</button>
+                                {% elif pedido_data.pedido.estado == 'listo' %}
+                                    <button type="submit" name="estado" value="despachado" class="btn btn-primary">Despachar</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay pedidos disponibles.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta3/js/bootstrap.min.js"></script>
-    <script>
-        // Este script se elimina temporalmente mientras se realiza la prueba para evitar problemas con la confirmación.
-        // Agrega confirmaciones de acción más adelante si es necesario para mayor robustez.
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
-
-se subio el codigo?
