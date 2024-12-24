@@ -2,76 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos Públicos</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script>
-        setInterval(function(){
-            location.reload();
-        }, 10000); // Recarga la página cada 10 segundos
-    </script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        .card-title {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #007bff;
-        }
-        .card-text {
-            font-size: 1rem;
-            color: #495057;
-        }
-        .estado-pedido {
-            font-weight: bold;
-            color: #28a745;
-        }
-        .estado-pedido.en-preparacion {
-            color: #ffc107;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/pedidos_publicos.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h2 class="text-center mb-4">Pedidos en Preparación y Listos para Servir</h2>
-        <div class="row">
-            {% for pedido in pedidos %}
-                {% if pedido.estado != 'despachado' %}
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Pedido #{{ pedido.idPedido }}</h5>
-                                <p class="card-text"><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</p>
-                                <p class="card-text"><strong>Producto:</strong> {{ pedido.idProducto.nombre }}</p>
-                                <p class="card-text"><strong>Cantidad:</strong> {{ pedido.cantidad }}</p>
-                                <p class="card-text estado-pedido {% if pedido.estado == 'aceptado' %}en-preparacion{% elif pedido.estado == 'listo' %}listo{% endif %}">
-                                    <strong>Estado:</strong> 
-                                    {% if pedido.estado == 'aceptado' %}
-                                        En preparación
-                                    {% elif pedido.estado == 'listo' %}
-                                        Listo para despachar
-                                    {% elif pedido.estado == 'pendiente' %}
-                                        Pendiente de aceptación
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+    <div class="container my-5">
+        <div id="pedidos-container" class="row">
+            <!-- Contenido generado dinámicamente -->
         </div>
     </div>
+
+    <script>
+        function cargarPedidosPublicos() {
+    $.ajax({
+        url: "{% url 'pedidos_publicos_ajax' %}",
+        method: "GET",
+        success: function(data) {
+            let container = "";
+            let pedidosAMostrar = data.pedidos.slice(0, 6);
+
+            pedidosAMostrar.forEach(pedido => {
+                let productosHTML = "";
+                pedido.productos.forEach(producto => {
+                    productosHTML += `<li>${producto.nombre} (x${producto.cantidad})</li>`;
+                });
+
+                container += `
+                    <div class="card">
+                        <div class="card-header">Pedido #${pedido.id}</div>
+                        <div class="card-body">
+                            <p class="cliente-nombre"><strong>Cliente:</strong> ${pedido.cliente_nombre}</p>
+                            <p><strong>Productos:</strong></p>
+                            <ul class="productos-lista">
+                                ${productosHTML}
+                            </ul>
+                            <p class="estado-pedido ${pedido.estado.toLowerCase()}">${pedido.estado}</p>
+                        </div>
+                    </div>`;
+            });
+
+            $("#pedidos-container").html(container);
+        },
+        error: function() {
+            $("#pedidos-container").html(`
+                <div class="col-12 text-center text-danger">
+                    <i class="fas fa-exclamation-triangle"></i> Error al cargar los pedidos.
+                </div>`);
+        }
+    });
+}
+
+
+        $(document).ready(function() {
+            cargarPedidosPublicos();
+            setInterval(cargarPedidosPublicos, 10000);
+        });
+    </script>
 </body>
 </html>

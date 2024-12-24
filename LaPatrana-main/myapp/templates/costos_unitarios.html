@@ -1,0 +1,17 @@
+<h1>Costos Unitarios</h1>
+<table>
+    <tr>
+        <th>Producto</th>
+        <th>Costo Unitario</th>
+        <th>Precio</th>
+        <th>Margen</th>
+    </tr>
+    {% for resultado in resultados %}
+    <tr>
+        <td>{{ resultado.nombre }}</td>
+        <td>{{ resultado.costo_unitario }}</td>
+        <td>{{ resultado.precio }}</td>
+        <td>{{ resultado.margen }}</td>
+    </tr>
+    {% endfor %}
+</table>

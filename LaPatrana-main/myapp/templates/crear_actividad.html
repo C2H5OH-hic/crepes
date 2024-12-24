@@ -1,0 +1,7 @@
+<h1>Crear Actividad</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar Actividad</button>
+</form>
+<a href="{% url 'lista_actividades' %}" class="btn btn-secondary">Volver</a>

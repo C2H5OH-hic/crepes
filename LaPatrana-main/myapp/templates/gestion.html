@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ingredientes y Actividades</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Gestión de Ingredientes y Actividades</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Ingredientes</h3>
+                <a href="{% url 'lista_ingredientes' %}" class="btn btn-primary mb-3">Gestionar Ingredientes</a>
+            </div>
+            <div class="col-md-6">
+                <h3>Actividades</h3>
+                <a href="{% url 'lista_actividades' %}" class="btn btn-primary mb-3">Gestionar Actividades</a>
+            </div>
+            <div class="col-md-6">
+                <h3>Gestión de Costos</h3>
+                <a href="{% url 'gestion_costos' %}" class="btn btn-primary mb-3">Gestionar Costos</a>
+            </div>
+        </div>
+        <a href="{% url 'administrador' %}" class="btn btn-secondary mt-3">Volver al Administrador</a>
+    </div>
+</body>
+</html>

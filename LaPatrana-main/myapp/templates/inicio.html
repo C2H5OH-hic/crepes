@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+</head>
+<body>
+    <nav class="navigation">
+        <button id="login-btn">Iniciar Sesión</button>
+        <button id="products-btn">Productos</button>
+    </nav>
+    <main>
+        <section class="hero">
+            <div class="hero-carousel">
+                <img src="{% static 'img/creperia1.jpg' %}" alt="Imagen 1" class="active">
+                <img src="{% static 'img/creperia2.jpg' %}" alt="Imagen 2">
+                <img src="{% static 'img/creperia3.jpg' %}" alt="Imagen 3">
+            </div>
+            <div class="hero-content">
+                <img src="{% static 'img/logo.png' %}" alt="Logo de la empresa" class="hero-logo">
+                <h1>Bienvenidos a Crepería Blues</h1>
+                <p>Gestiona tus pedidos y conoce nuestros productos de manera sencilla.</p>
+                <button id="view-products-btn">Ver Productos</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Suralimento SpA. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Variables globales para URLs -->
+    <script>
+        const productosUrl = "{% url 'lista_productos_publicos' %}";
+        const loginUrl = "{% url 'signin' %}";
+    </script>
+
+    <!-- Archivos JS -->
+    <script src="{% static 'js/scrollEffects.js' %}"></script>
+    <script src="{% static 'js/carousel.js' %}"></script>
+</body>
+</html>

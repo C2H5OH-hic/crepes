@@ -1,0 +1,34 @@
+<h1>Ingredientes</h1>
+<a href="{% url 'crear_ingrediente' %}" class="btn btn-primary mb-3">Crear Ingrediente</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Unidad de Medida</th>
+            <th>Costo por Unidad</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ingrediente in ingredientes %}
+        <tr>
+            <td>{{ ingrediente.nombre }}</td>
+            <td>{{ ingrediente.unidad_medida }}</td>
+            <td>${{ ingrediente.costo_por_unidad }}</td>
+            <td>{{ ingrediente.stock_actual }}</td>
+            <td>
+                <form method="POST" action="{% url 'eliminar_ingrediente_general' ingrediente.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">No hay ingredientes registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'gestion' %}" class="btn btn-secondary mt-3">Volver a Gestión</a>

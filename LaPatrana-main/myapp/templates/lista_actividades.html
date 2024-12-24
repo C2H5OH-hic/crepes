@@ -1,0 +1,27 @@
+<h1>Actividades</h1>
+<a href="{% url 'crear_actividad' %}" class="btn btn-primary mb-3">Crear Actividad</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Costo Total</th>
+            <th>Unidades Producidas</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for actividad in actividades %}
+        <tr>
+            <td>{{ actividad.nombre }}</td>
+            <td>{{ actividad.descripcion }}</td>
+            <td>{{ actividad.costo_total }}</td>
+            <td>{{ actividad.unidades_producidas }}</td>
+            <td>
+                <a href="{% url 'asignar_actividad' actividad.id %}" class="btn btn-warning btn-sm">Asignar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'gestion' %}" class="btn btn-secondary mt-3">Volver</a>

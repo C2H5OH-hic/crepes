@@ -1,0 +1,7 @@
+<h1>Crear Ingrediente</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+</form>
+<a href="{% url 'lista_ingredientes' %}" class="btn btn-secondary">Volver</a>

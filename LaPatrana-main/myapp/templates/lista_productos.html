@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{% static 'css/lista_productos.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Productos Disponibles</h1>
+    </header>
+    <main>
+        <div class="productos-container">
+            {% for producto in productos %}
+            <div class="producto-card">
+                {% if producto.imgProducto %}
+                    <img src="{% static producto.imgProducto.url %}" alt="Imagen de {{ producto.nombre }}" class="producto-img">
+                {% else %}
+                    <img src="{% static 'img/default.jpg' %}" alt="Imagen no disponible" class="producto-img">
+                {% endif %}
+                <h2>{{ producto.nombre }}</h2>
+                <p>{{ producto.descripcion }}</p>
+                <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            </div>
+            {% empty %}
+            <p>No hay productos disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

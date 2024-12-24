@@ -4,63 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Pedidos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/chef.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container my-5">
-        <h1 class="text-center mb-4">Gestión de Pedidos</h1>
+    <div class="container">
+        <header>
+            <h1>Gestión de Pedidos</h1>
+            <a href="/signout/" class="btn-logout">Cerrar sesión</a>
+        </header>
 
-        <table class="table table-bordered">
+        <table class="table" id="pedidos-table">
             <thead>
                 <tr>
                     <th>ID Pedido</th>
                     <th>Cliente</th>
-                    <th>Productos</th>
+                    <th>Productos y Notas</th>
                     <th>Estado</th>
                     <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
-                {% if pedidos_context %}
-                    {% for pedido_data in pedidos_context %}
-                    <tr>
-                        <td>{{ pedido_data.pedido.idPedido }}</td>
-                        <td>{{ pedido_data.pedido.cliente_nombre }}</td>
-                        <td>
-                            <ul>
-                                {% for producto in pedido_data.productos %}
-                                <li>
-                                    {{ producto.producto.nombre }} (Cantidad: {{ producto.cantidad }}) - 
-                                    Estado: {{ producto.get_estado_display }}
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                        <td>{{ pedido_data.pedido.get_estado_display }}</td>
-                        <td>
-                            <form method="POST" action="{% url 'cambiar_estado_pedido' pedido_data.pedido.idPedido %}">
-                                {% csrf_token %}
-                                {% if pedido_data.pedido.estado == 'pendiente' %}
-                                    <button type="submit" name="estado" value="aceptado" class="btn btn-warning">Aceptar</button>
-                                {% elif pedido_data.pedido.estado == 'aceptado' %}
-                                    <button type="submit" name="estado" value="listo" class="btn btn-success">Marcar como Listo</button>
-                                {% elif pedido_data.pedido.estado == 'listo' %}
-                                    <button type="submit" name="estado" value="despachado" class="btn btn-primary">Despachar</button>
-                                {% endif %}
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    
-                {% else %}
-                    <tr>
-                        <td colspan="5" class="text-center">No hay pedidos disponibles.</td>
-                    </tr>
-                {% endif %}
+                <!-- Contenido generado dinámicamente -->
             </tbody>
         </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function cargarPedidosChef() {
+            $.ajax({
+                url: "{% url 'pedidos_chef_ajax' %}",
+                method: "GET",
+                success: function(data) {
+                    let tableBody = "";
+
+                    if (data.pedidos.length > 0) {
+                        data.pedidos.forEach(pedido => {
+                            let productosNotas = "";
+
+                            pedido.productos.forEach(producto => {
+                                if (producto.nota) {
+                                    productosNotas += `
+                                        <div class="mb-2">
+                                            <strong>${producto.nombre}</strong>
+                                            <span>(Cantidad: ${producto.cantidad})</span>
+                                            <div class="text-muted">Nota: ${producto.nota}</div>
+                                        </div>`;
+                                } else {
+                                    productosNotas += `
+                                        <div class="mb-2">
+                                            <strong>${producto.nombre}</strong>
+                                            <span>(Cantidad: ${producto.cantidad})</span>
+                                        </div>`;
+                                }
+                            });
+
+                            tableBody += `
+                                <tr>
+                                    <td>${pedido.id}</td>
+                                    <td>${pedido.cliente_nombre}</td>
+                                    <td>${productosNotas}</td>
+                                    <td>${pedido.estado}</td>
+                                    <td>
+                                        <form class="estado-form" data-id="${pedido.id}" method="POST">
+                                            <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
+                                            ${pedido.estado === 'Pendiente' ? '<button type="button" class="btn btn-warning cambiar-estado" data-estado="aceptado">Aceptar</button>' : ''}
+                                            ${pedido.estado === 'Aceptado' ? '<button type="button" class="btn btn-success cambiar-estado" data-estado="listo">Listo</button>' : ''}
+                                            ${pedido.estado === 'Listo' ? '<button type="button" class="btn btn-primary cambiar-estado" data-estado="despachado">Despachar</button>' : ''}
+                                        </form>
+                                    </td>
+                                </tr>`;
+                        });
+                    } else {
+                        tableBody = `<tr><td colspan="5" class="text-center">No hay pedidos disponibles.</td></tr>`;
+                    }
+
+                    $("#pedidos-table tbody").html(tableBody);
+                },
+                error: function() {
+                    $("#pedidos-table tbody").html(`<tr><td colspan="5" class="text-center text-danger">Error al cargar los pedidos. Intente nuevamente.</td></tr>`);
+                }
+            });
+        }
+
+        $(document).on('click', '.cambiar-estado', function(e) {
+            e.preventDefault();
+
+            const button = $(this);
+            const form = button.closest('form');
+            const pedidoId = form.data('id');
+            const nuevoEstado = button.data('estado');
+            const csrfToken = form.find('input[name="csrfmiddlewaretoken"]').val();
+
+            $.ajax({
+                url: `/cambiar_estado_pedido/${pedidoId}/`,
+                method: 'POST',
+                data: {
+                    estado: nuevoEstado,
+                    csrfmiddlewaretoken: csrfToken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        cargarPedidosChef();
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function() {
+                    alert('Error al cambiar el estado.');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            cargarPedidosChef();
+            setInterval(cargarPedidosChef, 10000);
+        });
+    </script>
 </body>
 </html>

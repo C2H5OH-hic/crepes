@@ -2,12 +2,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
+from django.core import serializers
+from django.conf import settings
+from .forms import ProductoForm, ProductoActividadForm, ActividadForm, ProductoIngredienteFormSet, IngredienteForm, ProductoIngredienteForm
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
 from datetime import datetime, date
-from .models import User, Producto, Pedido, DetallePedido, Factura
-from django.core import serializers
+from .models import User, Producto, Pedido, DetallePedido, Factura, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente
+from pathlib import Path
+import uuid
+
+def inicio(request):
+    return render(request, 'inicio.html')
 
 def signin(request):
     """
@@ -198,15 +206,23 @@ def despachar_pedido(request, pedido_id):
 
     return redirect('chef')
 
-
 @login_required
 def tomarPedido(request):
     """
     Muestra productos disponibles para crear un pedido.
+    Genera un ID temporal basado en el último pedido.
     """
-    productos = Producto.objects.filter(disponible=True)
-    return render(request, 'tomarPedido.html', {'productos': productos})
+    # Obtener el último pedido registrado
+    ultimo_pedido = Pedido.objects.last()
+    id_temporal = ultimo_pedido.idPedido + 1 if ultimo_pedido else 1
 
+    # Obtener productos disponibles
+    productos = Producto.objects.filter(disponible=True)
+
+    return render(request, 'tomarPedido.html', {
+        'id_temporal': id_temporal,
+        'productos': productos
+    })
 
 @login_required
 def savePedido(request):
@@ -217,6 +233,7 @@ def savePedido(request):
         try:
             productos_seleccionados = request.POST.getlist('productos_seleccionados[]')
             cantidades = {key.split('_')[1]: value for key, value in request.POST.items() if key.startswith('cantidad_')}
+            notas = {key.split('_')[1]: value for key, value in request.POST.items() if key.startswith('notas_')}
             cliente_nombre = request.POST.get('cliente_nombre', 'Cliente')
             idCajero = request.user.id
 
@@ -224,9 +241,10 @@ def savePedido(request):
 
             for producto_id in productos_seleccionados:
                 cantidad = int(cantidades.get(producto_id, 0))
+                nota = notas.get(producto_id, '')
                 if cantidad > 0:
                     producto = Producto.objects.get(idProducto=producto_id)
-                    DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad)
+                    DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, nota=nota)
 
             return redirect('tomarPedido')
         except Exception as e:
@@ -245,43 +263,47 @@ def borrarPedido(request, pedido_id):
     return redirect('chef')
 
 @login_required
-def createProduct(request):
+def crear_producto(request):
     """
-    Crea un nuevo producto basado en los datos enviados desde un formulario.
+    Vista para crear un producto y asignar ingredientes al mismo tiempo.
     """
-    if request.method == 'GET':
-        # Renderiza la plantilla con el formulario para crear productos
-        return render(request, 'createProduct.html')
-    elif request.method == 'POST':
-        try:
-            # Extraer datos del formulario
-            nombre = request.POST.get("nombreProducto")
-            descripcion = request.POST.get("Descripcion")
-            precio = request.POST.get("Precio")
-            disponible = request.POST.get("toggleDisponible", False) == "on"
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            producto = form.save()  # Guarda el producto
+            # Procesar el formset después de guardar el producto
+            formset = ProductoIngredienteFormSet(request.POST, instance=producto)
+            if formset.is_valid():
+                formset.save()  # Guarda los ingredientes vinculados al producto
+                return redirect('productos')  # Redirige a la lista de productos
+        else:
+            # Si el formulario no es válido, vuelve a mostrar los errores
+            formset = ProductoIngredienteFormSet(request.POST)
+    else:
+        form = ProductoForm()
+        formset = ProductoIngredienteFormSet()
 
-            # Crear instancia de Producto
-            producto = Producto(
-                nombre=nombre,
-                descripcion=descripcion,
-                precio=precio,
-                disponible=disponible
-            )
+    return render(request, 'crear_producto.html', {'form': form, 'formset': formset})
 
-            # Guardar la imagen en la carpeta correspondiente si se proporciona
-            if 'imgProducto' in request.FILES:
-                imagen = request.FILES['imgProducto']
-                ruta_imagen = os.path.join(settings.BASE_DIR, 'myapp', 'static', 'img', imagen.name)
-                with open(ruta_imagen, 'wb') as f:
-                    for chunk in imagen.chunks():
-                        f.write(chunk)
-                producto.imgProducto = os.path.join('img/', imagen.name)
+@login_required
+def eliminarProductos(request):
+    """
+    Muestra la lista de productos con imágenes en una plantilla para eliminarlos.
+    """
+    productos = Producto.objects.all()  # Recupera todos los productos
+    return render(request, 'eliminarProductos.html', {'productos': productos})
 
-            # Guardar el producto en la base de datos
-            producto.save()
-            return render(request, 'createProduct.html', {'success': True})
-        except Exception as e:
-            return render(request, 'createProduct.html', {'success': False, 'error': str(e)})
+@login_required
+def deleteProduct(request, product_id):
+    """
+    Elimina un producto por su ID.
+    """
+    try:
+        producto = get_object_or_404(Producto, idProducto=product_id)
+        producto.delete()  # Elimina el producto
+        return redirect('eliminarProductos')  # Redirige de nuevo a la lista
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
 
 
 @login_required
@@ -290,22 +312,17 @@ def cambiar_estado_pedido(request, pedido_id):
     Cambia el estado de un pedido.
     """
     if request.method == 'POST':
-        # Recuperar el pedido por ID
         pedido = get_object_or_404(Pedido, idPedido=pedido_id)
-
-        # Obtener el nuevo estado del formulario
         nuevo_estado = request.POST.get('estado')
-
-        # Validar que el estado sea válido
         estados_validos = ['pendiente', 'aceptado', 'listo', 'despachado']
+
         if nuevo_estado in estados_validos:
             pedido.estado = nuevo_estado
             pedido.save()
+            return JsonResponse({'success': True, 'nuevo_estado': nuevo_estado})
 
-        # Redirigir a la vista del chef
-        return redirect('chef')
-    else:
-        return JsonResponse({'error': 'Método no permitido'}, status=405)
+        return JsonResponse({'success': False, 'error': 'Estado no válido'}, status=400)
+    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
 
 @login_required
 def listProductos(request):
@@ -328,14 +345,11 @@ def listProductos(request):
 
 @login_required
 def generar_caja_diaria(request):
-
-    # Obtener la fecha actual
     fecha_actual = date.today()
     pedidos = Pedido.objects.filter(created_at__date=fecha_actual, estado='despachado')
 
-    # Calcular el total de la caja diaria
     total_caja = 0
-    detalles_pedidos = []  # Para registrar cada pedido y sus productos
+    detalles_pedidos = []
 
     for pedido in pedidos:
         productos = DetallePedido.objects.filter(pedido=pedido)
@@ -345,66 +359,55 @@ def generar_caja_diaria(request):
         detalles_pedidos.append({
             'id': pedido.idPedido,
             'cliente': pedido.cliente_nombre,
+            'hora': pedido.created_at.strftime('%H:%M:%S'),
             'productos': [
-                {
-                    'nombre': detalle.producto.nombre,
-                    'cantidad': detalle.cantidad,
-                    'precio_unitario': detalle.producto.precio,
-                    'subtotal': detalle.cantidad * detalle.producto.precio
-                }
+                f"{detalle.producto.nombre} (x{detalle.cantidad})"
                 for detalle in productos
             ],
             'total_pedido': total_pedido
         })
 
-    # Crear el PDF
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="caja_diaria_{fecha_actual}.pdf"'
 
     pdf = canvas.Canvas(response, pagesize=letter)
     pdf.setTitle(f"Caja Diaria - {fecha_actual}")
 
-    # Configuración del documento
     ancho, alto = letter
-    y = alto - 50  # Posición inicial
+    y = alto - 50
     pdf.setFont("Helvetica-Bold", 16)
     pdf.drawString(200, y, f"Caja Diaria - {fecha_actual}")
     y -= 30
 
-    # Total de la caja
     pdf.setFont("Helvetica", 12)
     pdf.drawString(50, y, f"Total de la Caja: ${total_caja:.2f}")
-    y -= 30
+    y -= 40
 
-    # Registro de ventas
-    pdf.setFont("Helvetica-Bold", 14)
-    pdf.drawString(50, y, "Detalles de las Ventas:")
-    y -= 20
-
-    pdf.setFont("Helvetica", 10)
+    # Configurar tabla
+    data = [["ID Pedido", "Cliente", "Hora", "Productos", "Total"]]
     for detalle in detalles_pedidos:
-        if y < 100:  # Salto de página si se queda sin espacio
-            pdf.showPage()
-            y = alto - 50
-            pdf.setFont("Helvetica", 10)
+        data.append([
+            detalle['id'],
+            detalle['cliente'],
+            detalle['hora'],
+            "\n".join(detalle['productos']),
+            f"${detalle['total_pedido']:.2f}"
+        ])
 
-        pdf.drawString(50, y, f"Pedido ID: {detalle['id']} | Cliente: {detalle['cliente']}")
-        y -= 20
-        pdf.drawString(70, y, "Productos:")
-        y -= 20
+    table = Table(data, colWidths=[50, 100, 80, 250, 70])
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
 
-        for producto in detalle['productos']:
-            pdf.drawString(90, y, f"- {producto['nombre']} (x{producto['cantidad']}) - Unitario: ${producto['precio_unitario']:.2f} - Subtotal: ${producto['subtotal']:.2f}")
-            y -= 15
-            if y < 100:  # Salto de página si es necesario
-                pdf.showPage()
-                y = alto - 50
-                pdf.setFont("Helvetica", 10)
+    table.wrapOn(pdf, 50, y - len(data) * 20)
+    table.drawOn(pdf, 50, y - len(data) * 20)
 
-        pdf.drawString(70, y, f"Total Pedido: ${detalle['total_pedido']:.2f}")
-        y -= 30
-
-    # Guardar el PDF
     pdf.save()
     return response
 
@@ -461,9 +464,6 @@ def verFacturaID(request, idMesa):
     # Formatear los productos pedidos en un solo string
     cosas_pedidas = ', '.join([f"{pedido.idProducto.nombre} (Cantidad: {pedido.cantidad})" for pedido in pedidos])
 
-    # Obtener la mesa
-    mesa = Mesa.objects.get(numero=idMesa)
-
     # Crear y guardar la nueva factura
     factura = Factura(
         valor=total,
@@ -506,9 +506,241 @@ def verFactura(request):
 
     return render(request, 'verFactura.html', {'processed_facturas': processed_facturas})
 
-def pedidos_publicos(request):
+@login_required
+def pedidos_chef_ajax(request):
+    pedidos = Pedido.objects.exclude(estado='despachado')  # Ajusta según la lógica que necesites
+    data = []
+
+    for pedido in pedidos:
+        detalles = DetallePedido.objects.filter(pedido=pedido)
+        productos = [
+            {
+                "nombre": detalle.producto.nombre,
+                "cantidad": detalle.cantidad,
+                "nota": detalle.nota  # Asegúrate de que este atributo exista
+            }
+            for detalle in detalles
+        ]
+
+        data.append({
+            "id": pedido.idPedido,
+            "cliente_nombre": pedido.cliente_nombre,
+            "productos": productos,
+            "estado": pedido.get_estado_display(),
+        })
+
+    return JsonResponse({"pedidos": data, "csrf_token": request.META.get('CSRF_COOKIE', '')})
+
+@login_required
+def productos(request):
     """
-    Muestra los pedidos que están pendientes o en proceso (visibles públicamente).
+    Vista general para la gestión de productos. Muestra la pantalla de opciones.
     """
-    pedidos = Pedido.objects.filter(estado__in=['pendiente', 'listo']).order_by('estado', 'idPedido')
-    return render(request, 'pedidos_publicos.html', {'pedidos': pedidos})
+    return render(request, 'productos.html')  # Renderiza la pantalla de opciones
+
+def pedidos_publicos_view(request):
+    """
+    Renderiza la plantilla de pedidos públicos.
+    """
+    return render(request, 'pedidos_publicos.html')
+
+def pedidos_publicos_ajax(request):
+
+    pedidos = Pedido.objects.filter(estado__in=['pendiente', 'aceptado', 'listo']).order_by('estado', 'idPedido')
+    data = []
+
+    for pedido in pedidos:
+        detalles = DetallePedido.objects.filter(pedido=pedido)
+        productos = [
+            {
+                "nombre": detalle.producto.nombre,
+                "cantidad": detalle.cantidad,
+                "nota": getattr(detalle, "nota", "Sin nota"),
+            }
+            for detalle in detalles
+        ]
+
+        data.append({
+            "id": pedido.idPedido,
+            "cliente_nombre": pedido.cliente_nombre,
+            "productos": productos,
+            "estado": pedido.get_estado_display(),
+        })
+
+    return JsonResponse({"pedidos": data})
+
+
+def lista_productos(request):
+    productos = Producto.objects.filter(disponible=True)
+    return render(request, 'lista_productos.html', {'productos': productos})
+
+# ---------------------------------------------
+# ANÁLISIS Y RECOMENDACIONES
+# ---------------------------------------------
+
+@login_required
+def recomendaciones_view(request):
+    productos = Producto.objects.all()
+    recomendaciones = []
+
+    for producto in productos:
+        margen = producto.margen_beneficio()
+        if margen < 500:  # Umbral de margen bajo
+            recomendaciones.append(f"Incrementar precio o reducir costos de {producto.nombre}.")
+
+        validaciones = ValidacionCosto.objects.filter(producto=producto)
+        if any(v.discrepancia > 0 for v in validaciones):
+            recomendaciones.append(f"Revisar actividad o consumo real para {producto.nombre}.")
+
+    return render(request, 'recomendaciones.html', {'recomendaciones': recomendaciones})
+
+
+@login_required
+def costos_unitarios(request):
+    productos = Producto.objects.all()
+    resultados = []
+
+    for producto in productos:
+        costo_unitario = producto.calcular_costo_unitario()
+        margen = producto.margen_beneficio()
+        resultados.append({
+            'nombre': producto.nombre,
+            'costo_unitario': costo_unitario,
+            'precio': producto.precio,
+            'margen': margen,
+        })
+
+    return render(request, 'costos_unitarios.html', {'resultados': resultados})
+
+
+# ---------------------------------------------
+# ACTIVIDADES
+# ---------------------------------------------
+
+@login_required
+def lista_actividades(request):
+    actividades = Actividad.objects.all()
+    return render(request, 'lista_actividades.html', {'actividades': actividades})
+
+
+@login_required
+def crear_actividad(request):
+    if request.method == 'POST':
+        form = ActividadForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_actividades')
+    else:
+        form = ActividadForm()
+
+    return render(request, 'crear_actividad.html', {'form': form})
+
+
+@login_required
+def asignar_actividad(request, actividad_id):
+    """
+    Vista para asignar una actividad a productos.
+    """
+    actividad = get_object_or_404(Actividad, id=actividad_id)
+    if request.method == 'POST':
+        form = ProductoActividadForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_actividades')
+    else:
+        form = ProductoActividadForm(initial={'actividad': actividad})
+
+    return render(request, 'asignar_actividad.html', {'form': form, 'actividad': actividad})
+
+
+# ---------------------------------------------
+# INGREDIENTES
+# ---------------------------------------------
+
+@login_required
+def lista_ingredientes(request):
+    ingredientes = Ingrediente.objects.all()
+    return render(request, 'lista_ingredientes.html', {'ingredientes': ingredientes})
+
+
+@login_required
+def crear_ingrediente(request):
+    producto_id = request.GET.get('producto_id')  # Recuperar el ID del producto, si existe
+    if request.method == 'POST':
+        form = IngredienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirigir según el contexto
+            if producto_id:
+                return redirect('vincular_ingredientes', producto_id=producto_id)
+            return redirect('lista_ingredientes')  # Redirige a la lista general de ingredientes
+    else:
+        form = IngredienteForm()
+
+    return render(request, 'crear_ingrediente.html', {'form': form, 'producto_id': producto_id})
+
+
+@login_required
+def vincular_ingredientes(request, producto_id):
+    producto = get_object_or_404(Producto, idProducto=producto_id)
+    ingredientes_disponibles = Ingrediente.objects.exclude(productoingrediente__producto=producto)
+
+    return render(request, 'vincular_ingredientes.html', {
+        'producto': producto,
+        'ingredientes_disponibles': ingredientes_disponibles
+    })
+
+
+@login_required
+def agregar_ingrediente(request, producto_id):
+    producto = get_object_or_404(Producto, idProducto=producto_id)
+
+    if request.method == 'POST':
+        ingrediente_id = request.POST.get('ingrediente_id')
+        cantidad_requerida = request.POST.get('cantidad_requerida')
+
+        if ingrediente_id and cantidad_requerida:
+            ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
+            ProductoIngrediente.objects.create(
+                producto=producto,
+                ingrediente=ingrediente,
+                cantidad_requerida=cantidad_requerida
+            )
+
+    return redirect('vincular_ingredientes', producto_id=producto.idProducto)
+
+@login_required
+def eliminar_ingrediente(request, producto_id, ingrediente_id):
+    """
+    Elimina un ingrediente vinculado a un producto específico.
+    """
+    vinculo = get_object_or_404(ProductoIngrediente, producto_id=producto_id, ingrediente_id=ingrediente_id)
+    if request.method == 'POST':
+        vinculo.delete()
+    return redirect('vincular_ingredientes', producto_id=producto_id)
+
+@login_required
+def eliminar_ingrediente_general(request, ingrediente_id):
+    """
+    Elimina un ingrediente de la lista general de ingredientes.
+    """
+    ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
+    if request.method == 'POST':
+        ingrediente.delete()
+        return redirect('lista_ingredientes')
+    return redirect('lista_ingredientes')  # Redirige si no es POST
+
+@login_required
+def gestion(request):
+    """
+    Página principal de gestión de ingredientes y actividades.
+    """
+    return render(request, 'gestion.html')
+
+@login_required
+def gestion_costos(request):
+    """
+    Lista productos con sus costos unitarios, precios de venta y márgenes.
+    """
+    productos = Producto.objects.all()
+    return render(request, 'gestion_costos.html', {'productos': productos})
