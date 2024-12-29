@@ -74,4 +74,17 @@ urlpatterns = [
     path('productos/<int:producto_id>/ingredientes/<int:ingrediente_id>/eliminar/', views.eliminar_ingrediente, name='eliminar_ingrediente'),
     path('gestion/ingredientes/<int:ingrediente_id>/eliminar/', views.eliminar_ingrediente_general, name='eliminar_ingrediente_general'),
     path('gestion/costos/', views.gestion_costos, name='gestion_costos'),
+
+    #Registrar compras
+    path('compras/registrar/', views.registrar_compra, name='registrar_compra'),
+
+    #Proveedores
+    path('proveedores/', views.lista_proveedores, name='lista_proveedores'),
+    path('proveedores/registrar/', views.registrar_proveedor, name='registrar_proveedor'),
+    path('proveedores/eliminar/<int:proveedor_id>/', views.eliminar_proveedor, name='eliminar_proveedor'),
+
+    path('compras/', views.lista_compras, name='lista_compras'),  # Agrega esta línea
+
+    #analisis costos
+    path('analisis_costos/', views.analisis_costos_unitarios, name='analisis_costos_unitarios'),
 ]

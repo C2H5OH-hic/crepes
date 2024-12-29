@@ -4,13 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core import serializers
 from django.conf import settings
-from .forms import ProductoForm, ProductoActividadForm, ActividadForm, ProductoIngredienteFormSet, IngredienteForm, ProductoIngredienteForm
+from .forms import ProductoForm, ProductoActividadForm, ActividadForm, ProductoIngredienteFormSet, IngredienteForm, CompraForm, DetalleCompraFormSet, ProveedorForm
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
 from datetime import datetime, date
-from .models import User, Producto, Pedido, DetallePedido, Factura, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente
+from .models import User, Producto, Pedido, DetallePedido, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente, Insumo, Proveedor, Compra, DetalleCompra
 from pathlib import Path
 import uuid
 
@@ -286,6 +286,22 @@ def crear_producto(request):
     return render(request, 'crear_producto.html', {'form': form, 'formset': formset})
 
 @login_required
+def crear_producto(request):
+    """
+    Vista para crear un producto sin asociarlo a ingredientes.
+    """
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()  # Solo guarda el producto, sin asociar ingredientes
+            return redirect('productos')  # Redirige a la lista de productos
+    else:
+        form = ProductoForm()
+
+    return render(request, 'crear_producto.html', {'form': form})
+
+
+@login_required
 def eliminarProductos(request):
     """
     Muestra la lista de productos con imágenes en una plantilla para eliminarlos.
@@ -446,65 +462,6 @@ def caja_diaria(request):
         'datos_pedidos': datos_pedidos,
         'total_caja': total_caja
     })
-
-@login_required            
-def verFacturaID(request, idMesa):
-    pedidos = Pedido.objects.filter(mesa__numero=idMesa)
-    
-    if not pedidos.exists():
-        # Redirigir o mostrar un mensaje si no hay pedidos
-        return render(request, 'verMesas.html', {'idMesa': idMesa})
-    
-    user_id = request.user.id
-    hora = timezone.localtime(timezone.now())
-    fecha = hora.date()
-    total = sum(pedido.idProducto.precio * pedido.cantidad for pedido in pedidos)
-    total_quantity = sum(pedido.cantidad for pedido in pedidos)  # Calculate total quantity
-
-    # Formatear los productos pedidos en un solo string
-    cosas_pedidas = ', '.join([f"{pedido.idProducto.nombre} (Cantidad: {pedido.cantidad})" for pedido in pedidos])
-
-    # Crear y guardar la nueva factura
-    factura = Factura(
-        valor=total,
-        hora=hora,
-        fecha=fecha,
-        cosasPedidas=cosas_pedidas,
-        idMesero=request.user,
-        mesa=mesa
-    )
-    factura.save()
-
-    return render(request, 'verFacturaID.html', {
-        'pedidos': pedidos,
-        'user_id': user_id,
-        'hora': hora,
-        'idMesa': idMesa,
-        'total': total,
-        'total_quantity': total_quantity  
-    })
-
-@login_required
-def verFactura(request):
-    facturas = Factura.objects.all()
-    processed_facturas = []
-
-    for factura in facturas:
-        productos = factura.cosasPedidas.split(', ')
-        productos_procesados = []
-        for producto in productos:
-            nombre, cantidad = producto.rsplit(' (Cantidad: ', 1)
-            cantidad = cantidad.rstrip(')')
-            productos_procesados.append({
-                'nombre': nombre,
-                'cantidad': cantidad
-            })
-        processed_facturas.append({
-            'factura': factura,
-            'productos': productos_procesados
-        })
-
-    return render(request, 'verFactura.html', {'processed_facturas': processed_facturas})
 
 @login_required
 def pedidos_chef_ajax(request):
@@ -743,4 +700,119 @@ def gestion_costos(request):
     Lista productos con sus costos unitarios, precios de venta y márgenes.
     """
     productos = Producto.objects.all()
-    return render(request, 'gestion_costos.html', {'productos': productos})
+    resultados = []
+
+    for producto in productos:
+        costo_unitario = producto.calcular_costo_unitario()
+        margen = producto.margen_beneficio()
+        resultados.append({
+            'producto': producto,
+            'costo_unitario': costo_unitario,
+            'margen': margen,
+        })
+
+    return render(request, 'gestion_costos.html', {'resultados': resultados})
+
+@login_required
+def registrar_compra(request):
+    """
+    Vista para registrar una compra con opción de ingredientes o insumos.
+    """
+    if request.method == 'POST':
+        form = CompraForm(request.POST)
+        formset = DetalleCompraFormSet(request.POST)
+
+        if form.is_valid() and formset.is_valid():
+            compra = form.save(commit=False)
+            compra.usuario = request.user
+            compra.save()
+            formset.instance = compra
+
+            for detalle_form in formset.cleaned_data:
+                tipo = detalle_form.get('tipo')
+                ingrediente = detalle_form.get('ingrediente') if tipo == 'ingrediente' else None
+                nombre_insumo = detalle_form.get('nombre_insumo') if tipo == 'insumo' else None
+                cantidad = detalle_form.get('cantidad')
+                precio_unitario = detalle_form.get('precio_unitario')
+
+                DetalleCompra.objects.create(
+                    compra=compra,
+                    ingrediente=ingrediente,
+                    nombre_insumo=nombre_insumo,
+                    cantidad=cantidad,
+                    precio_unitario=precio_unitario
+                )
+            return redirect('lista_compras')
+
+    else:
+        form = CompraForm()
+        formset = DetalleCompraFormSet(queryset=DetalleCompra.objects.none())
+
+    return render(request, 'registrar_compra.html', {'form': form, 'formset': formset})
+
+
+@login_required
+def lista_proveedores(request):
+    """
+    Lista de proveedores existentes.
+    """
+    proveedores = Proveedor.objects.all()
+    return render(request, 'lista_proveedores.html', {'proveedores': proveedores})
+
+
+@login_required
+def registrar_proveedor(request):
+    """
+    Registrar un nuevo proveedor.
+    """
+    if request.method == 'POST':
+        form = ProveedorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_proveedores')
+    else:
+        form = ProveedorForm()
+
+    return render(request, 'registrar_proveedor.html', {'form': form})
+
+
+@login_required
+def eliminar_proveedor(request, proveedor_id):
+    """
+    Eliminar un proveedor existente.
+    """
+    proveedor = get_object_or_404(Proveedor, id=proveedor_id)
+    proveedor.delete()
+    return redirect('lista_proveedores')
+
+@login_required
+def lista_compras(request):
+    """
+    Lista de compras con detalles procesados para manejar ingredientes e insumos.
+    """
+    compras = Compra.objects.prefetch_related('detalles')
+
+    for compra in compras:
+        compra.total = sum(
+            detalle.cantidad * detalle.precio_unitario for detalle in compra.detalles.all()
+        )
+
+        # Procesar cada detalle para priorizar el nombre del insumo
+        for detalle in compra.detalles.all():
+            detalle.nombre_completo = (
+                detalle.nombre_insumo if detalle.nombre_insumo else
+                detalle.ingrediente.nombre if detalle.ingrediente else
+                "Sin Nombre"
+            )
+
+    return render(request, 'lista_compras.html', {'compras': compras})
+
+@login_required
+def analisis_costos_unitarios(request):
+    """
+    Vista que muestra un análisis detallado de los costos unitarios de cada producto.
+    """
+    productos = Producto.objects.all()
+    analisis = [producto.analizar_costos() for producto in productos]
+
+    return render(request, 'analisis_costos.html', {'analisis': analisis})

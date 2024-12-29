@@ -1,7 +1,42 @@
-<h1>Crear Ingrediente</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar</button>
-</form>
-<a href="{% url 'lista_ingredientes' %}" class="btn btn-secondary">Volver</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Ingrediente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Crear Ingrediente</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre del Ingrediente</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej.: Harina, Leche, Plátano" required>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="unidad_medida" class="form-label">Unidad de Medida</label>
+                    <select name="unidad_medida" id="unidad_medida" class="form-select" required>
+                        <option value="">Seleccione una unidad</option>
+                        <option value="kg">Kilogramo (kg)</option>
+                        <option value="litro">Litro</option>
+                        <option value="unidad">Unidad</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="costo_por_unidad" class="form-label">Costo por Unidad (en CLP)</label>
+                    <input type="number" name="costo_por_unidad" id="costo_por_unidad" class="form-control" placeholder="Ej.: 1000 (por kg, litro, etc.)" step="0.01" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="stock_actual" class="form-label">Stock Actual</label>
+                <input type="number" name="stock_actual" id="stock_actual" class="form-control" placeholder="Ej.: 10 (en la unidad seleccionada)" step="0.01" required>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Guardar Ingrediente</button>
+        </form>
+        <a href="{% url 'lista_ingredientes' %}" class="btn btn-secondary mt-3">Volver a la Lista de Ingredientes</a>
+    </div>
+</body>
+</html>

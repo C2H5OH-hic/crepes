@@ -5,23 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Ingredientes y Actividades</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilo para optimización móvil */
+        .card {
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0.8rem;
+            text-align: center;
+        }
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .btn {
+            width: 100%;
+            font-size: 1rem;
+        }
+        .container {
+            max-width: 1200px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Gestión de Ingredientes y Actividades</h1>
-
+        <h1 class="text-center mb-4">Panel de Gestión</h1>
         <div class="row">
-            <div class="col-md-6">
-                <h3>Ingredientes</h3>
-                <a href="{% url 'lista_ingredientes' %}" class="btn btn-primary mb-3">Gestionar Ingredientes</a>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">Ingredientes</div>
+                    <div class="card-body">
+                        <a href="{% url 'lista_ingredientes' %}" class="btn btn-primary">Gestionar Ingredientes</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>Actividades</h3>
-                <a href="{% url 'lista_actividades' %}" class="btn btn-primary mb-3">Gestionar Actividades</a>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">Actividades</div>
+                    <div class="card-body">
+                        <a href="{% url 'lista_actividades' %}" class="btn btn-primary">Gestionar Actividades</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>Gestión de Costos</h3>
-                <a href="{% url 'gestion_costos' %}" class="btn btn-primary mb-3">Gestionar Costos</a>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">Gestión de Costos</div>
+                    <div class="card-body">
+                        <a href="{% url 'gestion_costos' %}" class="btn btn-primary">Gestionar Costos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">Proveedores</div>
+                    <div class="card-body">
+                        <a href="{% url 'lista_proveedores' %}" class="btn btn-primary">Gestionar Proveedores</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">Análisis de Costos Unitarios</div>
+                    <div class="card-body">
+                        <a href="{% url 'analisis_costos_unitarios' %}" class="btn btn-primary">Ver Análisis de Costos</a>
+                    </div>
+                </div>
             </div>
         </div>
         <a href="{% url 'administrador' %}" class="btn btn-secondary mt-3">Volver al Administrador</a>

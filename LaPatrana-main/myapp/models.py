@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
+from django.core.exceptions import ValidationError
 
 # Usuario personalizado
 class User(AbstractUser):
@@ -18,61 +19,83 @@ class Producto(models.Model):
     imgProducto = models.ImageField(upload_to="img", blank=True, null=True)  # Imagen opcional del producto
 
     def calcular_costo_unitario(self):
-        # Calcular costos de actividades
-        actividades = ProductoActividad.objects.filter(producto=self)
-        costo_actividades = sum(a.costo_actividad() for a in actividades)
-
-        # Calcular costos de ingredientes
-        ingredientes = ProductoIngrediente.objects.filter(producto=self)
-        costo_ingredientes = sum(
-            i.cantidad_requerida * i.ingrediente.costo_por_unidad for i in ingredientes
-        )
-
-        return costo_actividades + costo_ingredientes
+        """
+        Calcula el costo unitario total del producto sumando ingredientes y actividades.
+        """
+        return self.costo_ingredientes() + self.costo_actividades()
 
     def margen_beneficio(self):
-        # Calcula el margen de beneficio
+        """
+        Calcula el margen de beneficio del producto:
+        Margen = Precio de venta - Costo unitario.
+        """
         return self.precio - self.calcular_costo_unitario()
 
-    def validar_discrepancias(self, cantidad_producida, costo_real):
-        # Valida discrepancias entre el costo calculado y el costo real
-        costo_calculado = self.calcular_costo_unitario() * cantidad_producida
-        discrepancia = costo_real - costo_calculado
-
-        # Crear registro de validación
-        ValidacionCosto.objects.create(
-            producto=self,
-            cantidad_producida=cantidad_producida,
-            costo_calculado=costo_calculado,
-            costo_real=costo_real,
-            discrepancia=discrepancia
-        )
     def costo_ingredientes(self):
         """
         Calcula el costo total de los ingredientes vinculados al producto.
         """
         ingredientes = ProductoIngrediente.objects.filter(producto=self)
-        return sum(i.cantidad_requerida * i.ingrediente.costo_por_unidad for i in ingredientes)
+        return sum(i.cantidad_requerida * i.ingrediente.costo_por_unidad for i in ingredientes) or 0
 
     def costo_actividades(self):
         """
         Calcula el costo total de las actividades vinculadas al producto.
         """
         actividades = ProductoActividad.objects.filter(producto=self)
-        return sum(a.costo_actividad() for a in actividades)
+        return sum(a.costo_actividad() for a in actividades) or 0
+
+    def analizar_costos(self):
+        """
+        Devuelve un desglose completo de los costos y márgenes del producto.
+        """
+        costos = {
+            "nombre": self.nombre,
+            "descripcion": self.descripcion,
+            "costo_ingredientes": self.costo_ingredientes(),
+            "costo_actividades": self.costo_actividades(),
+            "costo_unitario": self.calcular_costo_unitario(),
+            "precio_venta": self.precio,
+            "margen_beneficio": self.margen_beneficio(),
+        }
+        return costos
+
     def __str__(self):
         return f"{self.nombre} - ${self.precio} CLP"
 
 
-# Modelo de Ingredientes
+
 class Ingrediente(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
-    unidad_medida = models.CharField(max_length=20, default="kg")  # Ejemplo: "kg", "litro"
-    costo_por_unidad = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  # Precio por unidad
-    stock_actual = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  # Cantidad disponible
+    unidad_medida = models.CharField(
+        max_length=20,
+        choices=[
+            ('kg', 'Kilogramo'),
+            ('litro', 'Litro'),
+            ('unidad', 'Unidad'),
+        ],
+        default='unidad'
+    )
+    costo_por_unidad = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    stock_actual = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     def __str__(self):
-        return f"{self.nombre} - ${self.costo_por_unidad} CLP"
+        return self.nombre
+
+
+class Insumo(models.Model):
+    nombre = models.CharField(max_length=50, unique=True)
+    unidad_medida = models.CharField(
+        max_length=20,
+        choices=[
+            ('unidad', 'Unidad'),
+        ],
+        default='unidad'
+    )
+    stock_actual = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    def __str__(self):
+        return self.nombre
 
 
 # Relación Producto-Ingreditente
@@ -178,13 +201,28 @@ class DetallePedido(models.Model):
 
 
 # Modelo de Factura
-class Factura(models.Model):
-    idFactura = models.AutoField(primary_key=True)
-    valor = models.DecimalField(max_digits=20, decimal_places=2)
-    hora = models.DateTimeField(null=True)
-    fecha = models.DateField(null=True)
-    cosasPedidas = models.CharField(max_length=400)
-    idCajero = models.ForeignKey(User, on_delete=models.CASCADE)
+class Compra(models.Model):
+    proveedor = models.ForeignKey('Proveedor', on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"Factura {self.idFactura} - {self.valor}"
+        return f"Compra de {self.proveedor.nombre} el {self.fecha}"
+
+class Proveedor(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    contacto = models.CharField(max_length=255, blank=True, null=True)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+class DetalleCompra(models.Model):
+    compra = models.ForeignKey('Compra', on_delete=models.CASCADE, related_name='detalles')
+    ingrediente = models.ForeignKey('Ingrediente', on_delete=models.CASCADE, null=True, blank=True)
+    nombre_insumo = models.CharField(max_length=100, null=True, blank=True)
+    cantidad = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.nombre_insumo or (self.ingrediente.nombre if self.ingrediente else "Sin Nombre")
