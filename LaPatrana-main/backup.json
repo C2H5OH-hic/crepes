@@ -1,0 +1,4333 @@
+[
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": 1,
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can view permission",
+        "content_type": 2,
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can view group",
+        "content_type": 3,
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 4,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 4,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 4,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can view content type",
+        "content_type": 4,
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 5,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 5,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 5,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can view session",
+        "content_type": 5,
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can add mesa",
+        "content_type": 6,
+        "codename": "add_mesa"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can change mesa",
+        "content_type": 6,
+        "codename": "change_mesa"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can delete mesa",
+        "content_type": 6,
+        "codename": "delete_mesa"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can view mesa",
+        "content_type": 6,
+        "codename": "view_mesa"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add producto",
+        "content_type": 7,
+        "codename": "add_producto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change producto",
+        "content_type": 7,
+        "codename": "change_producto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete producto",
+        "content_type": 7,
+        "codename": "delete_producto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can view producto",
+        "content_type": 7,
+        "codename": "view_producto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 8,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 8,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 8,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can view user",
+        "content_type": 8,
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can add factura",
+        "content_type": 9,
+        "codename": "add_factura"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can change factura",
+        "content_type": 9,
+        "codename": "change_factura"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can delete factura",
+        "content_type": 9,
+        "codename": "delete_factura"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can view factura",
+        "content_type": 9,
+        "codename": "view_factura"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add pedido",
+        "content_type": 10,
+        "codename": "add_pedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change pedido",
+        "content_type": 10,
+        "codename": "change_pedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete pedido",
+        "content_type": 10,
+        "codename": "delete_pedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+        "name": "Can view pedido",
+        "content_type": 10,
+        "codename": "view_pedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+        "name": "Can add detalle pedido",
+        "content_type": 11,
+        "codename": "add_detallepedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+        "name": "Can change detalle pedido",
+        "content_type": 11,
+        "codename": "change_detallepedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+        "name": "Can delete detalle pedido",
+        "content_type": 11,
+        "codename": "delete_detallepedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+        "name": "Can view detalle pedido",
+        "content_type": 11,
+        "codename": "view_detallepedido"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+        "name": "Can add producto ingrediente",
+        "content_type": 12,
+        "codename": "add_productoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+        "name": "Can change producto ingrediente",
+        "content_type": 12,
+        "codename": "change_productoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+        "name": "Can delete producto ingrediente",
+        "content_type": 12,
+        "codename": "delete_productoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+        "name": "Can view producto ingrediente",
+        "content_type": 12,
+        "codename": "view_productoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+        "name": "Can add validacion costo",
+        "content_type": 13,
+        "codename": "add_validacioncosto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+        "name": "Can change validacion costo",
+        "content_type": 13,
+        "codename": "change_validacioncosto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+        "name": "Can delete validacion costo",
+        "content_type": 13,
+        "codename": "delete_validacioncosto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+        "name": "Can view validacion costo",
+        "content_type": 13,
+        "codename": "view_validacioncosto"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+        "name": "Can add producto actividad",
+        "content_type": 14,
+        "codename": "add_productoactividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+        "name": "Can change producto actividad",
+        "content_type": 14,
+        "codename": "change_productoactividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+        "name": "Can delete producto actividad",
+        "content_type": 14,
+        "codename": "delete_productoactividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+        "name": "Can view producto actividad",
+        "content_type": 14,
+        "codename": "view_productoactividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+        "name": "Can add actividad",
+        "content_type": 15,
+        "codename": "add_actividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+        "name": "Can change actividad",
+        "content_type": 15,
+        "codename": "change_actividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+        "name": "Can delete actividad",
+        "content_type": 15,
+        "codename": "delete_actividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+        "name": "Can view actividad",
+        "content_type": 15,
+        "codename": "view_actividad"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+        "name": "Can add ingrediente",
+        "content_type": 16,
+        "codename": "add_ingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+        "name": "Can change ingrediente",
+        "content_type": 16,
+        "codename": "change_ingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+        "name": "Can delete ingrediente",
+        "content_type": 16,
+        "codename": "delete_ingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+        "name": "Can view ingrediente",
+        "content_type": 16,
+        "codename": "view_ingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+        "name": "Can add detalle compra",
+        "content_type": 17,
+        "codename": "add_detallecompra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+        "name": "Can change detalle compra",
+        "content_type": 17,
+        "codename": "change_detallecompra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+        "name": "Can delete detalle compra",
+        "content_type": 17,
+        "codename": "delete_detallecompra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+        "name": "Can view detalle compra",
+        "content_type": 17,
+        "codename": "view_detallecompra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+        "name": "Can add compra",
+        "content_type": 18,
+        "codename": "add_compra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+        "name": "Can change compra",
+        "content_type": 18,
+        "codename": "change_compra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+        "name": "Can delete compra",
+        "content_type": 18,
+        "codename": "delete_compra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+        "name": "Can view compra",
+        "content_type": 18,
+        "codename": "view_compra"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 73,
+    "fields": {
+        "name": "Can add proveedor",
+        "content_type": 19,
+        "codename": "add_proveedor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 74,
+    "fields": {
+        "name": "Can change proveedor",
+        "content_type": 19,
+        "codename": "change_proveedor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 75,
+    "fields": {
+        "name": "Can delete proveedor",
+        "content_type": 19,
+        "codename": "delete_proveedor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 76,
+    "fields": {
+        "name": "Can view proveedor",
+        "content_type": 19,
+        "codename": "view_proveedor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 77,
+    "fields": {
+        "name": "Can add insumo",
+        "content_type": 20,
+        "codename": "add_insumo"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 78,
+    "fields": {
+        "name": "Can change insumo",
+        "content_type": 20,
+        "codename": "change_insumo"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 79,
+    "fields": {
+        "name": "Can delete insumo",
+        "content_type": 20,
+        "codename": "delete_insumo"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 80,
+    "fields": {
+        "name": "Can view insumo",
+        "content_type": 20,
+        "codename": "view_insumo"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 81,
+    "fields": {
+        "name": "Can add historial costo ingrediente",
+        "content_type": 21,
+        "codename": "add_historialcostoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 82,
+    "fields": {
+        "name": "Can change historial costo ingrediente",
+        "content_type": 21,
+        "codename": "change_historialcostoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 83,
+    "fields": {
+        "name": "Can delete historial costo ingrediente",
+        "content_type": 21,
+        "codename": "delete_historialcostoingrediente"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 84,
+    "fields": {
+        "name": "Can view historial costo ingrediente",
+        "content_type": 21,
+        "codename": "view_historialcostoingrediente"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "myapp",
+        "model": "mesa"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "myapp",
+        "model": "producto"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "myapp",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+        "app_label": "myapp",
+        "model": "factura"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "myapp",
+        "model": "pedido"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "myapp",
+        "model": "detallepedido"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "myapp",
+        "model": "productoingrediente"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+        "app_label": "myapp",
+        "model": "validacioncosto"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+        "app_label": "myapp",
+        "model": "productoactividad"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+        "app_label": "myapp",
+        "model": "actividad"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": {
+        "app_label": "myapp",
+        "model": "ingrediente"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 17,
+    "fields": {
+        "app_label": "myapp",
+        "model": "detallecompra"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 18,
+    "fields": {
+        "app_label": "myapp",
+        "model": "compra"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 19,
+    "fields": {
+        "app_label": "myapp",
+        "model": "proveedor"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 20,
+    "fields": {
+        "app_label": "myapp",
+        "model": "insumo"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 21,
+    "fields": {
+        "app_label": "myapp",
+        "model": "historialcostoingrediente"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "2w8gipt6ztiqyiby9thxvfltl6fe27go",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tLrMq:0REh60977avOlh7eV_cRtLFbiUGdxQCfFBEYyAEuNEI",
+        "expire_date": "2024-12-26T22:09:08.060Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "30dstuakpelr6xw32jxzm03hth5rusw1",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pAAhWlduvcMZJgZpGogKe3KeHdt0oVu_3vvv1TEbS1x67LEmdVZDer0uyWkh9Qd8B3rrWlqdV3mpHdFH7Tra2N5Xg7376BgL986J-_zmEjImYHEmclkCxIEiV1CMGDRhszeBuPYizVAbpjIA4DYkdX7AwZBODg:1tF0t2:uRej7xZuuO19UvFyWuKwzlFCn0lfNqAVt89YZrpFZK8",
+        "expire_date": "2024-12-08T00:54:04.134Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "3n8wuaccdii6ifx7uwv55uckr4fu5w7y",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tO4nj:xq-_5sN_PvGlh4L1HNz32wjx99kE_1dPoYKhcTBFfi0",
+        "expire_date": "2025-01-02T00:54:03.461Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "612lh27q3amm1uj251owerdw5bzs4fdq",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGlm7sePIlPScwfL-SAAlUj4V4u4QKQW0b2bey5W6rX3ZFp3LIO7s0J1-N6r80HEHcq_jbfI8jes8kN8Vf9DFXyfR5-Vw_w76uvTfOjBbUAZrM4oZEXUUE4YUOswtBkhmjQgaJMBoOWalVjQAKNTEjXt_APn1OB8:1tTde4:HNjp3gbx-PmJxuP90QC9Sxu8-Y-uI5XXzdDU6rPV0qM",
+        "expire_date": "2025-01-17T09:07:04.775Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "74hgghn9hqxcjjap14uicw22j4jl7k67",
+    "fields": {
+        "session_data": ".eJxVjMsOgjAQRf-la9MUptSpS_d8Q1PmYVEDCYWV8d-VhIVu7znnvkzK21rSVmVJI5uLCeb0uw2ZHjLtgO95us2W5mldxsHuij1otf3M8rwe7t9BybV869YR-4aAY1AQ5YFip5Ewgz97JcmoCk46BQzoBBvsogN1HLwAUmveHwcXOFA:1tMYKW:DUNqqj9LkubigYTJjZ-gqfCEwz-aD9gcpqHGUomH5Z4",
+        "expire_date": "2024-12-28T20:01:36.970Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "8nrtaeg35xjsxheb77c7gp7cob23p5l8",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pAAhWlduvcMZJgZpGogKe3KeHdt0oVu_3vvv1TEbS1x67LEmdVZDer0uyWkh9Qd8B3rrWlqdV3mpHdFH7Tra2N5Xg7376BgL986J-_zmEjImYHEmclkCxIEiV1CMGDRhszeBuPYizVAbpjIA4DYkdX7AwZBODg:1tCqNL:wT4yX1XfvNN2FSk42R6L2ug81c59S6R6XXcwIPFLqwk",
+        "expire_date": "2024-12-02T01:16:23.438Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "bqlq7hdbdas5msiya52kx8w86txb1hk8",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAoFAaX7j0DGZipVA0kpV0Z765NutDtf-_9l4i4rSVunZc4kzgLI06_W8L84LoDumO9NZlbXZc5yV2RB-3y2oifl8P9OyjYy7f22ZEFjWA1-VENAMiJySpnIAUywWmHNoGFbNU48eA8G--BmRACT-L9AdHYN8g:1tB3Ph:womA4CSKT26uaz4NvhAX6JLofoc5zpwVAWcE06pT4Uw",
+        "expire_date": "2024-11-27T02:47:25.245Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "dwaajxml4tj0fktjlipqas15a347z6wj",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tBgLS:NSc5AkKzKDEEL4N8Pkj13NmgEUvRm0GvbZWEOvaPIwo",
+        "expire_date": "2024-11-28T20:21:38.234Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ebz0nj6zjjhthz747bvbi25gzcyzq09l",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tPnSB:_MFjN1QlUqFIVtIu01hsKSegi4LaZk4JX4_b8ZFm51s",
+        "expire_date": "2025-01-06T18:46:55.417Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "eha438wf3n8phv2bdfqwnbn74z93v99k",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pAAhWlduvcMZJgZpGogKe3KeHdt0oVu_3vvv1TEbS1x67LEmdVZDer0uyWkh9Qd8B3rrWlqdV3mpHdFH7Tra2N5Xg7376BgL986J-_zmEjImYHEmclkCxIEiV1CMGDRhszeBuPYizVAbpjIA4DYkdX7AwZBODg:1tJ0H1:gYgkqSBQxEBIUe15zFJGxJU3pZnDSi04bi213_bFcXw",
+        "expire_date": "2024-12-19T01:03:19.061Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "gmi0xdh0lkhaewjrxgtufs6zv7qfjfmu",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tLrWl:Hej00oRFKoW2aKlFti10dWPN_kdfCiBfbqH3WDAXPvk",
+        "expire_date": "2024-12-26T22:19:23.240Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "gngx9awuqstxo7fmxs3x4omkw38uapp1",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGlm7sePIlPScwfL-SAAlUj4V4u4QKQW0b2bey5W6rX3ZFp3LIO7s0J1-N6r80HEHcq_jbfI8jes8kN8Vf9DFXyfR5-Vw_w76uvTfOjBbUAZrM4oZEXUUE4YUOswtBkhmjQgaJMBoOWalVjQAKNTEjXt_APn1OB8:1tUgwP:bvDaMvXstCk8sjJc2FTRxbTQYjtWDLAAbNIPKQbxf-g",
+        "expire_date": "2025-01-20T06:50:21.443Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "hm62rcemhj4toej4y384z9fgrx2vlc0j",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAoFAaX7j0DGZipVA0kpV0Z765NutDtf-_9l4i4rSVunZc4kzgLI06_W8L84LoDumO9NZlbXZc5yV2RB-3y2oifl8P9OyjYy7f22ZEFjWA1-VENAMiJySpnIAUywWmHNoGFbNU48eA8G--BmRACT-L9AdHYN8g:1tB3Jy:_ZvvYFybhaZSko6Qu1GVfaxmVyEQen6o06sFy-OMoJQ",
+        "expire_date": "2024-11-27T02:41:30.484Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "mbgvj3ejgnmch78w1kvthx5eotemw5u7",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tRwYI:0v8pNP_mHCdaUIR7KbtahYogWAi6sNToy0YzefpRUIY",
+        "expire_date": "2025-01-12T16:54:06.826Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "o0odwg7qvuw929dtx6ooikorqlek9rz1",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tMYyb:XQ-BMFOv40LnWzYvGkLeN-8SZcDmQDIMS0g3EjMGssg",
+        "expire_date": "2024-12-28T20:43:01.670Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "o4xvmb97pjy5ybt4n65p90odn6wul6xf",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tF0te:FXbU2dUHqoUBsG23FTE3sbLPnHAcULMwVXtppxqoknY",
+        "expire_date": "2024-12-08T00:54:42.394Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ol17xtysk2sjswnr7sc6ucsig4ptlyo9",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tFM1c:b0IDp668bgaBYp1YEW_j-B4PIbASVuurrH693YWXU6s",
+        "expire_date": "2024-12-08T23:28:20.352Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "qz15kjat4tcn2l4twgsjy8a8nnzikdzf",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tO5dd:DzJy03FfabUkcI5TRE5Lwr08s-JyrHIOL2CGlCrofzU",
+        "expire_date": "2025-01-02T01:47:41.283Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "s63jt8hy2y5pekeha5kmsanekwmid13f",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tLCWw:bGYmUrAZLC7P3_wP6iePoAvQZkQ3oi2Dw8to1Z-RiRI",
+        "expire_date": "2024-12-25T02:32:50.487Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "t1a2fik71ync97oxgmn2rk3jok88vvbc",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pAAhWlduvcMZJgZpGogKe3KeHdt0oVu_3vvv1TEbS1x67LEmdVZDer0uyWkh9Qd8B3rrWlqdV3mpHdFH7Tra2N5Xg7376BgL986J-_zmEjImYHEmclkCxIEiV1CMGDRhszeBuPYizVAbpjIA4DYkdX7AwZBODg:1tEzuh:aPOQk48B1VxgWjSBizR9I8C0JMf7rsEz3x7qqlu3Mds",
+        "expire_date": "2024-12-07T23:51:43.917Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "uxla0p3zc2p1oexmqu1kq0kyeygsu8vq",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tLCB0:rNis_UFAImlCzuDFz_TDIo5Gi0wUTqmp6YP29W3wHMU",
+        "expire_date": "2024-12-25T02:10:10.563Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "v7ossbar6dxf44iki962xjcphl0rauub",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSFgWT4p0_sMCMMSnERYMnYV5e6xJRdJ-2bmvVmI21rD1mkJU2ZXJtnldxtjelI7QH7Edp95mtu6TCM_FH7Szoc50-t2un8HNfa6194YZVEWMFpTUoi2pCi1005IQVQo5YTaRsTidtEJD9mAV2CBHIJlny-9kTai:1tJ0GJ:91XPf1zUW5EE0M2g5kKAz6sGF-JumQGVgc4cIzbhRK0",
+        "expire_date": "2024-12-19T01:02:35.687Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "y32wn7y1jy7u181dd2tk57w0i2xedaug",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSG3gKR16d5vIPcBUjWQlHZl_Hdp0oVuZ-actwq4rTlsLS5hFnVRZ3X6ZYT8jGUX8sByr5prWZeZ9J7owzZ9qxJf16P9O8jYcl_7IXkCEp4iAw9kJ0M0ArBD45ztCjw7TtSx41FQIHrwyOJtMtapzxcFCDjA:1tJ0H7:c1pEx2F53wY2jATvXS9jlFgeGT3EezBtD4gbhWuDt0Q",
+        "expire_date": "2024-12-19T01:03:25.969Z"
+    }
+},
+{
+    "model": "myapp.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$M4GTSTmaIpDqle7LBpBA1E$JlMF+6iVk0Z7I+QU3jLiBBS6xLOv0TdnrLgI55TuWGA=",
+        "last_login": "2025-01-06T06:50:21.434Z",
+        "is_superuser": true,
+        "username": "Cam",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2024-11-12T03:09:48.701Z",
+        "is_chef": false,
+        "is_cashier": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "myapp.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$jQGwSdNE3VJGRPXJcvZPne$bnxbirPN+8Gm7am1YxI55Er4mL74SPC0nStMyYxilzI=",
+        "last_login": "2025-01-06T05:37:08.673Z",
+        "is_superuser": false,
+        "username": "Chef",
+        "first_name": "Chef",
+        "last_name": "Chef",
+        "email": "chef@chef.cl",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2024-11-14T20:04:20.951Z",
+        "is_chef": true,
+        "is_cashier": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "myapp.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$7EJlLLg66mGvtPjQvV5q5k$VOBIHFCgkasnZsuv96rekTlsPcqws9IZ2Q44ra4Hksk=",
+        "last_login": "2025-01-05T22:54:15.918Z",
+        "is_superuser": false,
+        "username": "Cajero",
+        "first_name": "Cajero",
+        "last_name": "Cajero",
+        "email": "cajero@cajero.cl",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2024-11-14T20:04:41.103Z",
+        "is_chef": false,
+        "is_cashier": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "myapp.producto",
+    "pk": 22,
+    "fields": {
+        "nombre": "Nutella frutilla",
+        "descripcion": " Un clsico lleno de sabor!   Crepe de Nutella y Frutilla   Nutella suave y cremosa.  Frutillas frescas y jugosas.  Todo en un crepe ligero y recin hecho.   Ideal para tus antojos dulces y fotos irresistibles.  Disfrtalo hoy! ",
+        "precio": "5500.00",
+        "disponible": true,
+        "imgProducto": "img/nutellafrutilla.jpg"
+    }
+},
+{
+    "model": "myapp.producto",
+    "pk": 23,
+    "fields": {
+        "nombre": "Nutella plßtano",
+        "descripcion": " La combinacin que nunca falla!   Crepe de Nutella y Pltano   Nutella cremosa y deliciosa.  Rodajas de pltano fresco y dulce.  Todo envuelto en un crepe suave y recin hecho.   Perfecto para un antojo dulce y fotos irresistibles.  Prueba esta delicia hoy! ",
+        "precio": "5000.00",
+        "disponible": true,
+        "imgProducto": "img/nutellaplatano.jpg"
+    }
+},
+{
+    "model": "myapp.producto",
+    "pk": 24,
+    "fields": {
+        "nombre": "manjar plßtano",
+        "descripcion": " Un placer dulce y tropical!   Crepe de Manjar y Pltano   Manjar suave y delicioso.  Rodajas de pltano fresco y dulce.  Todo en un crepe esponjoso y recin hecho.    Perfecto para tus cravings y fotos que enamoran.  Ven a probarlo hoy! ",
+        "precio": "4000.00",
+        "disponible": true,
+        "imgProducto": "img/manjarplatano.jpg"
+    }
+},
+{
+    "model": "myapp.producto",
+    "pk": 31,
+    "fields": {
+        "nombre": "prueba",
+        "descripcion": "wefswef",
+        "precio": "10.00",
+        "disponible": true,
+        "imgProducto": ""
+    }
+},
+{
+    "model": "myapp.ingrediente",
+    "pk": 6,
+    "fields": {
+        "nombre": "Frutilla",
+        "unidad_medida": "kg",
+        "costo_por_unidad": "2262.50",
+        "stock_actual": "31.83",
+        "categoria": "adicional"
+    }
+},
+{
+    "model": "myapp.ingrediente",
+    "pk": 7,
+    "fields": {
+        "nombre": "Platano",
+        "unidad_medida": "kg",
+        "costo_por_unidad": "951.50",
+        "stock_actual": "26.88",
+        "categoria": "adicional"
+    }
+},
+{
+    "model": "myapp.ingrediente",
+    "pk": 8,
+    "fields": {
+        "nombre": "Harina",
+        "unidad_medida": "kg",
+        "costo_por_unidad": "822.03",
+        "stock_actual": "33.00",
+        "categoria": "base"
+    }
+},
+{
+    "model": "myapp.ingrediente",
+    "pk": 9,
+    "fields": {
+        "nombre": "Huevo",
+        "unidad_medida": "unidad",
+        "costo_por_unidad": "240.00",
+        "stock_actual": "21.00",
+        "categoria": "base"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 1,
+    "fields": {
+        "ingrediente": 7,
+        "costo_por_unidad": "1572.87",
+        "fecha": "2025-01-02T08:38:46.952Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 2,
+    "fields": {
+        "ingrediente": 8,
+        "costo_por_unidad": "22.09",
+        "fecha": "2025-01-02T08:39:10.585Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 3,
+    "fields": {
+        "ingrediente": 6,
+        "costo_por_unidad": "1546.67",
+        "fecha": "2025-01-03T06:21:35.589Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 4,
+    "fields": {
+        "ingrediente": 8,
+        "costo_por_unidad": "822.03",
+        "fecha": "2025-01-03T06:23:01.794Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 5,
+    "fields": {
+        "ingrediente": 7,
+        "costo_por_unidad": "951.50",
+        "fecha": "2025-01-03T07:19:04.937Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 6,
+    "fields": {
+        "ingrediente": 9,
+        "costo_por_unidad": "252.63",
+        "fecha": "2025-01-03T07:24:43.036Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 7,
+    "fields": {
+        "ingrediente": 9,
+        "costo_por_unidad": "240.00",
+        "fecha": "2025-01-03T09:01:57.591Z"
+    }
+},
+{
+    "model": "myapp.historialcostoingrediente",
+    "pk": 8,
+    "fields": {
+        "ingrediente": 6,
+        "costo_por_unidad": "2262.50",
+        "fecha": "2025-01-04T19:09:12.942Z"
+    }
+},
+{
+    "model": "myapp.insumo",
+    "pk": 1,
+    "fields": {
+        "nombre": "Insumo GenÚrico",
+        "unidad_medida": "unidad",
+        "stock_actual": "0.00"
+    }
+},
+{
+    "model": "myapp.insumo",
+    "pk": 2,
+    "fields": {
+        "nombre": "escoba",
+        "unidad_medida": "unidad",
+        "stock_actual": "2.00"
+    }
+},
+{
+    "model": "myapp.productoingrediente",
+    "pk": 1,
+    "fields": {
+        "producto": 24,
+        "ingrediente": 7,
+        "cantidad_requerida": "1.00"
+    }
+},
+{
+    "model": "myapp.productoingrediente",
+    "pk": 4,
+    "fields": {
+        "producto": 22,
+        "ingrediente": 6,
+        "cantidad_requerida": "0.17"
+    }
+},
+{
+    "model": "myapp.productoingrediente",
+    "pk": 9,
+    "fields": {
+        "producto": 22,
+        "ingrediente": 7,
+        "cantidad_requerida": "0.12"
+    }
+},
+{
+    "model": "myapp.productoingrediente",
+    "pk": 10,
+    "fields": {
+        "producto": 31,
+        "ingrediente": 7,
+        "cantidad_requerida": "0.10"
+    }
+},
+{
+    "model": "myapp.productoingrediente",
+    "pk": 11,
+    "fields": {
+        "producto": 31,
+        "ingrediente": 9,
+        "cantidad_requerida": "2.00"
+    }
+},
+{
+    "model": "myapp.actividad",
+    "pk": 1,
+    "fields": {
+        "nombre": "Cocinar",
+        "descripcion": "efrg esf s  df vdfv",
+        "costo_total": "10000.00",
+        "unidades_producidas": 3
+    }
+},
+{
+    "model": "myapp.actividad",
+    "pk": 2,
+    "fields": {
+        "nombre": "limpiar",
+        "descripcion": "efsdesdsd",
+        "costo_total": "100.00",
+        "unidades_producidas": 2
+    }
+},
+{
+    "model": "myapp.actividad",
+    "pk": 3,
+    "fields": {
+        "nombre": "barrer",
+        "descripcion": "se barre en un 20 por ciento",
+        "costo_total": "100.00",
+        "unidades_producidas": 4
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 5,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Cliente",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 6,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Cliente",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 7,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Cliente",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 8,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Cliente",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 9,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Francisco",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 10,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Francisco",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 11,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Camilo",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 12,
+    "fields": {
+        "idCajero": 1,
+        "cliente_nombre": "Camilo",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 13,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Juanito",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 14,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Juanito",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 15,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Carlos",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 16,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Carlos",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 17,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Toloo",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 18,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Toloo",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 19,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Francisco",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 20,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Francisco",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 21,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Francisco",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 22,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Juan",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 23,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Juan",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 24,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ccc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 25,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ccc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 26,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 27,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 28,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zzz",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 29,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zzz",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 30,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qqq",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 31,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qqq",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 32,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qqq",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 33,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ww",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 34,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ww",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 35,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ee",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 36,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ee",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 37,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 38,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 39,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 40,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 41,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 42,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ert",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 43,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ert",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 44,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 45,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 46,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "w",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 47,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "w",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 48,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "w",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 49,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "e",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 50,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "e",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 51,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "r",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 52,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "r",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 53,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "r",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 54,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "r",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 55,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "r",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 56,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 57,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 58,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "e",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 59,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "e",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 60,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "e",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 61,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "f",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 62,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 63,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 64,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "gb",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 65,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "gb",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 66,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "adsdd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 67,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "adsdd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 68,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 69,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 70,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 71,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 72,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 73,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qsd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 74,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qsd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 75,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "axzc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 76,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "axzc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 77,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zxc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 78,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zxc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 79,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zzz",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 80,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zzz",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 81,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 82,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 83,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qw",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 84,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qw",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 85,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qw",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 86,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 87,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 88,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwer",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 89,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwer",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 90,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 91,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "q",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 92,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "w",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 93,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "w",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 94,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "w",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 95,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 96,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 97,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zx",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 98,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zx",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 99,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "1",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 100,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "1",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 101,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "2",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 102,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "2",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 103,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "23",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 104,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "23",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 105,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "34",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 106,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "34",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 107,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "11",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 108,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "11",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 109,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "1",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 110,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "1",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 111,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "2",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 112,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "2",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 113,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "3",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 114,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "3",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 115,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "4",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 116,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "4",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 117,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "5",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 118,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "5",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 119,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 120,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 121,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 122,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 123,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 124,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 125,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 126,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 127,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "sdd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 128,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Vivi",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 129,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "x",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 130,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "vfcff",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 131,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "cccc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:17:32.741Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 132,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aa",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:33:04.279Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 133,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "bbb",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:33:13.579Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 134,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "c",
+        "estado": "despachado",
+        "created_at": "2024-12-11T02:33:21.182Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 135,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qwe",
+        "estado": "despachado",
+        "created_at": "2024-12-11T03:39:11.544Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 136,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "sac",
+        "estado": "despachado",
+        "created_at": "2024-12-11T03:41:10.943Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 137,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zxc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T03:41:19.672Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 138,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T03:46:04.810Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 139,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ass",
+        "estado": "despachado",
+        "created_at": "2024-12-11T03:46:12.287Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 140,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ccc",
+        "estado": "despachado",
+        "created_at": "2024-12-11T03:46:23.542Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 141,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aassd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T04:09:48.472Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 142,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "sv",
+        "estado": "despachado",
+        "created_at": "2024-12-11T04:09:55.111Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 143,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zxxxxxxxx",
+        "estado": "despachado",
+        "created_at": "2024-12-11T04:09:59.794Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 144,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "sssddd",
+        "estado": "despachado",
+        "created_at": "2024-12-11T04:12:51.588Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 145,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "a",
+        "estado": "despachado",
+        "created_at": "2024-12-11T04:30:35.647Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 146,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aa",
+        "estado": "despachado",
+        "created_at": "2024-12-12T22:19:29.600Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 147,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "pedero",
+        "estado": "despachado",
+        "created_at": "2024-12-12T22:20:14.061Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 148,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Camilo",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:02:15.977Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 149,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaas",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:08:30.100Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 150,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "prueba",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:20:25.419Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 151,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasdasdsd",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:25:47.213Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 152,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "bgfgfg",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:29:00.446Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 153,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaaasddssd",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:34:20.521Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 154,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ss",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:36:29.418Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 155,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasdzxzxcxcz",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:51:18.349Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 156,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasxxgb",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:54:16.469Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 157,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasww",
+        "estado": "despachado",
+        "created_at": "2024-12-13T00:58:01.521Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 158,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "hg",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:02:07.264Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 159,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qqw",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:02:49.297Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 160,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Cristian",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:13:50.850Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 161,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Christian",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:15:10.035Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 162,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "felipe",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:18:35.858Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 163,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Christian2",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:23:30.154Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 164,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Francisco",
+        "estado": "despachado",
+        "created_at": "2024-12-13T01:59:27.104Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 165,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "fghgfhhjg",
+        "estado": "despachado",
+        "created_at": "2024-12-13T02:05:34.153Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 166,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Daniel",
+        "estado": "despachado",
+        "created_at": "2024-12-13T02:13:04.435Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 167,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aavcbnn",
+        "estado": "despachado",
+        "created_at": "2024-12-13T02:13:38.732Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 168,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asfgnu",
+        "estado": "despachado",
+        "created_at": "2024-12-13T02:58:40.267Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 169,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "uyb",
+        "estado": "despachado",
+        "created_at": "2024-12-13T02:59:37.257Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 170,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "nbv",
+        "estado": "despachado",
+        "created_at": "2024-12-13T03:24:18.945Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 171,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aarbbff",
+        "estado": "despachado",
+        "created_at": "2024-12-13T04:17:42.234Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 172,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaqwwe",
+        "estado": "despachado",
+        "created_at": "2024-12-13T04:29:36.738Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 173,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "bfvdv",
+        "estado": "despachado",
+        "created_at": "2024-12-13T04:56:38.170Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 174,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ewer",
+        "estado": "despachado",
+        "created_at": "2024-12-13T05:00:58.457Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 175,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaasccdr",
+        "estado": "despachado",
+        "created_at": "2024-12-13T05:28:23.924Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 176,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "qqqww",
+        "estado": "despachado",
+        "created_at": "2024-12-13T06:20:54.480Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 177,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasdvvv",
+        "estado": "despachado",
+        "created_at": "2024-12-13T22:51:19.814Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 178,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Maria teresa ",
+        "estado": "despachado",
+        "created_at": "2024-12-14T01:11:52.173Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 179,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "maraaa",
+        "estado": "despachado",
+        "created_at": "2024-12-14T01:15:27.537Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 180,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasd",
+        "estado": "despachado",
+        "created_at": "2024-12-14T01:15:31.604Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 181,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aavvcc",
+        "estado": "despachado",
+        "created_at": "2024-12-14T16:39:41.002Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 182,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "xx",
+        "estado": "despachado",
+        "created_at": "2024-12-14T16:39:47.777Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 183,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "xcvc",
+        "estado": "despachado",
+        "created_at": "2024-12-14T16:39:52.424Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 184,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaazxcxzcxz",
+        "estado": "despachado",
+        "created_at": "2024-12-14T16:42:16.454Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 185,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aw",
+        "estado": "despachado",
+        "created_at": "2024-12-14T19:18:09.217Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 188,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaa",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:21:11.370Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 189,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "bbb",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:21:15.580Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 190,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "ccc",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:21:18.502Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 191,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "bvdr",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:43:05.713Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 192,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "1qsqd",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:43:10.303Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 193,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "anbt",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:43:13.909Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 194,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "xcvcxv",
+        "estado": "despachado",
+        "created_at": "2024-12-14T20:43:19.049Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 195,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "fdfbd",
+        "estado": "despachado",
+        "created_at": "2024-12-14T21:20:20.061Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 196,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "zz",
+        "estado": "despachado",
+        "created_at": "2024-12-17T18:30:58.169Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 197,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aasccc",
+        "estado": "despachado",
+        "created_at": "2024-12-17T18:36:53.722Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 201,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Javier",
+        "estado": "despachado",
+        "created_at": "2024-12-19T00:54:31.185Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 202,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Nestor",
+        "estado": "despachado",
+        "created_at": "2024-12-19T01:48:04.903Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 203,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asda",
+        "estado": "despachado",
+        "created_at": "2024-12-19T20:09:34.804Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 204,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "asfsvgfh",
+        "estado": "despachado",
+        "created_at": "2024-12-19T21:22:15.755Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 205,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "abyi",
+        "estado": "despachado",
+        "created_at": "2024-12-19T22:48:11.395Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 206,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "hmmg",
+        "estado": "despachado",
+        "created_at": "2024-12-19T22:55:02.246Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 207,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "dfbdb",
+        "estado": "despachado",
+        "created_at": "2024-12-20T00:42:05.623Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 208,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "miguel",
+        "estado": "despachado",
+        "created_at": "2024-12-20T03:23:58.922Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 209,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "miguel2",
+        "estado": "despachado",
+        "created_at": "2024-12-20T03:27:55.082Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 210,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Vivi",
+        "estado": "despachado",
+        "created_at": "2024-12-20T07:04:04.217Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 211,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "chrsitian",
+        "estado": "despachado",
+        "created_at": "2024-12-20T21:51:32.453Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 212,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Tuty",
+        "estado": "despachado",
+        "created_at": "2024-12-20T22:20:23.076Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 213,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Nico",
+        "estado": "despachado",
+        "created_at": "2024-12-23T00:13:25.582Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 214,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Nicooo",
+        "estado": "despachado",
+        "created_at": "2024-12-23T00:18:13.551Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 215,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Danii",
+        "estado": "despachado",
+        "created_at": "2024-12-26T17:23:46.878Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 216,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "dsffds",
+        "estado": "despachado",
+        "created_at": "2024-12-29T00:08:06.636Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 217,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Fernando",
+        "estado": "despachado",
+        "created_at": "2024-12-31T19:38:44.696Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 218,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "aaa",
+        "estado": "aceptado",
+        "created_at": "2025-01-05T08:10:35.233Z"
+    }
+},
+{
+    "model": "myapp.pedido",
+    "pk": 219,
+    "fields": {
+        "idCajero": 5,
+        "cliente_nombre": "Miguel",
+        "estado": "despachado",
+        "created_at": "2025-01-05T22:52:46.304Z"
+    }
+},
+{
+    "model": "myapp.detallepedido",
+    "pk": 154,
+    "fields": {
+        "pedido": 217,
+        "producto": 22,
+        "cantidad": 1,
+        "estado": "pendiente",
+        "nota": ""
+    }
+},
+{
+    "model": "myapp.detallepedido",
+    "pk": 155,
+    "fields": {
+        "pedido": 217,
+        "producto": 23,
+        "cantidad": 1,
+        "estado": "pendiente",
+        "nota": ""
+    }
+},
+{
+    "model": "myapp.detallepedido",
+    "pk": 156,
+    "fields": {
+        "pedido": 217,
+        "producto": 24,
+        "cantidad": 1,
+        "estado": "pendiente",
+        "nota": ""
+    }
+},
+{
+    "model": "myapp.detallepedido",
+    "pk": 158,
+    "fields": {
+        "pedido": 218,
+        "producto": 23,
+        "cantidad": 1,
+        "estado": "pendiente",
+        "nota": ""
+    }
+},
+{
+    "model": "myapp.detallepedido",
+    "pk": 159,
+    "fields": {
+        "pedido": 218,
+        "producto": 24,
+        "cantidad": 1,
+        "estado": "pendiente",
+        "nota": ""
+    }
+},
+{
+    "model": "myapp.detallepedido",
+    "pk": 161,
+    "fields": {
+        "pedido": 219,
+        "producto": 22,
+        "cantidad": 1,
+        "estado": "pendiente",
+        "nota": ""
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 1,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T16:57:04.210Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 2,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T18:09:29.209Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 3,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T18:10:54.632Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 4,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T18:33:08.908Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 5,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T18:33:13.325Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 6,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T18:49:12.412Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 7,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T18:57:48.937Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 8,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T19:01:35.240Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 9,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T22:32:52.985Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 10,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T22:48:58.596Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 11,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-28T23:10:57.968Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 12,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-29T00:17:43.936Z",
+        "usuario": 5
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 13,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-29T00:18:47.550Z",
+        "usuario": 5
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 14,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2024-12-29T00:30:03.882Z",
+        "usuario": 5
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 15,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:24:58.122Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 16,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:25:49.607Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 17,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:32:04.591Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 18,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:35:23.065Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 19,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:35:58.318Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 20,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:36:11.881Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 21,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:37:18.102Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 22,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:38:46.941Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 23,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T08:39:10.574Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 24,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-02T19:02:09.535Z",
+        "usuario": 4
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 25,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T06:21:35.578Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 26,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T06:22:06.878Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 27,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T06:23:01.781Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 28,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T07:14:10.832Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 29,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T07:19:04.927Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 30,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T07:24:43.026Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 31,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-03T09:01:57.579Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 32,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-04T19:09:12.932Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 33,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-05T06:23:06.962Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.compra",
+    "pk": 34,
+    "fields": {
+        "proveedor": 1,
+        "fecha": "2025-01-05T06:24:50.415Z",
+        "usuario": null
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 1,
+    "fields": {
+        "compra": 2,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2300.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 2,
+    "fields": {
+        "compra": 3,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2300.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 3,
+    "fields": {
+        "compra": 4,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2300.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 4,
+    "fields": {
+        "compra": 5,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2300.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 5,
+    "fields": {
+        "compra": 6,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2300.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 6,
+    "fields": {
+        "compra": 7,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "34.00",
+        "precio_unitario": "233.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 7,
+    "fields": {
+        "compra": 8,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2300.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 8,
+    "fields": {
+        "compra": 9,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": null,
+        "cantidad": "4.00",
+        "precio_unitario": "6655.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 9,
+    "fields": {
+        "compra": 10,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": null,
+        "cantidad": "2.00",
+        "precio_unitario": "1288.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 10,
+    "fields": {
+        "compra": 11,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": null,
+        "cantidad": "2.00",
+        "precio_unitario": "12212.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 11,
+    "fields": {
+        "compra": 12,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "3.00",
+        "precio_unitario": "2500.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 12,
+    "fields": {
+        "compra": 13,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "servilleta",
+        "cantidad": "2.00",
+        "precio_unitario": "2500.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 13,
+    "fields": {
+        "compra": 14,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "servilleta",
+        "cantidad": "2.00",
+        "precio_unitario": "2500.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 14,
+    "fields": {
+        "compra": 14,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "escoba",
+        "cantidad": "3.00",
+        "precio_unitario": "1500.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 15,
+    "fields": {
+        "compra": 14,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": null,
+        "cantidad": "4.00",
+        "precio_unitario": "3599.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 16,
+    "fields": {
+        "compra": 18,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": "",
+        "cantidad": "2.00",
+        "precio_unitario": "2000.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 17,
+    "fields": {
+        "compra": 19,
+        "tipo": "insumo",
+        "ingrediente": 6,
+        "nombre_insumo": "",
+        "cantidad": "2.00",
+        "precio_unitario": "2000.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 18,
+    "fields": {
+        "compra": 20,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "saf",
+        "cantidad": "2.00",
+        "precio_unitario": "1111.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 19,
+    "fields": {
+        "compra": 21,
+        "tipo": "insumo",
+        "ingrediente": 7,
+        "nombre_insumo": "",
+        "cantidad": "3.00",
+        "precio_unitario": "1111.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 20,
+    "fields": {
+        "compra": 22,
+        "tipo": "insumo",
+        "ingrediente": 7,
+        "nombre_insumo": "",
+        "cantidad": "3.00",
+        "precio_unitario": "1111.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 21,
+    "fields": {
+        "compra": 23,
+        "tipo": "insumo",
+        "ingrediente": 8,
+        "nombre_insumo": "",
+        "cantidad": "1.00",
+        "precio_unitario": "243.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 22,
+    "fields": {
+        "compra": 24,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "servsa",
+        "cantidad": "1.00",
+        "precio_unitario": "222.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 23,
+    "fields": {
+        "compra": 25,
+        "tipo": "ingrediente",
+        "ingrediente": 6,
+        "nombre_insumo": "",
+        "cantidad": "22.00",
+        "precio_unitario": "1200.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 24,
+    "fields": {
+        "compra": 26,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "dsgg",
+        "cantidad": "22.00",
+        "precio_unitario": "1233.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 25,
+    "fields": {
+        "compra": 27,
+        "tipo": "ingrediente",
+        "ingrediente": 8,
+        "nombre_insumo": "",
+        "cantidad": "22.00",
+        "precio_unitario": "1222.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 26,
+    "fields": {
+        "compra": 27,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "zfd",
+        "cantidad": "2.00",
+        "precio_unitario": "122.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 27,
+    "fields": {
+        "compra": 28,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "aa",
+        "cantidad": "22.00",
+        "precio_unitario": "2222.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 28,
+    "fields": {
+        "compra": 29,
+        "tipo": "ingrediente",
+        "ingrediente": 7,
+        "nombre_insumo": "",
+        "cantidad": "12.00",
+        "precio_unitario": "123.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 29,
+    "fields": {
+        "compra": 29,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "aaass",
+        "cantidad": "32.00",
+        "precio_unitario": "123.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 30,
+    "fields": {
+        "compra": 30,
+        "tipo": "ingrediente",
+        "ingrediente": 9,
+        "nombre_insumo": "",
+        "cantidad": "4.00",
+        "precio_unitario": "1200.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 31,
+    "fields": {
+        "compra": 31,
+        "tipo": "ingrediente",
+        "ingrediente": 9,
+        "nombre_insumo": "",
+        "cantidad": "2.00",
+        "precio_unitario": "120.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 32,
+    "fields": {
+        "compra": 32,
+        "tipo": "ingrediente",
+        "ingrediente": 6,
+        "nombre_insumo": "",
+        "cantidad": "2.00",
+        "precio_unitario": "13000.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 33,
+    "fields": {
+        "compra": 33,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "escoba",
+        "cantidad": "2.00",
+        "precio_unitario": "2100.00"
+    }
+},
+{
+    "model": "myapp.detallecompra",
+    "pk": 34,
+    "fields": {
+        "compra": 34,
+        "tipo": "insumo",
+        "ingrediente": null,
+        "nombre_insumo": "escoba",
+        "cantidad": "2.00",
+        "precio_unitario": "2100.00"
+    }
+},
+{
+    "model": "myapp.proveedor",
+    "pk": 1,
+    "fields": {
+        "nombre": "Fruteria el Huerto",
+        "razon_social": null,
+        "rut": null,
+        "actividad": null,
+        "pais": null,
+        "ciudad": null,
+        "correo": null,
+        "contacto": "no hay",
+        "direccion": "gral. Urrutia"
+    }
+},
+{
+    "model": "myapp.proveedor",
+    "pk": 2,
+    "fields": {
+        "nombre": "Embonor Ltda.",
+        "razon_social": null,
+        "rut": null,
+        "actividad": "venta de coca-cola",
+        "pais": "Chile",
+        "ciudad": null,
+        "correo": null,
+        "contacto": null,
+        "direccion": null
+    }
+}
+]

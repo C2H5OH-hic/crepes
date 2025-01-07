@@ -16,7 +16,7 @@
             {% for producto in productos %}
             <div class="producto-card">
                 {% if producto.imgProducto %}
-                    <img src="{% static producto.imgProducto.url %}" alt="Imagen de {{ producto.nombre }}" class="producto-img">
+                    <img src="{{ producto.imgProducto.url }}" alt="Imagen de {{ producto.nombre }}" class="producto-img">
                 {% else %}
                     <img src="{% static 'img/default.jpg' %}" alt="Imagen no disponible" class="producto-img">
                 {% endif %}

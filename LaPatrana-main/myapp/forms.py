@@ -12,14 +12,8 @@ class ProductoForm(forms.ModelForm):
 class IngredienteForm(forms.ModelForm):
     class Meta:
         model = Ingrediente
-        fields = ['nombre', 'unidad_medida', 'costo_por_unidad', 'stock_actual']
-        widgets = {
-            'unidad_medida': forms.Select(choices=[
-                ('kg', 'Kilogramo'),
-                ('litro', 'Litro'),
-                ('unidad', 'Unidad'),
-            ]),
-        }
+        # Excluir el campo 'costo_por_unidad' explícitamente
+        fields = ['nombre', 'unidad_medida', 'stock_actual', 'categoria']
 
 # Formulario para gestionar actividades
 class ActividadForm(forms.ModelForm):
@@ -48,7 +42,9 @@ class CompraForm(forms.ModelForm):
 class IngredienteForm(forms.ModelForm):
     class Meta:
         model = Ingrediente
-        fields = ['nombre', 'unidad_medida', 'costo_por_unidad', 'stock_actual']
+        # Excluir 'costo_por_unidad' porque no es editable
+        fields = ['nombre', 'unidad_medida', 'stock_actual', 'categoria']
+
 
 ProductoIngredienteFormSet = inlineformset_factory(
     Producto,
@@ -57,6 +53,9 @@ ProductoIngredienteFormSet = inlineformset_factory(
     extra=1,  # Número de formularios adicionales iniciales
     can_delete=True  # Permitir eliminar formularios existentes
 )
+
+from django import forms
+from .models import DetalleCompra, Ingrediente
 
 class DetalleCompraForm(forms.ModelForm):
     OPCIONES_TIPO = [
@@ -72,7 +71,7 @@ class DetalleCompraForm(forms.ModelForm):
     )
     nombre_insumo = forms.CharField(
         required=False,
-        label="Insumo",
+        label="Nombre del Insumo",
         widget=forms.TextInput(attrs={'placeholder': 'Escribe el nombre del insumo'})
     )
 
@@ -80,14 +79,21 @@ class DetalleCompraForm(forms.ModelForm):
         model = DetalleCompra
         fields = ['tipo', 'ingrediente', 'nombre_insumo', 'cantidad', 'precio_unitario']
 
+
 class ProveedorForm(forms.ModelForm):
     class Meta:
         model = Proveedor
-        fields = ['nombre', 'contacto', 'direccion']
+        fields = ['nombre', 'razon_social', 'rut', 'actividad', 'pais', 'ciudad', 'correo', 'contacto', 'direccion']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
 DetalleCompraFormSet = modelformset_factory(
     DetalleCompra,
     form=DetalleCompraForm,
-    extra=1,
+    extra=0,  # No generar formularios adicionales vacíos
     can_delete=True
 )
+

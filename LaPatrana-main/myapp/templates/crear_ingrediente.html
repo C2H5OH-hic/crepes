@@ -26,13 +26,17 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="costo_por_unidad" class="form-label">Costo por Unidad (en CLP)</label>
-                    <input type="number" name="costo_por_unidad" id="costo_por_unidad" class="form-control" placeholder="Ej.: 1000 (por kg, litro, etc.)" step="0.01" required>
+                    <label for="stock_actual" class="form-label">Stock Actual</label>
+                    <input type="number" name="stock_actual" id="stock_actual" class="form-control" placeholder="Ej.: 10 (en la unidad seleccionada)" step="0.01" required>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="stock_actual" class="form-label">Stock Actual</label>
-                <input type="number" name="stock_actual" id="stock_actual" class="form-control" placeholder="Ej.: 10 (en la unidad seleccionada)" step="0.01" required>
+                <label for="categoria" class="form-label">Categoría</label>
+                <select name="categoria" id="categoria" class="form-select" required>
+                    <option value="">Seleccione una categoría</option>
+                    <option value="base">Base</option>
+                    <option value="adicional">Adicional</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-success mt-3">Guardar Ingrediente</button>
         </form>

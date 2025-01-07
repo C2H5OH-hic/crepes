@@ -1,47 +1,66 @@
+/* Configuración básica del cuerpo */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Back to Black Bold Demo", cursive;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f1b05eff;
+    color: #905234ff;
 }
 
+/* Estilo del encabezado */
 header {
-    background-color: #343a40;
-    color: #ffffff;
     text-align: center;
-    padding: 10px 0;
+    padding: 20px 0;
+    background-color: #905234ff;
+    color: #ffffffff;
 }
 
-h1 {
+header h1 {
+    font-size: 2rem;
     margin: 0;
 }
 
+/* Contenedor de productos */
 .productos-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 20px;
+    justify-content: center;
     padding: 20px;
 }
 
+/* Estilo de las tarjetas */
 .producto-card {
-    background: #ffffff;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
     padding: 15px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .producto-card:hover {
     transform: scale(1.05);
+    background-color: #db8918ff;
+    color: #ffffffff;
 }
 
+/* Imagen de los productos */
 .producto-img {
-    width: 100%;
-    height: 200px;
+    max-width: 100%;
+    max-height: 200px;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 10px;
+}
+
+/* Estilos para el contenido */
+h2 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+p {
+    font-size: 1rem;
 }

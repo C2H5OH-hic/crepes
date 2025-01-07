@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Inicio</title>
+
+    <!-- Cargar la fuente externamente -->
+    <link 
+      href="https://db.onlinewebfonts.com/c/6f6eb705e52040bf4ffeafdbd28877f0?family=Back+to+Black+Bold+Demo" 
+      rel="stylesheet" 
+      type="text/css"
+    />
+
+    <!-- Tu propio archivo CSS -->
     <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
 </head>
 <body>
@@ -31,7 +40,7 @@
         <p>&copy; 2025 Suralimento SpA. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Variables globales para URLs -->
+    <!-- Variables globales para URLs (Django) -->
     <script>
         const productosUrl = "{% url 'lista_productos_publicos' %}";
         const loginUrl = "{% url 'signin' %}";

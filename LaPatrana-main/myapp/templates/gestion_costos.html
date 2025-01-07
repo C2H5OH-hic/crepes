@@ -1,26 +1,80 @@
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Costo Unitario</th>
-            <th>Precio de Venta</th>
-            <th>Margen</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for resultado in resultados %}
-        <tr>
-            <td>{{ resultado.producto.nombre }}</td>
-            <td>${{ resultado.costo_unitario }}</td>
-            <td>${{ resultado.producto.precio }}</td>
-            <td>
-                {% if resultado.margen > 0 %}
-                <span class="text-success">${{ resultado.margen }}</span>
-                {% else %}
-                <span class="text-danger">${{ resultado.margen }}</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Costos</title>
+    <link rel="stylesheet" href="{% static 'css/gestion_costos.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Gestión de Costos</h1>
+
+        <!-- Botón para volver -->
+        <div class="text-start mb-3">
+            <a href="{% url 'gestion' %}" class="btn btn-secondary">&larr; Volver</a>
+        </div>
+
+        <!-- Notificaciones de márgenes bajos -->
+        <div class="mt-4">
+            <h3>Notificaciones</h3>
+            <ul id="notificaciones-margenes" class="list-group">
+                <!-- Notificaciones se cargarán dinámicamente -->
+            </ul>
+        </div>
+
+        <!-- Tabla de costos actuales -->
+        <div class="mt-4">
+            <h3>Costos Actuales</h3>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Costo Unitario</th>
+                        <th>Precio de Venta</th>
+                        <th>Margen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resultado in resultados %}
+                    <tr>
+                        <td>{{ resultado.producto.nombre }}</td>
+                        <td>${{ resultado.costo_unitario }}</td>
+                        <td>${{ resultado.producto.precio }}</td>
+                        <td>
+                            {% if resultado.margen > 0 %}
+                            <span class="text-success">${{ resultado.margen }}</span>
+                            {% else %}
+                            <span class="text-danger">${{ resultado.margen }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botón para volver (al final también) -->
+        <div class="text-start mt-3">
+            <a href="{% url 'gestion' %}" class="btn btn-secondary">&larr; Volver</a>
+        </div>
+    </div>
+
+    <script>
+    fetch('/notificaciones-margenes/')
+      .then(response => response.json())
+      .then(data => {
+          const listaNotificaciones = document.getElementById('notificaciones-margenes');
+          listaNotificaciones.innerHTML = ''; // Limpiar lista
+          data.notificaciones.forEach(msg => {
+              const li = document.createElement('li');
+              li.className = 'list-group-item text-danger';
+              li.textContent = msg;
+              listaNotificaciones.appendChild(li);
+          });
+      });
+    </script>
+</body>
+</html>

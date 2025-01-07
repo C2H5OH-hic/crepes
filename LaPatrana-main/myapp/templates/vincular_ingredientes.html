@@ -10,15 +10,25 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">Vincular Ingredientes al Producto</h1>
         <h3 class="text-secondary">Producto: {{ producto.nombre }}</h3>
+
+        <!-- Mostrar mensajes de feedback específicos -->
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                {% if "vincular_ingredientes" in message.tags %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
         
         <!-- Formulario para Agregar Ingredientes -->
-        <form method="POST" action="{% url 'agregar_ingrediente' producto.idProducto %}">
+        <form method="POST" action="{% url 'vincular_ingredientes' producto_id=producto.idProducto %}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-6">
                     <label for="ingrediente" class="form-label">Ingrediente</label>
                     <select name="ingrediente_id" id="ingrediente" class="form-select" required>
-                        <option value="">Seleccione un Ingrediente</option>
                         {% for ingrediente in ingredientes_disponibles %}
                         <option value="{{ ingrediente.id }}">{{ ingrediente.nombre }}</option>
                         {% endfor %}

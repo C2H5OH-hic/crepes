@@ -1,8 +1,8 @@
 /* inicio.css */
 
-/* Estilos generales */
+/* 1) Aplica la fuente cargada externamente a todo el body (o a los elementos que quieras) */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Back to Black Bold Demo", cursive;
     margin: 0;
     padding: 0;
     background-color: #f1b05eff;
@@ -106,6 +106,7 @@ body {
     z-index: 2;
 }
 
+/* Ajusta la tipografía de tus textos en la sección hero */
 .hero h1 {
     font-size: 48px;
     font-style: italic;

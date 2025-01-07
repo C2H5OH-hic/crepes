@@ -1,4 +1,4 @@
-{% load custom_filters %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,151 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Compra</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
     <style>
-        /* Estilo específico para optimización móvil */
-        .card {
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            font-size: 1.2rem;
-            padding: 0.8rem;
-        }
-        .card-body {
-            padding: 1rem;
-        }
-        .form-select, .form-control {
-            font-size: 1.2rem;
-        }
-        .form-actions {
-            margin-top: 1.5rem;
-        }
-        .btn {
-            font-size: 1.1rem;
-            padding: 0.8rem;
-        }
-        .delete-btn {
-            color: red;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: underline;
-        }
+        body { background-color: #f8f9fa; }
+        .container { max-width: 900px; }
+        .card { margin-bottom: 20px; }
+        .table thead { background-color: #e9ecef; }
+        .table td, .table th { vertical-align: middle; text-align: center; }
+        .total-row { font-weight: bold; background-color: #f1f1f1; }
+        .btn-primary { margin-left: 15px; } /* Espaciado adicional para el botón */
     </style>
 </head>
 <body>
-    <div class="container mt-3">
+    <div class="container mt-4">
         <h1 class="text-center mb-4">Registrar Compra</h1>
+
         <form method="POST">
             {% csrf_token %}
-            <div class="mb-4">
-                <h3>Información de la Compra</h3>
-                {{ form.as_p }}
-            </div>
-            <h3>Detalles de la Compra</h3>
             {{ formset.management_form }}
-            <div id="detalles-container">
-                {% for form in formset %}
-                <div class="card detalle-form">
-                    <div class="card-header">
-                        Registro {{ forloop.counter }}
-                    </div>
-                    <div class="card-body">
-                        <!-- Selección entre Ingrediente o Insumo -->
-                        <div class="mb-3">
-                            <label for="tipo-{{ forloop.counter0 }}" class="form-label">Seleccionar Tipo</label>
-                            <select class="form-select tipo-select" name="tipo-{{ forloop.counter0 }}">
-                                <option value="ingrediente" {% if form.tipo.value == "ingrediente" %}selected{% endif %}>Ingrediente</option>
-                                <option value="insumo" {% if form.tipo.value == "insumo" %}selected{% endif %}>Insumo</option>
-                            </select>
-                        </div>
-                        <!-- Campo dinámico para Ingrediente -->
-                        <div class="mb-3 ingrediente-field" style="display: none;">
-                            <label for="ingrediente-{{ forloop.counter0 }}" class="form-label">Ingrediente</label>
-                            {{ form.ingrediente|add_class:"form-select" }}
-                        </div>
-                        <!-- Campo dinámico para Insumo -->
-                        <div class="mb-3 insumo-field" style="display: none;">
-                            <label for="insumo-{{ forloop.counter0 }}" class="form-label">Insumo</label>
-                            {{ form.nombre_insumo|add_class:"form-control" }}
-                        </div>
-                        <!-- Cantidad -->
-                        <div class="mb-3">
-                            <label for="cantidad-{{ forloop.counter0 }}" class="form-label">Cantidad</label>
-                            {{ form.cantidad|add_class:"form-control" }}
-                        </div>
-                        <!-- Precio Unitario -->
-                        <div class="mb-3">
-                            <label for="precio-unitario-{{ forloop.counter0 }}" class="form-label">Precio Unitario</label>
-                            {{ form.precio_unitario|add_class:"form-control" }}
-                        </div>
-                        <!-- Botón para eliminar -->
-                        <div class="text-end">
-                            <span class="delete-btn" data-delete="{{ forloop.counter0 }}">Eliminar</span>
-                        </div>
+
+            <!-- Información General -->
+            <div class="card">
+                <div class="card-header">
+                    <strong>Información General</strong>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        {{ form.as_p }}
+                        <a href="{% url 'registrar_proveedor' %}" class="btn btn-primary">Registrar Nuevo Proveedor</a>
                     </div>
                 </div>
-                {% endfor %}
             </div>
-            <!-- Botón para agregar más registros -->
-            <div class="form-actions">
-                <button type="button" class="btn btn-primary mb-3" id="add-row-btn">Agregar Más</button>
+
+            <!-- Detalles de la Compra -->
+            <div class="card">
+                <div class="card-header">
+                    <strong>Detalles de la Compra</strong>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalles-container">
+                            <!-- Las filas dinámicas se agregarán aquí -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-end"><strong>Costo Total:</strong></td>
+                                <td id="costo-total">$0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detalleModal">Agregar Detalle</button>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-between">
+                <a href="{% url volver_url %}" class="btn btn-secondary">Volver</a>
                 <button type="submit" class="btn btn-success">Guardar Compra</button>
             </div>
         </form>
-        <a href="{% url 'gestion' %}" class="btn btn-secondary mt-3">Volver a Gestión</a>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
-
-            // Escuchar cambios en los tipos seleccionados
-            document.querySelectorAll('.tipo-select').forEach(select => {
-                actualizarCampos(select);
-                select.addEventListener('change', e => actualizarCampos(e.target));
-            });
-
-            // Botón para agregar más registros
-            const addRowBtn = document.getElementById('add-row-btn');
-            addRowBtn.addEventListener('click', () => {
-                const container = document.getElementById('detalles-container');
-                const currentFormsCount = parseInt(totalFormsInput.value);
-
-                // Clonar la última fila
-                const lastForm = container.lastElementChild;
-                const newForm = lastForm.cloneNode(true);
-
-                // Actualizar índices y valores
-                const newFormIndex = currentFormsCount;
-                newForm.querySelectorAll('input, select, label').forEach(input => {
-                    if (input.name) input.name = input.name.replace(/-\d+-/, `-${newFormIndex}-`);
-                    if (input.id) input.id = input.id.replace(/-\d+-/, `-${newFormIndex}-`);
-                    if (input.type !== 'radio') input.value = '';
-                });
-
-                // Actualizar encabezado dinámico
-                newForm.querySelector('.card-header').textContent = `Registro ${newFormIndex + 1}`;
-
-                // Incrementar el contador de formularios
-                totalFormsInput.value = currentFormsCount + 1;
-
-                // Añadir la nueva fila
-                container.appendChild(newForm);
-            });
-
-            // Función para actualizar campos según el tipo seleccionado
-            function actualizarCampos(select) {
-                const card = select.closest('.card');
-                const tipo = select.value;
-
-                card.querySelector('.ingrediente-field').style.display = tipo === 'ingrediente' ? 'block' : 'none';
-                card.querySelector('.insumo-field').style.display = tipo === 'insumo' ? 'block' : 'none';
-            }
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

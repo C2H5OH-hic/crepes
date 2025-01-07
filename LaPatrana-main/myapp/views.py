@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import IntegrityError
 from django.http import JsonResponse, HttpResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core import serializers
@@ -7,7 +9,7 @@ from django.conf import settings
 from .forms import ProductoForm, ProductoActividadForm, ActividadForm, ProductoIngredienteFormSet, IngredienteForm, CompraForm, DetalleCompraFormSet, ProveedorForm
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import Table, TableStyle
+from reportlab.platypus import Table, TableStyle, Image
 from reportlab.lib import colors
 from datetime import datetime, date
 from .models import User, Producto, Pedido, DetallePedido, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente, Insumo, Proveedor, Compra, DetalleCompra
@@ -59,9 +61,11 @@ def administrador(request):
     """
     Vista principal para administradores.
     """
+    if not request.user.is_superuser:
+        return redirect('inicio')  # Redirige a la plantilla de inicio si no es administrador
+
     users = User.objects.all()
     return render(request, 'administrador.html', {'users': users})
-
 
 @login_required
 def createUser(request):
@@ -95,14 +99,15 @@ def createUser(request):
 @login_required
 def deleteUser(request, user_id):
     """
-    Elimina un usuario por su ID.
+    Elimina un usuario por su ID y redirige a la lista de usuarios.
     """
     try:
         user = get_object_or_404(User, id=user_id)
         user.delete()
-        return JsonResponse({'success': True, 'message': 'Usuario eliminado correctamente.'})
+        return redirect('showUsers')  # Redirige a la página de lista de usuarios
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        # En caso de error, puedes redirigir a una página de error o mostrar un mensaje.
+        return render(request, 'error.html', {'message': str(e)})
 
 @login_required
 def showUsers(request):
@@ -134,24 +139,28 @@ def listUsers(request):
         ]
         return JsonResponse({'users': data}, safe=False)
 
-
 @login_required
 def actualizarDatosUsuario(request, user_id):
     """
-    Actualiza la información del usuario.
+    Actualiza la información de un usuario.
     """
-    if request.method == 'POST':
-        user = get_object_or_404(User, id=user_id)
-        data = request.POST
-        user.email = data.get('email', user.email)
-        user.first_name = data.get('first_name', user.first_name)
-        user.last_name = data.get('last_name', user.last_name)
-        user.username = data.get('username', user.username)
-        user.is_active = data.get('is_active', user.is_active)
-        user.save()
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
+    user = get_object_or_404(User, id=user_id)
 
+    if request.method == 'POST':
+        # Procesar el formulario
+        user.email = request.POST.get('email', user.email)
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.username = request.POST.get('username', user.username)
+        user.is_cashier = request.POST.get('Tipo') == 'Cajero'
+        user.is_chef = request.POST.get('Tipo') == 'Chef'
+        user.save()
+
+        messages.success(request, 'Usuario actualizado correctamente.')
+        return redirect('showUsers')  # Redirige a la lista de usuarios
+
+    # Renderizar el formulario con los datos actuales del usuario
+    return render(request, 'updateUser.html', {'user': user})
 
 @login_required
 def chef(request):
@@ -314,13 +323,14 @@ def deleteProduct(request, product_id):
     """
     Elimina un producto por su ID.
     """
-    try:
-        producto = get_object_or_404(Producto, idProducto=product_id)
-        producto.delete()  # Elimina el producto
-        return redirect('eliminarProductos')  # Redirige de nuevo a la lista
-    except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=400)
-
+    if request.method == 'POST':
+        try:
+            producto = get_object_or_404(Producto, idProducto=product_id)
+            producto.delete()
+            return JsonResponse({'success': True}, status=200)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
 
 @login_required
 def cambiar_estado_pedido(request, pedido_id):
@@ -359,14 +369,19 @@ def listProductos(request):
         ]
         return JsonResponse({'productos': data}, safe=False)
 
+
 @login_required
 def generar_caja_diaria(request):
     fecha_actual = date.today()
     pedidos = Pedido.objects.filter(created_at__date=fecha_actual, estado='despachado')
+    compras = Compra.objects.prefetch_related('detalles').filter(fecha__date=fecha_actual)
 
     total_caja = 0
     detalles_pedidos = []
+    total_compras = 0
+    detalles_compras = []
 
+    # Procesar pedidos
     for pedido in pedidos:
         productos = DetallePedido.objects.filter(pedido=pedido)
         total_pedido = sum(detalle.cantidad * detalle.producto.precio for detalle in productos)
@@ -383,46 +398,89 @@ def generar_caja_diaria(request):
             'total_pedido': total_pedido
         })
 
+    # Procesar compras
+    for compra in compras:
+        total_compra = sum(detalle.cantidad * detalle.precio_unitario for detalle in compra.detalles.all())
+        total_compras += total_compra
+
+        detalles = [
+            f"{detalle.nombre_insumo if detalle.nombre_insumo else detalle.ingrediente.nombre} - {detalle.cantidad} x ${detalle.precio_unitario:.2f}"
+            for detalle in compra.detalles.all()
+        ]
+
+        detalles_compras.append({
+            'id': compra.id,
+            'proveedor': compra.proveedor.nombre,
+            'fecha': compra.fecha.strftime('%H:%M:%S'),
+            'detalles': detalles,
+            'total_compra': total_compra
+        })
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="caja_diaria_{fecha_actual}.pdf"'
 
     pdf = canvas.Canvas(response, pagesize=letter)
-    pdf.setTitle(f"Caja Diaria - {fecha_actual}")
-
     ancho, alto = letter
     y = alto - 50
-    pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(200, y, f"Caja Diaria - {fecha_actual}")
-    y -= 30
 
+    # Encabezado con logo y título
+    logo_path = Path(settings.BASE_DIR).resolve() / 'myapp' / 'static' / 'img' / 'logocrepes.jpg'
+    if logo_path.exists():
+        pdf.drawImage(str(logo_path), 50, alto - 100, width=100, height=50)
+    pdf.setFont("Helvetica-Bold", 18)
+    pdf.drawString(200, alto - 70, "Reporte Diario - Caja")
+    pdf.line(50, alto - 120, ancho - 50, alto - 120)
+    y = alto - 130
+
+    # Totales generales
     pdf.setFont("Helvetica", 12)
-    pdf.drawString(50, y, f"Total de la Caja: ${total_caja:.2f}")
-    y -= 40
+    pdf.drawString(50, y, f"Total de Ingresos: ${total_caja:.2f}")
+    pdf.drawString(50, y - 20, f"Total de Compras: ${total_compras:.2f}")
+    pdf.drawString(50, y - 40, f"Balance Neto: ${total_caja - total_compras:.2f}")
+    pdf.line(50, y - 50, ancho - 50, y - 50)
+    y -= 70
 
-    # Configurar tabla
-    data = [["ID Pedido", "Cliente", "Hora", "Productos", "Total"]]
-    for detalle in detalles_pedidos:
-        data.append([
+    # Tablas
+    data_pedidos = [["ID Pedido", "Cliente", "Hora", "Productos", "Total"]] + [
+        [detalle['id'], detalle['cliente'], detalle['hora'], "\n".join(detalle['productos']), f"${detalle['total_pedido']:.2f}"]
+        for detalle in detalles_pedidos
+    ]
+    data_compras = [["ID Compra", "Proveedor", "Hora", "Detalles", "Total"]] + [
+        [
             detalle['id'],
-            detalle['cliente'],
-            detalle['hora'],
-            "\n".join(detalle['productos']),
-            f"${detalle['total_pedido']:.2f}"
-        ])
+            detalle['proveedor'],
+            detalle['fecha'],
+            "\n".join(detalle['detalles']),
+            f"${detalle['total_compra']:.2f}"
+        ]
+        for detalle in detalles_compras
+    ]
 
-    table = Table(data, colWidths=[50, 100, 80, 250, 70])
-    table.setStyle(TableStyle([
+    # Dibujar tablas
+    table_pedidos = Table(data_pedidos, colWidths=[50, 100, 80, 250, 70])
+    table_pedidos.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
     ]))
+    table_pedidos.wrapOn(pdf, 50, y - len(data_pedidos) * 20)
+    table_pedidos.drawOn(pdf, 50, y - len(data_pedidos) * 20)
 
-    table.wrapOn(pdf, 50, y - len(data) * 20)
-    table.drawOn(pdf, 50, y - len(data) * 20)
+    y -= len(data_pedidos) * 20 + 40
+    table_compras = Table(data_compras, colWidths=[50, 100, 80, 250, 70])
+    table_compras.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+    table_compras.wrapOn(pdf, 50, y - len(data_compras) * 20)
+    table_compras.drawOn(pdf, 50, y - len(data_compras) * 20)
 
     pdf.save()
     return response
@@ -491,9 +549,10 @@ def pedidos_chef_ajax(request):
 @login_required
 def productos(request):
     """
-    Vista general para la gestión de productos. Muestra la pantalla de opciones.
+    Vista para listar productos con opciones de crear y eliminar.
     """
-    return render(request, 'productos.html')  # Renderiza la pantalla de opciones
+    productos = Producto.objects.all()  # Recupera todos los productos
+    return render(request, 'productos.html', {'productos': productos})
 
 def pedidos_publicos_view(request):
     """
@@ -551,24 +610,23 @@ def recomendaciones_view(request):
 
     return render(request, 'recomendaciones.html', {'recomendaciones': recomendaciones})
 
-
 @login_required
 def costos_unitarios(request):
+    """
+    Vista para mostrar los costos unitarios de los productos.
+    """
     productos = Producto.objects.all()
-    resultados = []
-
-    for producto in productos:
-        costo_unitario = producto.calcular_costo_unitario()
-        margen = producto.margen_beneficio()
-        resultados.append({
+    resultados = [
+        {
             'nombre': producto.nombre,
-            'costo_unitario': costo_unitario,
+            'costo_unitario': producto.calcular_costo_unitario(),
             'precio': producto.precio,
-            'margen': margen,
-        })
+            'margen': producto.margen_beneficio(),
+        }
+        for producto in productos
+    ]
 
     return render(request, 'costos_unitarios.html', {'resultados': resultados})
-
 
 # ---------------------------------------------
 # ACTIVIDADES
@@ -616,9 +674,21 @@ def asignar_actividad(request, actividad_id):
 
 @login_required
 def lista_ingredientes(request):
+    productos = Producto.objects.all()
     ingredientes = Ingrediente.objects.all()
-    return render(request, 'lista_ingredientes.html', {'ingredientes': ingredientes})
+    producto_id = request.GET.get('producto_id')  # Extraer producto_id de los parámetros GET
 
+    if producto_id:
+        try:
+            producto_id = int(producto_id)  # Asegurar que sea un entero válido
+        except ValueError:
+            producto_id = None
+
+    return render(request, 'lista_ingredientes.html', {
+        'productos': productos,
+        'ingredientes': ingredientes,
+        'producto_id': producto_id,
+    })
 
 @login_required
 def crear_ingrediente(request):
@@ -636,15 +706,37 @@ def crear_ingrediente(request):
 
     return render(request, 'crear_ingrediente.html', {'form': form, 'producto_id': producto_id})
 
+from django.contrib import messages
+from django.db import IntegrityError
 
 @login_required
 def vincular_ingredientes(request, producto_id):
     producto = get_object_or_404(Producto, idProducto=producto_id)
     ingredientes_disponibles = Ingrediente.objects.exclude(productoingrediente__producto=producto)
 
+    if request.method == 'POST':
+        ingrediente_id = request.POST.get('ingrediente_id')
+        cantidad = request.POST.get('cantidad_requerida')
+
+        if ingrediente_id and cantidad:
+            ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
+            try:
+                ProductoIngrediente.objects.create(
+                    producto=producto,
+                    ingrediente=ingrediente,
+                    cantidad_requerida=cantidad
+                )
+                # Mensaje de éxito con etiqueta
+                messages.success(request, f"Ingrediente '{ingrediente.nombre}' vinculado con éxito.", extra_tags="vincular_ingredientes")
+            except IntegrityError:
+                messages.error(request, f"El ingrediente '{ingrediente.nombre}' ya está vinculado.", extra_tags="vincular_ingredientes")
+        else:
+            # Mensaje de error con etiqueta
+            messages.error(request, "Debes seleccionar un ingrediente y una cantidad válida.", extra_tags="vincular_ingredientes")
+
     return render(request, 'vincular_ingredientes.html', {
         'producto': producto,
-        'ingredientes_disponibles': ingredientes_disponibles
+        'ingredientes_disponibles': ingredientes_disponibles,
     })
 
 
@@ -657,15 +749,26 @@ def agregar_ingrediente(request, producto_id):
         cantidad_requerida = request.POST.get('cantidad_requerida')
 
         if ingrediente_id and cantidad_requerida:
-            ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
-            ProductoIngrediente.objects.create(
-                producto=producto,
-                ingrediente=ingrediente,
-                cantidad_requerida=cantidad_requerida
-            )
+            try:
+                cantidad_requerida = float(cantidad_requerida)
+                ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
+
+                # Intentar crear la relación
+                ProductoIngrediente.objects.create(
+                    producto=producto,
+                    ingrediente=ingrediente,
+                    cantidad_requerida=cantidad_requerida
+                )
+                messages.success(request, f"Ingrediente '{ingrediente.nombre}' agregado correctamente.")
+            except IntegrityError:
+                messages.warning(request, f"El ingrediente '{ingrediente.nombre}' ya está vinculado al producto.")
+            except ValueError:
+                messages.error(request, "La cantidad requerida debe ser un número válido.")
+        else:
+            messages.error(request, "Faltan datos para agregar el ingrediente.")
 
     return redirect('vincular_ingredientes', producto_id=producto.idProducto)
-
+    
 @login_required
 def eliminar_ingrediente(request, producto_id, ingrediente_id):
     """
@@ -715,40 +818,48 @@ def gestion_costos(request):
 
 @login_required
 def registrar_compra(request):
-    """
-    Vista para registrar una compra con opción de ingredientes o insumos.
-    """
     if request.method == 'POST':
+        print("Datos POST recibidos:", request.POST)  # Depuración
+
         form = CompraForm(request.POST)
-        formset = DetalleCompraFormSet(request.POST)
+        formset = DetalleCompraFormSet(request.POST, queryset=DetalleCompra.objects.none())
 
         if form.is_valid() and formset.is_valid():
-            compra = form.save(commit=False)
-            compra.usuario = request.user
-            compra.save()
-            formset.instance = compra
+            compra = form.save()
+            print("Compra registrada:", compra)  # Depuración
 
-            for detalle_form in formset.cleaned_data:
-                tipo = detalle_form.get('tipo')
-                ingrediente = detalle_form.get('ingrediente') if tipo == 'ingrediente' else None
-                nombre_insumo = detalle_form.get('nombre_insumo') if tipo == 'insumo' else None
-                cantidad = detalle_form.get('cantidad')
-                precio_unitario = detalle_form.get('precio_unitario')
+            detalles = formset.save(commit=False)
+            for detalle in detalles:
+                detalle.compra = compra
+                detalle.save()
+                print("Detalle registrado:", detalle)  # Depuración
 
-                DetalleCompra.objects.create(
-                    compra=compra,
-                    ingrediente=ingrediente,
-                    nombre_insumo=nombre_insumo,
-                    cantidad=cantidad,
-                    precio_unitario=precio_unitario
-                )
+            messages.success(request, "Compra registrada con éxito.")
             return redirect('lista_compras')
+        else:
+            print("Errores en el formulario principal:", form.errors)
+            print("Errores en el formset:", formset.errors)
 
+        messages.error(request, "Por favor, corrija los errores en el formulario.")
     else:
         form = CompraForm()
         formset = DetalleCompraFormSet(queryset=DetalleCompra.objects.none())
 
-    return render(request, 'registrar_compra.html', {'form': form, 'formset': formset})
+    # Determinar la URL de retorno según el tipo de usuario
+    if request.user.is_chef:
+        volver_url = 'chef'
+    elif request.user.is_cashier:
+        volver_url = 'tomarPedido'
+    else:
+        volver_url = 'administrador'  # Caso por defecto
+
+    ingredientes = Ingrediente.objects.all()
+    return render(request, 'registrar_compra.html', {
+        'form': form,
+        'formset': formset,
+        'ingredientes': ingredientes,
+        'volver_url': volver_url,  # Pasar al contexto
+    })
 
 
 @login_required
@@ -758,7 +869,6 @@ def lista_proveedores(request):
     """
     proveedores = Proveedor.objects.all()
     return render(request, 'lista_proveedores.html', {'proveedores': proveedores})
-
 
 @login_required
 def registrar_proveedor(request):
@@ -816,3 +926,80 @@ def analisis_costos_unitarios(request):
     analisis = [producto.analizar_costos() for producto in productos]
 
     return render(request, 'analisis_costos.html', {'analisis': analisis})
+
+#Gestión productos
+@login_required
+def gestion_productos(request):
+    productos = Producto.objects.all()
+    return render(request, 'gestion_productos.html', {'productos': productos})
+
+@login_required
+def detalle_producto(request, idProducto):
+    producto = get_object_or_404(Producto, idProducto=idProducto)
+    return render(request, 'detalle_producto.html', {'producto': producto})
+
+@login_required
+def seleccionar_producto(request):
+    productos = Producto.objects.all()
+    return render(request, 'seleccionar_producto.html', {'productos': productos})
+
+@login_required
+def notificaciones_margenes(request):
+    productos = Producto.objects.all()
+    margen_umbral = 500  # Define el margen mínimo
+    notificaciones = [
+        f"El margen de {producto.nombre} es muy bajo: ${producto.margen_beneficio():.2f}"
+        for producto in productos if producto.margen_beneficio() < margen_umbral
+    ]
+    return JsonResponse({"notificaciones": notificaciones})
+
+@login_required
+def graficos_costos_ingredientes(request):
+    ingredientes = Ingrediente.objects.prefetch_related('historial_costos').all()
+    data = {
+        "ingredientes": [
+            {
+                "nombre": ingrediente.nombre,
+                "fechas": [historial['fecha'] for historial in ingrediente.historial_costos.values("fecha", "costo_por_unidad")],
+                "costos": [float(historial['costo_por_unidad']) for historial in ingrediente.historial_costos.values("fecha", "costo_por_unidad")],
+            }
+            for ingrediente in ingredientes if ingrediente.historial_costos.exists()
+        ]
+    }
+    return JsonResponse(data)
+
+
+
+def actualizar_costo(self, cantidad_comprada, precio_unitario):
+    nuevo_stock = self.stock_actual + cantidad_comprada
+    if nuevo_stock > 0:
+        nuevo_costo = ((self.stock_actual * self.costo_por_unidad) + 
+                       (cantidad_comprada * precio_unitario)) / nuevo_stock
+    else:
+        nuevo_costo = 0
+    self.costo_por_unidad = nuevo_costo
+    self.stock_actual = nuevo_stock
+    self.save()
+
+    # Registra el historial del costo
+    HistorialCostoIngrediente.objects.create(
+        ingrediente=self,
+        costo_por_unidad=nuevo_costo
+    )
+
+@login_required
+def obtener_ingredientes(request):
+    """
+    Devuelve los ingredientes registrados en formato JSON.
+    """
+    ingredientes = Ingrediente.objects.all().values('id', 'nombre', 'categoria')
+    return JsonResponse(list(ingredientes), safe=False)
+
+@login_required
+def lista_inventario(request):
+    ingredientes = Ingrediente.objects.all()
+    insumos = Insumo.objects.all()
+    return render(request, 'lista_inventario.html', {
+        'ingredientes': ingredientes,
+        'insumos': insumos
+    })

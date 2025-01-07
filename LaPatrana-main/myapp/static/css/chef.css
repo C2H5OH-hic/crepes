@@ -115,3 +115,19 @@ header h1 {
     background-color: #c44410ff;
     transform: scale(1.1);
 }
+
+/* Botón de compras */
+.btn-compras {
+    background-color: #e8c216ff;
+    color: #333333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Para separar visualmente del botón de cerrar sesión */
+}
+
+.btn-compras:hover {
+    background-color: #db8918ff;
+}
