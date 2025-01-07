@@ -1,0 +1,37 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtualenv
+venv/
+env/
+
+# Configuración de editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# Archivos de logs
+*.log
+
+# Archivos estáticos compilados (si usas algún builder)
+staticfiles/
+static/
+node_modules/
+
+# Archivos de test coverage
+.coverage
+coverage/
+
+# Si usas pipenv o poetry (opcional)
+Pipfile
+Pipfile.lock
+poetry.lock
+
+claves.txt
