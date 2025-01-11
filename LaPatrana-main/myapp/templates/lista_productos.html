@@ -4,12 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
+    <title>Productos Disponibles</title>
     <link rel="stylesheet" href="{% static 'css/lista_productos.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Productos Disponibles</h1>
+    <header class="header">
+        <div class="header-content">
+            <h1>Descubre Nuestros Productos</h1>
+            <p>Calidad y sabor al rincón de playa grande Lican Ray</p>
+        </div>
     </header>
     <main>
         <div class="productos-container">
@@ -22,12 +25,12 @@
                 {% endif %}
                 <h2>{{ producto.nombre }}</h2>
                 <p>{{ producto.descripcion }}</p>
-                <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                <p><strong>Precio:</strong> ${{ producto.precio|floatformat:0 }}</p>
             </div>
             {% empty %}
             <p>No hay productos disponibles en este momento.</p>
             {% endfor %}
         </div>
-    </main>
+    </main>  
 </body>
 </html>

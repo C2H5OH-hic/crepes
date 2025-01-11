@@ -1,66 +1,105 @@
-/* Configuración básica del cuerpo */
+/* General */
 body {
-    font-family: "Back to Black Bold Demo", cursive;
+    font-family: "Arial", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #3e2723;
+    background: linear-gradient(180deg, #fbe9e7, #ffccbc);
     margin: 0;
     padding: 0;
-    background-color: #f1b05eff;
-    color: #905234ff;
 }
 
-/* Estilo del encabezado */
-header {
+/* Hero */
+.hero {
+    background: linear-gradient(45deg, #f1b05eff, #db8918ff);
+    padding: 2rem 1rem;
     text-align: center;
-    padding: 20px 0;
-    background-color: #905234ff;
-    color: #ffffffff;
+    color: #ffffff;
+    border-radius: 0 0 0.625rem 0.625rem; /* 10px -> 0.625rem */
 }
 
-header h1 {
-    font-size: 2rem;
+.hero-logo {
+    max-width: 5rem;
+    margin-bottom: 0.625rem;
+}
+
+.hero h1 {
+    font-size: 1.8rem;
     margin: 0;
+    font-weight: bold;
 }
 
 /* Contenedor de productos */
 .productos-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 80rem; /* Limitar ancho máximo */
 }
 
-/* Estilo de las tarjetas */
 .producto-card {
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 15px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .producto-card:hover {
-    transform: scale(1.05);
-    background-color: #db8918ff;
-    color: #ffffffff;
+    transform: translateY(-0.5rem);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Imagen de los productos */
 .producto-img {
     max-width: 100%;
-    max-height: 200px;
+    height: auto;
     object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-/* Estilos para el contenido */
+
+/* Texto */
 h2 {
-    font-size: 1.5rem;
-    margin: 10px 0;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
 }
 
 p {
     font-size: 1rem;
+    margin: 0.25rem 0;
+}
+
+/* Pie de página */
+footer {
+    background-color: #905234ff;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.625rem 0;
+    font-size: 0.875rem;
+}
+
+.header {
+    background: linear-gradient(135deg, #f9a825, #ff7043), url("{% static 'img/header-bg.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-radius: 0 0 1rem 1rem;
+}
+
+.header-content h1 {
+    font-size: 2rem;
+    margin: 0.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-content p {
+    font-size: 1.25rem;
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }

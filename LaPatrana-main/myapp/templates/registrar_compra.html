@@ -130,5 +130,84 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tipoSelect = document.getElementById('tipo');
+            const ingredienteField = document.querySelector('.ingrediente-field');
+            const insumoField = document.querySelector('.insumo-field');
+            const detallesContainer = document.getElementById('detalles-container');
+            const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
+            const costoTotal = document.getElementById('costo-total');
+
+            tipoSelect.addEventListener('change', function () {
+                const tipo = tipoSelect.value;
+
+                if (tipo === 'ingrediente') {
+                    ingredienteField.style.display = 'block';
+                    insumoField.style.display = 'none';
+                } else if (tipo === 'insumo') {
+                    ingredienteField.style.display = 'none';
+                    insumoField.style.display = 'block';
+                } else {
+                    ingredienteField.style.display = 'none';
+                    insumoField.style.display = 'none';
+                }
+            });
+
+            const guardarDetalle = document.getElementById('guardarDetalle');
+
+            guardarDetalle.addEventListener('click', function () {
+                const tipo = tipoSelect.value;
+                const ingredienteId = document.getElementById('ingrediente').value;
+                const ingredienteNombre = document.getElementById('ingrediente').selectedOptions[0]?.text || '';
+                const insumo = document.getElementById('insumo').value;
+                const cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
+                const precio = parseFloat(document.getElementById('precio').value) || 0;
+
+                const nombre = tipo === 'ingrediente' ? ingredienteNombre : insumo;
+                const subtotal = cantidad * precio;
+
+                if (!tipo || !nombre || cantidad <= 0 || precio <= 0) {
+                    alert('Todos los campos son obligatorios');
+                    return;
+                }
+
+                const currentFormsCount = parseInt(totalFormsInput.value, 10);
+
+                const newRow = `
+                    <tr>
+                        <td><input type="hidden" name="form-${currentFormsCount}-tipo" value="${tipo}">${tipo}</td>
+                        <td>
+                            <input type="hidden" name="form-${currentFormsCount}-${tipo === 'ingrediente' ? 'ingrediente' : 'nombre_insumo'}" value="${tipo === 'ingrediente' ? ingredienteId : insumo}">
+                            ${nombre}
+                        </td>
+                        <td><input type="hidden" name="form-${currentFormsCount}-cantidad" value="${cantidad}">${cantidad}</td>
+                        <td><input type="hidden" name="form-${currentFormsCount}-precio_unitario" value="${precio}">${precio}</td>
+                        <td>${subtotal.toFixed(2)}</td>
+                    </tr>
+                `;
+
+                detallesContainer.insertAdjacentHTML('beforeend', newRow);
+                totalFormsInput.value = currentFormsCount + 1;
+
+                actualizarCostoTotal();
+
+                const modal = bootstrap.Modal.getInstance(document.getElementById('detalleModal'));
+                modal.hide();
+                document.getElementById('detalleForm').reset();
+                ingredienteField.style.display = 'none';
+                insumoField.style.display = 'none';
+            });
+
+            function actualizarCostoTotal() {
+                let total = 0;
+                detallesContainer.querySelectorAll('tr').forEach(row => {
+                    const subtotal = parseFloat(row.querySelector('td:nth-child(5)').textContent) || 0;
+                    total += subtotal;
+                });
+                costoTotal.textContent = `$${total.toFixed(2)}`;
+            }
+        });
+    </script>
 </body>
 </html>
