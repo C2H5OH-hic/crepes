@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos Públicos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/pedidos_publicos.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container my-5">
+        <div id="pedidos-container" class="row">
+            <!-- Contenido generado dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        function cargarPedidosPublicos() {
+    $.ajax({
+        url: "{% url 'pedidos_publicos_ajax' %}",
+        method: "GET",
+        success: function(data) {
+            let container = "";
+            let pedidosAMostrar = data.pedidos.slice(0, 6);
+
+            pedidosAMostrar.forEach(pedido => {
+                let productosHTML = "";
+                pedido.productos.forEach(producto => {
+                    productosHTML += `<li>${producto.nombre} (x${producto.cantidad})</li>`;
+                });
+
+                container += `
+                    <div class="card">
+                        <div class="card-header">Pedido #${pedido.id}</div>
+                        <div class="card-body">
+                            <p class="cliente-nombre"><strong>Cliente:</strong> ${pedido.cliente_nombre}</p>
+                            <p><strong>Productos:</strong></p>
+                            <ul class="productos-lista">
+                                ${productosHTML}
+                            </ul>
+                            <p class="estado-pedido ${pedido.estado.toLowerCase()}">${pedido.estado}</p>
+                        </div>
+                    </div>`;
+            });
+
+            $("#pedidos-container").html(container);
+        },
+        error: function() {
+            $("#pedidos-container").html(`
+                <div class="col-12 text-center text-danger">
+                    <i class="fas fa-exclamation-triangle"></i> Error al cargar los pedidos.
+                </div>`);
+        }
+    });
+}
+
+
+        $(document).ready(function() {
+            cargarPedidosPublicos();
+            setInterval(cargarPedidosPublicos, 10000);
+        });
+    </script>
+</body>
+</html>

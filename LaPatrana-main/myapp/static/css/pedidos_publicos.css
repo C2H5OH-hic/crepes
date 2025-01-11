@@ -1,0 +1,111 @@
+/* Reset general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Evita el scroll global */
+}
+
+/* Contenedor principal */
+#pedidos-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    grid-template-rows: repeat(2, 1fr);   /* 2 filas */
+    gap: 10px; /* Espacio entre las tarjetas */
+    height: 100vh; /* Ocupa toda la pantalla */
+    padding: 10px; /* Espaciado desde los bordes */
+    box-sizing: border-box;
+}
+
+/* Tarjetas */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(251, 229, 173, 0.9); /* Fondo con transparencia */
+    border: 2px solid #e48e3f;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    height: auto; /* Altura dinámica ajustada al contenido */
+    overflow: hidden;
+}
+
+/* Cabecera de la tarjeta: Número de pedido */
+.card-header {
+    background-color: #e48e3f;
+    color: white;
+    font-size: 2rem; /* Tamaño destacado */
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    text-transform: uppercase; /* Texto en mayúsculas */
+}
+
+/* Resaltar el nombre del cliente */
+.card-body .cliente-nombre {
+    font-size: 2.5rem; /* Tamaño grande */
+    font-weight: bold; /* Negrita */
+    color: #8b4513; /* Marrón oscuro */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    margin: 10px 0; /* Espaciado arriba y abajo */
+}
+
+/* Reducir la palabra "Cliente" */
+.card-body .cliente-nombre strong {
+    font-size: 1.2rem; /* Tamaño más pequeño */
+    font-weight: normal; /* Sin negrita */
+    color: #6c757d; /* Gris oscuro */
+    text-transform: none; /* Texto normal */
+}
+
+/* Cuerpo de la tarjeta */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrado vertical */
+    gap: 10px;
+    font-size: 1.2rem;
+}
+
+/* Lista de productos en formato horizontal */
+.productos-lista {
+    list-style: none; /* Elimina los puntos de lista */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Convierte la lista en un contenedor flexible */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten si no caben en una fila */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+.productos-lista li {
+    background-color: rgba(228, 142, 63, 0.9); /* Fondo cálido */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white; /* Texto blanco */
+    text-align: center;
+    min-width: 100px; /* Ancho mínimo */
+}
+
+/* Estado del pedido */
+.estado-pedido {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.estado-pedido.pendiente { background-color: #ffa500; }
+.estado-pedido.aceptado { background-color: #28a745; }
+.estado-pedido.listo { background-color: #007bff; }

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Usuario</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/updateUser.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <a href="{% url 'showUsers' %}" class="btn btn-back">Volver</a>
+        <h2 class="form-title">Actualizar Usuario</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Nombre de usuario</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+            </div>
+            <div class="form-group">
+                <label for="first_name">Nombre</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Apellido</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="form-group">
+                <label for="Tipo">Tipo de empleado</label>
+                <select id="Tipo" name="Tipo" required>
+                    <option value="Cajero" {% if user.is_cashier %}selected{% endif %}>Cajero</option>
+                    <option value="Chef" {% if user.is_chef %}selected{% endif %}>Chef</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+        </form>
+    </div>
+</body>
+</html>

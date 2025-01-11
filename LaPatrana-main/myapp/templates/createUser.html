@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Usuario</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/createUser.css' %}">
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+</head>
+<body>
+    <div class="page-container">
+        <h1 class="page-title">Registrar Nuevo Usuario</h1>
+        <div class="form-container">
+            <a href="{% url 'administrador' %}" class="btn btn-back">Volver</a>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Nombre de usuario</label>
+                    <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" placeholder="Nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Apellido</label>
+                    <input type="text" id="lastname" name="lastname" placeholder="Apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="************" required>
+                </div>
+                <div class="form-group">
+                    <label for="Tipo">Tipo de empleado</label>
+                    <select id="Tipo" name="Tipo" required>
+                        <option value="Cajero">Cajero</option>
+                        <option value="Chef">Chef</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar Usuario</button>
+            </form>
+        </div>
+    </div>
+    {% if success %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            alert('Usuario creado con éxito.');
+            window.location.href = "{% url 'administrador' %}";
+        });
+    </script>
+    {% elif error %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            alert('Error al registrar el usuario: {{ error }}');
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

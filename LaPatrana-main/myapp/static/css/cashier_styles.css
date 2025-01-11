@@ -1,0 +1,143 @@
+/* Original CSS content preserved */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fdf6e3; /* Suave beige para el fondo */
+}
+
+.container {
+    max-width: 100%;
+    padding: 15px;
+    position: relative; /* Permitir posicionamiento relativo para el botón de logout */
+}
+
+.product-card {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    padding: 10px;
+}
+
+.product-card span {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    position: absolute;
+    bottom: 10px;
+    font-size: 1rem;
+}
+
+.product-card-counter {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-input {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.note-input textarea {
+    width: 100%;
+    font-size: 1rem;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.note-input button {
+    font-size: 0.8rem;
+    padding: 3px 6px;
+    align-self: flex-end;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        width: 120px;
+        height: 120px;
+    }
+
+    .product-card span {
+        font-size: 0.8rem;
+    }
+
+    .product-card-counter {
+        font-size: 0.8rem;
+    }
+
+    .note-input textarea {
+        font-size: 0.8rem;
+    }
+
+    .note-input button {
+        font-size: 0.7rem;
+    }
+}
+
+/* Styling for the logout button */
+.container .logout-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f1b05eff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    z-index: 1000; /* Asegurarse de que esté visible sobre otros elementos */
+}
+
+.container .logout-btn:hover {
+    background-color: #e8c216ff; /* Fondo al pasar el cursor */
+    color: #905234ff; /* Texto al pasar el cursor */
+}

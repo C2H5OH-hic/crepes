@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/showUsers.css' %}">
+    <link rel="icon" href="{% static 'img/Logo-icono.svg' %}" type="image/png" />
+</head>
+<body>
+    <div class="page-container">
+        <h1 class="page-title">Lista de Usuarios</h1>
+        <div class="action-bar">
+            <a href="{% url 'createUser' %}" class="btn btn-primary">Crear Usuario</a>
+            <a href="{% url 'administrador' %}" class="btn btn-back">Volver</a>
+        </div>
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Estado</th>
+                        <th>Correo Electrónico</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.is_active|yesno:"Activo,Inactivo" }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{% if user.is_cashier %}Cajero{% elif user.is_chef %}Chef{% else %}Otro{% endif %}</td>
+                        <td>
+                            <a href="{% url 'actualizarDatosUsuario' user.id %}" class="btn btn-edit">Editar</a>
+                            <form action="{% url 'deleteUser' user.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-delete">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="no-data">No hay usuarios registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

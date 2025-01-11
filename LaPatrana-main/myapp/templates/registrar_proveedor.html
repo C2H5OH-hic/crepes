@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Proveedor</title>
+    <link rel="stylesheet" href="{% static 'css/registrar_proveedor.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="form-container">
+            <h1 class="text-center mb-4 form-title">Registrar Proveedor</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="nombre">Nombre del Proveedor</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="razon_social">Razón Social</label>
+                    {{ form.razon_social }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="rut">RUT</label>
+                    {{ form.rut }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="actividad">Actividad</label>
+                    {{ form.actividad }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="pais">País</label>
+                    {{ form.pais }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="ciudad">Ciudad</label>
+                    {{ form.ciudad }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="correo">Correo Electrónico</label>
+                    {{ form.correo }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="contacto">Contacto</label>
+                    {{ form.contacto }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="direccion">Dirección</label>
+                    {{ form.direccion }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{% url 'lista_proveedores' %}" class="btn btn-secondary">Volver a la Lista</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

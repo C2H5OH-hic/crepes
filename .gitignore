@@ -1,0 +1,37 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Entorno virtual
+venv/
+env/
+.env
+
+# Configuración de editor/IDE
+.vscode/
+.idea/
+
+# Archivos de logs
+*.log
+
+# Archivos de base de datos y backups
+db.sqlite3
+basedatos_crepes.dump
+backup.json
+db_backup.json
+usuarios.json
+claves.txt
+
+# Archivos estáticos compilados
+staticfiles/
+static/
+
+# Otros
+*.swp
+.coverage
+coverage/

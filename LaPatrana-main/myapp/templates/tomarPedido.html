@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cashier_styles.css' %}" />
+</head>
+<body>
+<div class="container">
+    <a href="{% url 'registrar_compra' %}" class="btn btn-secondary">Compras</a>
+    <a href="{% url 'signout' %}" class="logout-btn">Cerrar sesión</a>
+    <h1 class="text-center mb-3">Lista de Productos Disponibles</h1>
+    <p class="text-center mb-3"><strong>ID del Pedido (Temporal):</strong> {{ id_temporal }}</p>
+    <form id="pedidoForm" action="{% url 'savePedido' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="cliente_nombre" class="fs-5">Nombre del Cliente:</label>
+            <input 
+                type="text" 
+                id="cliente_nombre" 
+                name="cliente_nombre" 
+                class="form-control" 
+                placeholder="Nombre del cliente" 
+                required>
+        </div>
+        <div class="row">
+            {% for producto in productos %}
+            <div class="d-flex flex-column align-items-center">
+                <div class="product-card" 
+                    id="product-card-{{ producto.idProducto }}" 
+                    style="background-image: url('{% static producto.imgProducto %}')" 
+                    data-precio="{{ producto.precio }}" 
+                    onclick="incrementarContador('{{ producto.idProducto }}')" 
+                    oncontextmenu="resetContador('{{ producto.idProducto }}'); return false;">
+                    <span>{{ producto.nombre }}</span>
+                    <div class="product-card-counter" id="contador-{{ producto.idProducto }}">0</div>
+
+                    <input 
+                        type="hidden" 
+                        id="producto-{{ producto.idProducto }}" 
+                        name="productos_seleccionados[]" 
+                        value="">
+                    <input 
+                        type="hidden" 
+                        id="cantidad-{{ producto.idProducto }}" 
+                        name="cantidad_{{ producto.idProducto }}" 
+                        value="0">
+                    <input 
+                        type="hidden" 
+                        id="estado-{{ producto.idProducto }}" 
+                        name="estado_{{ producto.idProducto }}" 
+                        value="pendiente">
+                    <div class="note-icon" onclick="toggleNoteInput(event, '{{ producto.idProducto }}')">
+                        📝
+                    </div>
+                    <div class="note-input" id="note-input-{{ producto.idProducto }}" onclick="event.stopPropagation()">
+                        <textarea 
+                            id="nota-{{ producto.idProducto }}" 
+                            name="notas_{{ producto.idProducto }}" 
+                            class="form-control" 
+                            placeholder="Nota"
+                            onclick="event.stopPropagation()"></textarea>
+                        <button type="button" class="btn btn-primary btn-sm" 
+                                onclick="guardarNota('{{ producto.idProducto }}'); event.stopPropagation();">Guardar</button>
+                    </div>
+                </div>
+                <div class="product-price mt-2">
+                    <span>Precio: ${{ producto.precio }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group mt-3">
+            <label for="total_pedido" class="fs-5">Total del Pedido:</label>
+            <input 
+                type="text" 
+                id="total_pedido" 
+                class="form-control" 
+                value="$0.00" 
+                readonly>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-realizar-pedido">Realizar Pedido</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    let totalPedido = 0;
+    const notas = {}; // Almacena las notas de los productos
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Ocultar todas las notas al cargar la página
+        document.querySelectorAll(".note-input").forEach((noteInput) => {
+            noteInput.style.display = "none";
+        });
+    });
+
+    function incrementarContador(productoId) {
+        const productoCard = document.getElementById(`product-card-${productoId}`);
+        const precio = parseFloat(productoCard.getAttribute("data-precio"));
+        if (isNaN(precio)) {
+            console.error(`El precio no es válido para el producto ${productoId}`);
+            return;
+        }
+
+        const contador = document.getElementById(`contador-${productoId}`);
+        const inputCantidad = document.getElementById(`cantidad-${productoId}`);
+        const inputProducto = document.getElementById(`producto-${productoId}`);
+        let cantidad = parseInt(contador.innerText);
+        cantidad++;
+        contador.innerText = cantidad;
+        inputCantidad.value = cantidad;
+        inputProducto.value = productoId;
+        actualizarTotal(precio);
+    }
+
+    function resetContador(productoId) {
+        const productoCard = document.getElementById(`product-card-${productoId}`);
+        const precio = parseFloat(productoCard.getAttribute("data-precio"));
+        if (isNaN(precio)) {
+            console.error(`El precio no es válido para el producto ${productoId}`);
+            return;
+        }
+
+        const contador = document.getElementById(`contador-${productoId}`);
+        const inputCantidad = document.getElementById(`cantidad-${productoId}`);
+        const inputProducto = document.getElementById(`producto-${productoId}`);
+        let cantidad = parseInt(contador.innerText);
+
+        // Reducir el contador solo si es mayor a 0
+        if (cantidad > 0) {
+            cantidad--;
+            contador.innerText = cantidad;
+            inputCantidad.value = cantidad;
+            totalPedido -= precio;
+
+            // Evitar valores negativos en el total
+            if (totalPedido < 0) totalPedido = 0;
+
+            actualizarDisplayTotal();
+        }
+
+        // Si el contador llega a 0, limpiar el campo del producto
+        if (cantidad === 0) {
+            inputProducto.value = "";
+        }
+    }
+
+    function guardarNota(productoId) {
+        const productoCard = document.getElementById(`product-card-${productoId}`);
+        const precio = parseFloat(productoCard.getAttribute("data-precio"));
+        if (isNaN(precio)) {
+            console.error(`El precio no es válido para el producto ${productoId}`);
+            return;
+        }
+
+        const textArea = document.getElementById(`nota-${productoId}`);
+        const nota = textArea.value;
+        const cantidadInput = document.getElementById(`cantidad-${productoId}`);
+
+        if (parseInt(cantidadInput.value) === 0) {
+            incrementarContador(productoId);
+        }
+
+        notas[productoId] = nota;
+        console.log(`Nota guardada para producto ${productoId}: ${nota}`);
+        closeNoteInput(productoId);
+    }
+
+    function toggleNoteInput(event, productoId) {
+        event.stopPropagation(); // Evita la propagación del clic hacia elementos superiores
+        const noteInput = document.getElementById(`note-input-${productoId}`);
+        // Alternar visibilidad del cuadro de notas
+        if (noteInput.style.display === "none" || noteInput.style.display === "") {
+            noteInput.style.display = "flex";
+        } else {
+            noteInput.style.display = "none";
+        }
+    }
+
+    function closeNoteInput(productoId) {
+        const noteInput = document.getElementById(`note-input-${productoId}`);
+        noteInput.style.display = "none";
+    }
+
+    function actualizarTotal(precio) {
+        totalPedido += precio;
+        actualizarDisplayTotal();
+    }
+
+    function actualizarDisplayTotal() {
+        const totalInput = document.getElementById("total_pedido");
+        totalInput.value = `$${totalPedido.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>

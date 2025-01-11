@@ -1,0 +1,21 @@
+<h1>Seleccionar Producto</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>
+                <a href="{% url 'lista_ingredientes' producto_id=producto.idProducto %}" class="btn btn-primary">
+                    Gestionar Ingredientes
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
