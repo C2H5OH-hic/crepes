@@ -10,33 +10,58 @@ body {
 }
 
 /* Hero */
-.hero {
-    background: linear-gradient(45deg, #f1b05eff, #db8918ff);
-    padding: 2rem 1rem;
-    text-align: center;
+.header {
+    background: linear-gradient(135deg, #f9a825, #ff7043), url("{% static 'img/header-bg.jpg' %}");
+    background-size: cover;
+    background-position: center;
     color: #ffffff;
-    border-radius: 0 0 0.625rem 0.625rem; /* 10px -> 0.625rem */
+    text-align: center;
+    padding: 2rem 1rem;
+    border-radius: 0 0 1rem 1rem;
 }
 
-.hero-logo {
-    max-width: 5rem;
-    margin-bottom: 0.625rem;
+.header-content h1 {
+    font-size: 2rem;
+    margin: 0.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.hero h1 {
-    font-size: 1.8rem;
+.header-content p {
+    font-size: 1.25rem;
     margin: 0;
-    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Contenedor de productos */
 .productos-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 2rem;
     padding: 2rem;
+    max-width: 90rem;
     margin: 0 auto;
-    max-width: 80rem; /* Limitar ancho máximo */
+}
+
+.categoria {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.categoria h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: #ff7043;
+    margin-bottom: 1rem;
+}
+
+.categoria p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #5d4037;
 }
 
 .producto-card {
@@ -61,45 +86,19 @@ body {
     margin-bottom: 1rem;
 }
 
-
 /* Texto */
-h2 {
-    font-size: 1.2rem;
+h3 {
+    font-size: 1.4rem;
     margin: 0.5rem 0;
+}
+
+.precio {
+    font-size: 1.25rem; /* Aumentamos el tamaño */
+    font-weight: bold;
+    color: #d84315;
 }
 
 p {
     font-size: 1rem;
     margin: 0.25rem 0;
-}
-
-/* Pie de página */
-footer {
-    background-color: #905234ff;
-    color: #ffffff;
-    text-align: center;
-    padding: 0.625rem 0;
-    font-size: 0.875rem;
-}
-
-.header {
-    background: linear-gradient(135deg, #f9a825, #ff7043), url("{% static 'img/header-bg.jpg' %}");
-    background-size: cover;
-    background-position: center;
-    color: #ffffff;
-    text-align: center;
-    padding: 2rem 1rem;
-    border-radius: 0 0 1rem 1rem;
-}
-
-.header-content h1 {
-    font-size: 2rem;
-    margin: 0.5rem 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.header-content p {
-    font-size: 1.25rem;
-    margin: 0;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }

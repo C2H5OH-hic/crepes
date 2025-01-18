@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos</title>
-    <link rel="stylesheet" href="{% static 'css/productos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/gestion_styles.css' %}">
 </head>
 <body>
     <div class="container">
         <!-- Botones superiores -->
-        <div class="button-container">
-            <a href="{% url 'crear_producto' %}" class="btn btn-success">Crear Producto</a>
+        <div class="text-center mt-4">
+            <a href="{% url 'crear_producto' %}" class="btn btn-primary">Crear Producto</a>
             <a href="{% url 'administrador' %}" class="btn btn-secondary">Volver</a>
         </div>
 
         <!-- Tabla de Productos -->
-        <h1>Gestión de Productos</h1>
-        <table>
+        <h1 class="text-center">Gestión de Productos</h1>
+        <table class="productos-table">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -34,11 +34,11 @@
                     <td>${{ producto.precio }}</td>
                     <td>
                         <button type="button" class="btn btn-danger delete-product-btn" data-url="{% url 'deleteProduct' producto.idProducto %}">Eliminar</button>
-                    </td>                 
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4">No hay productos registrados.</td>
+                    <td colspan="4" class="text-center">No hay productos registrados.</td>
                 </tr>
                 {% endfor %}
             </tbody>

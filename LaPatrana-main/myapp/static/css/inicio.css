@@ -145,3 +145,36 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
+.productos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #ffffff;
+}
+
+.productos-table th, .productos-table td {
+    border: 1px solid #dddddd;
+    padding: 0.75rem;
+}
+
+.productos-table th {
+    background-color: #db8918ff;
+    color: #ffffff;
+}
+
+.btn-detalle {
+    background-color: #db8918ff;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-detalle:hover {
+    background-color: #e8c216ff;
+    color: #905234ff;
+}

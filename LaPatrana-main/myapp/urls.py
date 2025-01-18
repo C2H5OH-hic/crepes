@@ -96,6 +96,12 @@ urlpatterns = [
 
     # Inventario
     path('inventario/', views.lista_inventario, name='lista_inventario'),
+
+    # Categorías
+    path('categorias/', views.gestionar_categorias, name='gestionar_categorias'),
+    path('categorias/crear/', views.crear_categoria, name='crear_categoria'),
+    path('categorias/<int:categoria_id>/editar/', views.editar_categoria, name='editar_categoria'),
+    path('categorias/<int:categoria_id>/eliminar/', views.eliminar_categoria, name='eliminar_categoria'),
 ]
 
 if settings.DEBUG:

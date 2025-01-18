@@ -1,12 +1,35 @@
 from django import forms
 from django.forms import inlineformset_factory, modelformset_factory
-from .models import Producto, Ingrediente, ProductoIngrediente, Actividad, ProductoActividad, ValidacionCosto, Compra, DetalleCompra, Proveedor
+from .models import Producto, Categoria, Ingrediente, ProductoIngrediente, Actividad, ProductoActividad, ValidacionCosto, Compra, DetalleCompra, Proveedor
 
 # Formulario para gestionar productos
 class ProductoForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.all(),
+        empty_label="Seleccione una categoría",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = Producto
-        fields = ['nombre', 'descripcion', 'precio', 'disponible', 'imgProducto']
+        fields = ['nombre', 'descripcion', 'precio', 'disponible', 'imgProducto', 'categoria']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'disponible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'imgProducto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['nombre', 'descripcion']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
 
 # Formulario para gestionar ingredientes
 class IngredienteForm(forms.ModelForm):
@@ -53,9 +76,6 @@ ProductoIngredienteFormSet = inlineformset_factory(
     extra=1,  # Número de formularios adicionales iniciales
     can_delete=True  # Permitir eliminar formularios existentes
 )
-
-from django import forms
-from .models import DetalleCompra, Ingrediente
 
 class DetalleCompraForm(forms.ModelForm):
     OPCIONES_TIPO = [

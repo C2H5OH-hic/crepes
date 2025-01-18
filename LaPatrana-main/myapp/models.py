@@ -11,8 +11,6 @@ class User(AbstractUser):
     is_chef = models.BooleanField(default=False)
     is_cashier = models.BooleanField(default=False)
 
-
-# Modelo de Producto
 class Producto(models.Model):
     idProducto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, unique=True)
@@ -20,6 +18,7 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)  # Precio de venta al público
     disponible = models.BooleanField(default=True)  # Indica si está disponible para la venta
     imgProducto = models.ImageField(upload_to="img", blank=True, null=True)  # Imagen opcional del producto
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE, related_name="productos")
 
     def calcular_costo_unitario(self):
         """
@@ -94,9 +93,6 @@ class Producto(models.Model):
         import json
         return json.dumps(self.analizar_costos(), indent=4)
 
-    def __str__(self):
-        return f"{self.nombre} - ${self.precio} CLP"
-
     def calcular_costo_unitario_con_iva(self):
         """
         Calcula el costo unitario total del producto sumando ingredientes y actividades,
@@ -111,12 +107,30 @@ class Producto(models.Model):
         """
         return self.precio - self.calcular_costo_unitario_con_iva()
 
+    def __str__(self):
+        return f"{self.nombre} - ${self.precio} ({self.categoria.nombre})"
+
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=50, unique=True)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        if Categoria.objects.filter(nombre=self.nombre).exists():
+            raise ValidationError(f"La categoría '{self.nombre}' ya existe.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.nombre
+
 class Ingrediente(models.Model):
     CATEGORIAS = [
         ('base', 'Base'),          # Ingredientes básicos, como harina o leche.
         ('adicional', 'Adicional')  # Ingredientes adicionales, como frutas o toppings.
     ]
-    
+
     nombre = models.CharField(max_length=50, unique=True)  # Nombre único del ingrediente.
     unidad_medida = models.CharField(                     # Unidad en la que se mide.
         max_length=20,
