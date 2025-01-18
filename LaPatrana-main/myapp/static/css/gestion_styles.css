@@ -1,0 +1,217 @@
+/* Estilo General para las Plantillas de Gestión */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Botones */
+.btn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    width: auto; /* Se adapta al contenido */
+    min-width: 150px; /* Evita que sean demasiado pequeños */
+    transition: background-color 0.3s ease;
+}
+
+/* Botón Principal (Azul para acciones primarias) */
+/* Botón Principal */
+/* Botón Principal (Azul) */
+a.btn-primary, .btn-primary {
+    background-color: #007bff !important; /* Fuerza el color azul */
+    color: #ffffff !important;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    width: auto; /* Ajusta al contenido */
+    transition: background-color 0.3s ease;
+}
+
+a.btn-primary:hover, .btn-primary:hover {
+    background-color: #0056b3 !important; /* Color azul más oscuro en hover */
+}
+
+
+/* Botón Secundario (Gris) */
+.btn-secondary {
+    background-color: #6c757d; /* Gris */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    width: auto; /* Mantiene tamaño automático */
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+
+/* Botón Peligro (Rojo para eliminar) */
+.btn-danger {
+    background-color: #dc3545; /* Rojo */
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Ajustes específicos para el botón "Vincular Ingrediente" */
+#vincularButton {
+    background-color: #007bff; /* Azul */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    min-width: 200px; /* Ajuste mínimo para texto completo */
+    width: auto;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+#vincularButton:hover {
+    background-color: #0056b3;
+}
+
+/* Tablas */
+.productos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.productos-table th, .productos-table td {
+    padding: 12px;
+    border: 1px solid #dddddd;
+}
+
+.productos-table th {
+    background-color: #007bff;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.productos-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.productos-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Formulario */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+form .btn {
+    flex: 1;
+}
+
+.text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.text-center a {
+    background-color: #6c757d; /* Gris */
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.text-center a:hover {
+    background-color: #5a6268;
+}
+
+/* Ajuste para dispositivos pequeños */
+@media (max-width: 768px) {
+    .productos-table {
+        font-size: 0.9rem;
+    }
+
+    form .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%; /* Ocupa el ancho completo */
+        max-width: 100%; /* Asegura que no se limite */
+        font-size: 1rem;
+    }
+}
