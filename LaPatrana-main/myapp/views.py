@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
+from decimal import Decimal
+from django.db.models import Sum, F
 from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.conf import settings
 from .forms import ProductoForm, ProductoActividadForm, ActividadForm, ProductoIngredienteFormSet, IngredienteForm, CompraForm, DetalleCompraFormSet, ProveedorForm, CategoriaForm
 from reportlab.pdfgen import canvas
@@ -12,9 +16,11 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import Table, TableStyle, Image
 from reportlab.lib import colors
 from datetime import datetime, date
-from .models import User, Producto, Pedido, DetallePedido, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente, Insumo, Proveedor, Compra, DetalleCompra, Categoria
+from .models import User, Producto, Pedido, DetallePedido, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente, Insumo, Proveedor, Compra, DetalleCompra, Categoria, DetallePedidoIngrediente
 from pathlib import Path
 import uuid
+import json
+
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -218,58 +224,175 @@ def despachar_pedido(request, pedido_id):
 @login_required
 def tomarPedido(request):
     """
-    Muestra los productos disponibles, sus ingredientes adicionales, el número de pedido temporal y el total.
+    Vista para tomar pedidos. Carga la lista de productos disponibles,
+    sus ingredientes adicionales, y prepara un ID temporal para el pedido.
     """
-    # Obtener el último número de pedido registrado
+
+    # Obtener el último pedido para generar un ID temporal
     ultimo_pedido = Pedido.objects.last()
     id_temporal = (ultimo_pedido.idPedido + 1) if ultimo_pedido else 1
 
-    # Obtener productos disponibles
+    # Filtrar solo los productos disponibles
     productos = Producto.objects.filter(disponible=True).prefetch_related('productoingrediente_set__ingrediente')
 
-    # Crear el contexto para cada producto con sus ingredientes adicionales
+    # Construir el contexto de productos
     productos_context = []
-    total_pedido = 0  # Inicializar el total
     for producto in productos:
-        ingredientes_adicionales = ProductoIngrediente.objects.filter(
-            producto=producto, ingrediente__categoria='adicional'
-        )
-        productos_context.append({
-            'producto': producto,
-            'ingredientes_adicionales': list(ingredientes_adicionales)
-        })
-        # Sumar precio del producto al total inicial (ejemplo estático)
-        total_pedido += producto.precio
+        # Evitar enviar productos sin nombre o sin precio
+        if not producto.nombre or producto.precio is None:
+            print(f"⚠️ Producto inválido detectado y omitido: {producto}")
+            continue
 
-    # Enviar productos, ID temporal y total al contexto de la plantilla
+        # Obtener los ingredientes adicionales asociados al producto
+        ingredientes_adicionales = ProductoIngrediente.objects.filter(
+            producto=producto,
+            ingrediente__categoria='adicional'
+        ).values(
+            'ingrediente__id',
+            'ingrediente__nombre'
+        )
+
+        productos_context.append({
+            "idProducto": producto.idProducto,
+            "nombre": producto.nombre,
+            "precio": float(producto.precio),
+            "categoria": producto.categoria.nombre if producto.categoria else "Sin categoría",
+            "imgProducto": producto.imgProducto.url if producto.imgProducto else '/static/img/default.jpg',
+            "ingredientes_adicionales": list(ingredientes_adicionales),
+        })
+
+    print("🔹 Productos enviados a `tomarpedido.html`:", json.dumps(productos_context, indent=2))
+
+    # Renderizar la plantilla
     return render(request, 'tomarPedido.html', {
-        'productos_context': productos_context,
+        'productos_context': json.dumps(productos_context),  # Serializar productos como JSON
         'id_temporal': id_temporal,
-        'total_pedido': total_pedido,  # Agregar al contexto
     })
 
-
+@csrf_exempt
 @login_required
 def savePedido(request):
     if request.method == 'POST':
-        cliente_nombre = request.POST.get('cliente_nombre', 'Cliente')
-        idCajero = request.user.id
-        pedido = Pedido.objects.create(cliente_nombre=cliente_nombre, idCajero_id=idCajero)
+        try:
+            print("🔹 request.body recibido en Django:", request.body)
 
-        for key, value in request.POST.items():
-            if key.startswith('ingredientes_'):
-                producto_id = key.split('_')[1]
-                producto = Producto.objects.get(idProducto=producto_id)
-                cantidad = int(request.POST.get(f'cantidad_{producto_id}', 1))
+            # 1. Leer los datos JSON correctamente
+            if request.content_type == "application/json":
+                try:
+                    data = json.loads(request.body.decode('utf-8'))
+                except json.JSONDecodeError:
+                    print("❌ Error al decodificar JSON")
+                    return JsonResponse({'success': False, 'error': 'Error al procesar JSON'}, status=400)
+            else:
+                print("⚠️ `Content-Type` no es JSON, intentando leer `request.POST`")
+                data = request.POST.dict()
+                productos = []
+                data["productos"] = productos
 
-                detalle = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad)
+            print(f"🔹 JSON procesado en Django: {data}")
 
-                ingredientes_ids = request.POST.getlist(key)
-                for ingrediente_id in ingredientes_ids:
-                    ingrediente = Ingrediente.objects.get(id=ingrediente_id)
-                    detalle.ingredientes.add(ingrediente)
+            # 2. Crear el pedido
+            cliente_nombre = data.get('cliente_nombre', 'Cliente')
+            productos = data.get('productos', [])
+            idCajero = request.user.id
 
-        return redirect('tomarPedido')
+            with transaction.atomic():
+                pedido = Pedido.objects.create(cliente_nombre=cliente_nombre, idCajero_id=idCajero)
+                print(f"✅ Pedido creado: Pedido {pedido.idPedido}")
+
+                detalles_registrados = False
+
+                for item in productos:
+                    producto_id = item.get('id')
+                    cantidad = item.get('cantidad', 0)
+                    nota = item.get('nota', '')
+
+                    if not producto_id or cantidad <= 0:
+                        continue
+
+                    try:
+                        producto = Producto.objects.get(idProducto=producto_id)
+                        detalle = DetallePedido.objects.create(
+                            pedido=pedido,
+                            producto=producto,
+                            cantidad=cantidad,
+                            estado="pendiente",
+                            nota=nota
+                        )
+                        detalles_registrados = True
+
+                        # 📌 Verificación de los ingredientes recibidos
+                        ingredientes_por_unidad = item.get("ingredientesPorUnidad", {})
+
+                        # **Si `ingredientesPorUnidad` no existe, distribuimos manualmente los `ingredientes`**
+                        if not ingredientes_por_unidad:
+                            print(f"⚠️ No se encontraron `ingredientesPorUnidad` para {producto.nombre}, asignando manualmente")
+
+                            ingredientes_globales = item.get("ingredientes", [])
+                            ingredientes_por_unidad = {str(i): [] for i in range(cantidad)}
+
+                            # **Distribuir ingredientes sin perder combinaciones**
+                            distribucion = [[] for _ in range(cantidad)]
+                            for i, ing in enumerate(ingredientes_globales):
+                                distribucion[i % cantidad].append(ing)
+
+                            # Asignamos la distribución final a cada unidad
+                            for unidad_idx in range(cantidad):
+                                ingredientes_por_unidad[str(unidad_idx)] = distribucion[unidad_idx]
+
+                        print(f"🔍 Ingredientes asignados por unidad para {producto.nombre}: {ingredientes_por_unidad}")
+
+                        # **Asignar los ingredientes correctamente a cada unidad**
+                        for unidad_idx in range(cantidad):
+                            ingredientes_actuales = ingredientes_por_unidad.get(str(unidad_idx), [])
+
+                            if not ingredientes_actuales:
+                                print(f"⚠️ Unidad {unidad_idx} de {producto.nombre} no tiene ingredientes explícitos.")
+
+                            for ingrediente in ingredientes_actuales:
+                                try:
+                                    ingrediente_id = int(ingrediente["id"])
+                                    ingrediente_obj = Ingrediente.objects.get(id=ingrediente_id)
+
+                                    ingrediente_obj.frecuencia_uso += 1
+                                    ingrediente_obj.save()
+
+                                    # Evita duplicados con `get_or_create`
+                                    dp_ing, created = DetallePedidoIngrediente.objects.get_or_create(
+                                        detalle_pedido=detalle,
+                                        ingrediente=ingrediente_obj,
+                                        unidad=unidad_idx
+                                    )
+                                    if created:
+                                        dp_ing.cantidadIngrediente = 1
+                                    else:
+                                        dp_ing.cantidadIngrediente += 1
+                                    dp_ing.save()
+
+                                except Ingrediente.DoesNotExist:
+                                    print(f"⚠️ Ingrediente con ID {ingrediente_id} no encontrado. Omitiendo...")
+
+                        print(f"✅ Detalle registrado con ingredientes para {detalle}")
+
+                    except Producto.DoesNotExist:
+                        print(f"❌ Producto con ID {producto_id} no encontrado. Omitiendo...")
+
+                if not detalles_registrados:
+                    print(f"❌ No se registraron detalles. Eliminando pedido {pedido.idPedido}...")
+                    pedido.delete()
+                    return JsonResponse(
+                        {'success': False, 'error': 'No se pudo guardar el pedido porque no hay productos válidos.'},
+                        status=400
+                    )
+
+                print(f"✅ Pedido {pedido.idPedido} registrado correctamente.")
+                return JsonResponse({'success': True, 'message': 'Pedido guardado correctamente.'})
+
+        except Exception as e:
+            print(f"❌ Error en `savePedido`: {e}")
+            return JsonResponse({'success': False, 'error': 'Error al guardar el pedido.'}, status=500)
+
+    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
 
 
 @login_required
@@ -506,28 +629,51 @@ def caja_diaria(request):
 
 @login_required
 def pedidos_chef_ajax(request):
-    pedidos = Pedido.objects.exclude(estado='despachado')  # Ajusta según la lógica que necesites
+    # Obtenemos los pedidos (por ejemplo, los que no estén despachados)
+    pedidos = Pedido.objects.exclude(estado='despachado')
     data = []
 
     for pedido in pedidos:
-        detalles = DetallePedido.objects.filter(pedido=pedido)
-        productos = [
-            {
+        detalles = DetallePedido.objects.filter(pedido=pedido).select_related('producto')
+        productos = []
+
+        for detalle in detalles:
+            # Aquí armamos un diccionario de la forma: {unidad_idx: [{nombre, cantidadIngrediente}, ...], ...}
+            ingredientes_por_unidad = {}
+
+            # Incluimos "cantidadIngrediente" en el values()
+            qs_ingredientes = DetallePedidoIngrediente.objects.filter(detalle_pedido=detalle).values(
+                "unidad", "ingrediente__nombre", "cantidadIngrediente"
+            )
+
+            for ing in qs_ingredientes:
+                unidad = ing["unidad"]
+                if unidad not in ingredientes_por_unidad:
+                    ingredientes_por_unidad[unidad] = []
+                ingredientes_por_unidad[unidad].append({
+                    "nombre": ing["ingrediente__nombre"],
+                    "cantidadIngrediente": ing["cantidadIngrediente"],
+                })
+
+            productos.append({
                 "nombre": detalle.producto.nombre,
                 "cantidad": detalle.cantidad,
-                "nota": detalle.nota  # Asegúrate de que este atributo exista
-            }
-            for detalle in detalles
-        ]
+                "nota": detalle.nota,
+                "ingredientes_por_unidad": ingredientes_por_unidad
+            })
 
         data.append({
-            "id": pedido.idPedido,
+            "id": pedido.idPedido,  # O la key que uses
             "cliente_nombre": pedido.cliente_nombre,
             "productos": productos,
-            "estado": pedido.get_estado_display(),
+            "estado": pedido.get_estado_display(),  # Pendiente, Aceptado, etc.
         })
 
-    return JsonResponse({"pedidos": data, "csrf_token": request.META.get('CSRF_COOKIE', '')})
+    # Retornamos un JSON con todos los pedidos y el csrf_token si deseas
+    return JsonResponse({
+        "pedidos": data,
+        "csrf_token": request.META.get('CSRF_COOKIE', '')  # Si lo necesitas
+    })
 
 @login_required
 def productos(request):
@@ -922,7 +1068,49 @@ def analisis_costos_unitarios(request):
     Vista que muestra un análisis detallado de los costos unitarios de cada producto.
     """
     productos = Producto.objects.all()
-    analisis = [producto.analizar_costos() for producto in productos]
+    
+    # 🔹 Obtener datos de frecuencia de selección de ingredientes
+    ingredientes_frecuencia = Ingrediente.objects.all().values_list('nombre', 'frecuencia_uso', 'costo_por_unidad')
+    total_frecuencia = sum(i[1] for i in ingredientes_frecuencia)
+
+    analisis = []
+
+    for producto in productos:
+        # 🔹 Costo total de los ingredientes usados en el producto
+        costo_ingredientes = producto.costo_ingredientes()
+        costo_actividades = producto.costo_actividades()
+
+        # 🔹 Cálculo del costo ponderado de ingredientes seleccionados
+        if total_frecuencia > 0:
+            costo_ponderado_ingredientes = sum(
+                i[2] * Decimal(i[1]) / Decimal(total_frecuencia) for i in ingredientes_frecuencia
+            )
+        else:
+            costo_ponderado_ingredientes = Decimal(0)  # 🔹 Si no hay datos, asumimos 0
+
+        # 🔹 Costo Unitario Total
+        costo_unitario = costo_ingredientes + costo_actividades + costo_ponderado_ingredientes
+        costo_unitario_iva = costo_unitario * Decimal(1.19)  # 🔹 Convertimos el IVA a Decimal
+
+        # 🔹 Precio fijo de venta
+        precio_venta = producto.precio
+
+        # 🔹 Margen de beneficio
+        margen_beneficio = precio_venta - costo_unitario
+        margen_beneficio_iva = precio_venta - costo_unitario_iva
+
+        analisis.append({
+            'nombre': producto.nombre,
+            'costo_ingredientes': costo_ingredientes,
+            'costo_actividades': costo_actividades,
+            'costo_ponderado_ingredientes': costo_ponderado_ingredientes,
+            'costo_unitario': costo_unitario,
+            'costo_unitario_iva': costo_unitario_iva,
+            'precio_venta': precio_venta,
+            'margen_beneficio': margen_beneficio,
+            'margen_beneficio_iva': margen_beneficio_iva,
+        })
+
     return render(request, 'analisis_costos.html', {'analisis': analisis})
 
 #Gestión productos
@@ -965,8 +1153,6 @@ def graficos_costos_ingredientes(request):
         ]
     }
     return JsonResponse(data)
-
-
 
 def actualizar_costo(self, cantidad_comprada, precio_unitario):
     nuevo_stock = self.stock_actual + cantidad_comprada

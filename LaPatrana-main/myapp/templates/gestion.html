@@ -83,7 +83,10 @@
                 <div class="card">
                     <div class="card-header">Análisis de Costos Unitarios</div>
                     <div class="card-body">
-                        <a href="{% url 'analisis_costos_unitarios' %}" class="btn btn-primary">Ver Análisis de Costos</a>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCostos">
+                            Ver Análisis de Costos
+                        </button>
                     </div>
                 </div>
             </div>
@@ -106,5 +109,26 @@
         </div>
         <a href="{% url 'administrador' %}" class="btn btn-secondary mt-3">Volver al Administrador</a>
     </div>
+
+    <!-- Modal para Selección de Análisis de Costos -->
+    <div class="modal fade" id="modalCostos" tabindex="-1" aria-labelledby="modalCostosLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCostosLabel">Seleccionar Tipo de Análisis</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Selecciona qué tipo de análisis deseas visualizar:</p>
+                    <a href="{% url 'costos_unitarios' %}" class="btn btn-primary d-block mb-2">Costos Unitarios (Tradicional)</a>
+                    <a href="{% url 'analisis_costos_unitarios' %}" class="btn btn-warning d-block mb-2">Análisis Costos (Frecuencia de Ingredientes)</a>
+                    <a href="{% url 'gestion_costos' %}" class="btn btn-info d-block">Gestión de Costos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

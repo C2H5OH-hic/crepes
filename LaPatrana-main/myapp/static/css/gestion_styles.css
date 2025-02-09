@@ -215,3 +215,11 @@ form .btn {
         font-size: 1rem;
     }
 }
+
+.button-group {
+    display: flex;             /* Muestra hijos en fila */
+    align-items: center;       /* Alinea verticalmente los hijos */
+    justify-content: center;   /* Centra horizontalmente si quieres */
+    gap: 10px;                 /* Espacio entre elementos */
+    margin-top: 20px;          /* Ajusta a tu gusto */
+  }

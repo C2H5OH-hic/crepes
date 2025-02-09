@@ -56,7 +56,7 @@
         <h1 class="text-center">Gestión de Categorías</h1>
 
         <!-- Botón para abrir el modal -->
-        <div class="text-center mt-4">
+        <div class="button-group">
             <button id="openModal" class="btn btn-primary">Crear Categoría</button>
             <a href="{% url 'gestion' %}" class="btn btn-secondary">Volver</a>
         </div>
@@ -97,11 +97,17 @@
                     <td>{{ categoria.nombre }}</td>
                     <td>{{ categoria.descripcion }}</td>
                     <td>
-                        <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-primary">Editar</a>
-                        <form method="POST" action="{% url 'eliminar_categoria' categoria.id %}" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
+                        <div class="button-group">
+                            <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-primary">
+                                Editar
+                            </a>
+                            <form method="POST" action="{% url 'eliminar_categoria' categoria.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 {% empty %}

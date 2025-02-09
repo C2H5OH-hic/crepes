@@ -46,12 +46,13 @@
         <a href="{% url 'registrar_proveedor' %}" class="btn btn-primary mt-3">Registrar Nuevo Proveedor</a>
         <div class="btn-group mt-3" role="group">
             {% if request.user.is_chef %}
-                <a href="{% url 'chef' %}" class="btn btn-secondary">Volver</a>
-            {% elif request.user.is_cashier %}
-                <a href="{% url 'tomarPedido' %}" class="btn btn-secondary">Volver</a>
-            {% elif es_admin %}
-                <a href="{% url 'gestion' %}" class="btn btn-warning">Volver a Gestión</a>
-            {% endif %}
+            <a href="{% url 'chef' %}" class="btn btn-secondary">Volver</a>
+        {% elif request.user.is_cashier %}
+            <a href="{% url 'tomarPedido' %}" class="btn btn-secondary">Volver</a>
+        {% elif request.user.is_superuser %}
+            <!-- o request.user.is_staff, si así prefieres -->
+            <a href="{% url 'gestion' %}" class="btn btn-warning">Volver a Gestión</a>
+        {% endif %}
         </div>
         
         </div>

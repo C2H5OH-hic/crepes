@@ -1,130 +1,138 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomar Pedido</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
-        <div class="d-flex justify-content-between mb-4">
-            <a href="{% url 'registrar_compra' %}" class="btn btn-secondary">Compras</a>
-            <p><strong>ID Temporal del Pedido:</strong> {{ id_temporal }}</p>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+            <a href="{% url 'registrar_compra' %}" class="btn btn-primary">Compras</a>
             <a href="{% url 'signout' %}" class="btn btn-danger">Salir</a>
         </div>
 
-        <h1 class="text-center mb-4">Tomar Pedido</h1>
-
-        <!-- Formulario principal -->
+        <!-- Formulario del pedido -->
         <form id="pedido-form" method="POST" action="{% url 'savePedido' %}">
             {% csrf_token %}
 
-            <!-- Lista de productos -->
-            <div class="row">
-                {% for item in productos_context %}
-                <div class="col-md-4 mb-4 producto-card">
-                    <div class="card h-100">
-                        {% if item.producto.imgProducto %}
-                        <img src="{{ item.producto.imgProducto.url }}" class="card-img-top" alt="{{ item.producto.nombre }}">
-                        {% else %}
-                        <img src="/static/img/default.jpg" class="card-img-top" alt="Imagen no disponible">
-                        {% endif %}
+            <!-- ID temporal del pedido -->
+            <p><strong>ID Temporal del Pedido:</strong> {{ id_temporal }}</p>
 
-                        <div class="card-body">
-                            <h5 class="card-title">{{ item.producto.nombre }}</h5>
-                            <p class="card-text">Precio: ${{ item.producto.precio|floatformat:2 }}</p>
-
-                            <!-- Botón para abrir modal -->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ item.producto.idProducto }}">
-                                Personalizar
-                            </button>
-
-                            <!-- Cantidad -->
-                            <div class="mt-3">
-                                <label for="cantidad-{{ item.producto.idProducto }}" class="form-label">Cantidad:</label>
-                                <input 
-                                    type="number" 
-                                    class="form-control cantidad-input" 
-                                    id="cantidad-{{ item.producto.idProducto }}" 
-                                    name="cantidad_{{ item.producto.idProducto }}" 
-                                    value="0" min="0" 
-                                    data-precio="{{ item.producto.precio }}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para personalizar producto -->
-                <div class="modal fade" id="modal-{{ item.producto.idProducto }}" tabindex="-1" aria-labelledby="modalLabel-{{ item.producto.idProducto }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalLabel-{{ item.producto.idProducto }}">Ingredientes para {{ item.producto.nombre }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h6>Selecciona ingredientes adicionales:</h6>
-                                {% if item.ingredientes_adicionales %}
-                                    {% for vinculo in item.ingredientes_adicionales %}
-                                    <div class="form-check">
-                                        <input 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            value="{{ vinculo.ingrediente.id }}" 
-                                            id="ingrediente-{{ vinculo.ingrediente.id }}-{{ item.producto.idProducto }}" 
-                                            name="ingredientes_{{ item.producto.idProducto }}[]">
-                                        <label 
-                                            class="form-check-label" 
-                                            for="ingrediente-{{ vinculo.ingrediente.id }}-{{ item.producto.idProducto }}">
-                                            {{ vinculo.ingrediente.nombre }}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <p>No hay ingredientes adicionales disponibles para este producto.</p>
-                                {% endif %}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-success" onclick="agregarAlPedido('{{ item.producto.idProducto }}')">
-                                    Añadir al Pedido
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+            <!-- Nombre del cliente -->
+            <div class="mb-3">
+                <label for="cliente-nombre" class="form-label">Nombre del Cliente</label>
+                <input type="text" class="form-control" id="cliente-nombre" name="cliente_nombre" placeholder="Nombre del cliente" required>
             </div>
 
-            <div class="text-center mt-4">
-                <p><strong>Total del Pedido: $<span id="total-pedido">0.00</span></strong></p>
-                <button type="submit" class="btn btn-success">Guardar Pedido</button>
+            <!-- Tabla de productos -->
+            <table class="table table-striped" id="productos-tabla">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Ingredientes Adicionales</th>
+                        <th>Notas</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="productos-lista">
+                    {% for producto in productos_context %}
+                    <tr data-fila-id="{{ producto.idProducto }}">
+                        <td>
+                            {{ producto.nombre }}
+                            <!-- Campo oculto para producto_id -->
+                            <input type="hidden" name="producto_id_{{ producto.idProducto }}" value="{{ producto.idProducto }}">
+                        </td>
+                        <td>{{ producto.categoria }}</td>
+                        <td>${{ producto.precio }}</td>
+                        <td>
+                            <textarea name="nota_{{ producto.idProducto }}" class="form-control" placeholder="Notas..."></textarea>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="cantidad_{{ producto.idProducto }}" min="0" value="0">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secondary btn-sm btn-ingredientes" data-bs-toggle="modal" data-bs-target="#modal-ingredientes" data-fila-id="{{ producto.idProducto }}">Ingredientes</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-sm btn-notas" data-bs-toggle="modal" data-bs-target="#modal-notas" data-fila-id="{{ producto.idProducto }}">Notas</button>
+                        </td>
+                        <td id="subtotal_{{ producto.idProducto }}">$0.00</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Total del pedido -->
+            <div class="text-end mt-3">
+                <h4>Total: $<span id="total-pedido">0.00</span></h4>
             </div>
+
+            <!-- Botón para enviar el pedido -->
+            <button type="submit" id="guardar-pedido" class="btn btn-primary mt-3">Guardar Pedido</button>
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const cantidadInputs = document.querySelectorAll('.cantidad-input');
-            const totalPedidoElement = document.getElementById('total-pedido');
+    <!-- Modal para ingredientes adicionales -->
+    <div class="modal fade" id="modal-ingredientes" tabindex="-1" aria-labelledby="modal-ingredientes-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-ingredientes-label">Ingredientes Adicionales</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="producto-seleccionado"></p>
+                    <div id="ingredientes-container">
+                        <!-- Se agregarán dinámicamente los ingredientes para cada unidad de producto -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="guardar-ingredientes" data-bs-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            function calcularTotal() {
-                let total = 0;
-                cantidadInputs.forEach(input => {
-                    const cantidad = parseFloat(input.value) || 0;
-                    const precio = parseFloat(input.dataset.precio);
-                    total += cantidad * precio;
-                });
-                totalPedidoElement.textContent = total.toFixed(2);
-            }
-
-            cantidadInputs.forEach(input => {
-                input.addEventListener('input', calcularTotal);
-            });
-        });
+    <!-- Modal para notas -->
+    <div class="modal fade" id="modal-notas" tabindex="-1" aria-labelledby="modal-notas-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-notas-label">Agregar Nota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="nota-texto" class="form-control" rows="3" placeholder="Escribe una nota para este producto"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="guardar-nota" data-bs-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="productos-data" type="application/json">
+        {{ productos_context|safe }}
     </script>
+    
+    <!-- 🆕 Depurar JSON generado -->
+    <script>
+        try {
+            let productosData = JSON.parse(document.getElementById('productos-data').textContent);
+            console.log("🔹 Productos cargados en `tomarpedido.html`:", productosData);
+        } catch (error) {
+            console.error("❌ Error al parsear `productosData`:", error);
+        }
+    </script>
+    <script src="{% static 'js/tomarpedido.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

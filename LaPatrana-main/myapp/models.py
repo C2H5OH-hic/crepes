@@ -158,6 +158,8 @@ class Ingrediente(models.Model):
         default='adicional'
     )
 
+    frecuencia_uso = models.PositiveIntegerField(default=0) 
+
     def actualizar_costo(self, cantidad_comprada, precio_unitario):
         """
         Actualiza el costo promedio ponderado y el stock actual del ingrediente.
@@ -185,7 +187,7 @@ class Ingrediente(models.Model):
         return self.stock_actual >= cantidad_requerida
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} (Frecuencia: {self.frecuencia_uso})"
 
 
 class HistorialCostoIngrediente(models.Model):
@@ -331,34 +333,33 @@ class Pedido(models.Model):
         return f"Pedido {self.idPedido} - {self.get_estado_display()}"
 
 class DetallePedido(models.Model):
-    pedido = models.ForeignKey('Pedido', on_delete=models.CASCADE)
-    producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
+    pedido = models.ForeignKey("Pedido", on_delete=models.CASCADE)
+    producto = models.ForeignKey("Producto", on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
     estado = models.CharField(
         max_length=20,
-        choices=[
-            ('pendiente', 'Pendiente'),
-            ('listo', 'Listo'),
-        ],
-        default='pendiente'
+        choices=[("pendiente", "Pendiente"), ("listo", "Listo")],
+        default="pendiente",
     )
     nota = models.TextField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        """
-        Reduce el stock de los ingredientes necesarios al guardar el pedido.
-        """
-        super().save(*args, **kwargs)  # Guarda el pedido
-        # Reducir el stock de ingredientes utilizados
-        ingredientes = ProductoIngrediente.objects.filter(producto=self.producto)
-        for ingrediente in ingredientes:
-            ingrediente.ingrediente.stock_actual -= ingrediente.cantidad_requerida * self.cantidad
-            if ingrediente.ingrediente.stock_actual < 0:
-                raise ValidationError(f"Stock insuficiente para {ingrediente.ingrediente.nombre}.")
-            ingrediente.ingrediente.save()
+    # ✅ Vinculamos los ingredientes adicionales con una tabla intermedia
+    ingredientes_seleccionados = models.ManyToManyField("Ingrediente", through="DetallePedidoIngrediente")
 
     def __str__(self):
-        return f"Detalle del Pedido {self.pedido.idPedido} - {self.producto.nombre}"
+        return f"Pedido {self.pedido.idPedido} - {self.producto.nombre}"
+
+class DetallePedidoIngrediente(models.Model):
+    detalle_pedido = models.ForeignKey("DetallePedido", on_delete=models.CASCADE)
+    ingrediente = models.ForeignKey("Ingrediente", on_delete=models.CASCADE)
+    unidad = models.PositiveIntegerField()  # 📌 Identifica la unidad específica del producto
+    cantidadIngrediente = models.PositiveIntegerField(default=1)  # <-- Nuevo campo
+
+    class Meta:
+        unique_together = ("detalle_pedido", "ingrediente", "unidad")
+
+    def __str__(self):
+        return f"{self.ingrediente.nombre} x{self.cantidadIngrediente} - Unidad {self.unidad} de Pedido {self.detalle_pedido.pedido.idPedido}"
 
 # Modelo de Factura
 class Compra(models.Model):
@@ -425,4 +426,3 @@ class Proveedor(models.Model):
 
     def __str__(self):
         return self.nombre
-

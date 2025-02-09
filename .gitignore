@@ -29,6 +29,7 @@ claves.txt
 
 # Archivos estáticos compilados
 staticfiles/
+static/
 
 # Otros
 *.swp

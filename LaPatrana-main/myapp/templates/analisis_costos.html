@@ -35,11 +35,10 @@
                         <th>Producto</th>
                         <th>Costo Ingredientes</th>
                         <th>Costo Actividades</th>
-                        <th>Costo Unitario</th>
-                        <th>Costo Unitario (IVA)</th>
+                        <th>Costo Ponderado Ingredientes</th>  <!-- 🔹 Nueva columna -->
+                        <th>Costo Unitario Total</th>
                         <th>Precio Venta</th>
-                        <th>Margen</th>
-                        <th>Margen (IVA)</th>
+                        <th>Margen de Beneficio</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,19 +47,16 @@
                         <td>{{ producto.nombre }}</td>
                         <td>${{ producto.costo_ingredientes|floatformat:2 }}</td>
                         <td>${{ producto.costo_actividades|floatformat:2 }}</td>
+                        <td class="text-warning">${{ producto.costo_ponderado_ingredientes|floatformat:2 }}</td>  <!-- 🔹 Se añade el costo ponderado -->
                         <td>${{ producto.costo_unitario|floatformat:2 }}</td>
-                        <td>${{ producto.costo_unitario_iva|floatformat:2 }}</td>
                         <td>${{ producto.precio_venta|floatformat:2 }}</td>
                         <td class="{% if producto.margen_beneficio < 0 %}text-danger{% else %}text-success{% endif %}">
                             ${{ producto.margen_beneficio|floatformat:2 }}
                         </td>
-                        <td class="{% if producto.margen_beneficio_iva < 0 %}text-danger{% else %}text-success{% endif %}">
-                            ${{ producto.margen_beneficio_iva|floatformat:2 }}
-                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+            </table>            
         </div>
 
         <!-- Botón para volver (al final también) -->

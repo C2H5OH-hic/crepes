@@ -12,7 +12,7 @@
         <header>
             <h1>Gestión de Pedidos</h1>
             <a href="{% url 'registrar_compra' %}" class="btn-compras">Compras</a>
-            <a href="/signout/" class="btn-logout">Cerrar sesión</a>
+            <a href="{% url 'signout' %}" class="btn-logout">Cerrar sesión</a>
         </header>
 
         <table class="table" id="pedidos-table">
@@ -34,37 +34,56 @@
     <script>
         function cargarPedidosChef() {
             $.ajax({
-                url: "{% url 'pedidos_chef_ajax' %}",
+                url: "/chef/pedidos_ajax/",
                 method: "GET",
                 success: function(data) {
+                    console.log("📌 Respuesta AJAX:", data);
                     let tableBody = "";
-
+    
                     if (data.pedidos.length > 0) {
                         data.pedidos.forEach(pedido => {
+                            console.log("📌 Pedido recibido:", pedido);
                             let productosNotas = "";
-
-                            pedido.productos.forEach(producto => {
-                                if (producto.nota) {
-                                    productosNotas += `
-                                        <div class="mb-2">
-                                            <strong>${producto.nombre}</strong>
-                                            <span>(Cantidad: ${producto.cantidad})</span>
-                                            <div class="text-muted">Nota: ${producto.nota}</div>
-                                        </div>`;
-                                } else {
-                                    productosNotas += `
-                                        <div class="mb-2">
-                                            <strong>${producto.nombre}</strong>
-                                            <span>(Cantidad: ${producto.cantidad})</span>
-                                        </div>`;
-                                }
-                            });
-
+    
+                            if (pedido.productos && pedido.productos.length > 0) {
+                                pedido.productos.forEach(producto => {
+                                    let productoHtml = `<div class="producto-container">
+                                        <strong>${producto.nombre}</strong>
+                                        <span>(Cantidad: ${producto.cantidad})</span>`;
+    
+                                    for (let i = 0; i < producto.cantidad; i++) {
+                                        let ingredientesHtml = "";
+    
+                                        if (producto.ingredientes_por_unidad && producto.ingredientes_por_unidad.hasOwnProperty(i)) {
+                                            ingredientesHtml = `<ul class='ingredientes-lista'>`;
+                                            producto.ingredientes_por_unidad[i].forEach(ingrediente => {
+                                                ingredientesHtml += `<li>${ingrediente.nombre} x${ingrediente.cantidadIngrediente}</li>`;
+                                            });
+                                            ingredientesHtml += `</ul>`;
+                                        } else {
+                                            ingredientesHtml += `<span class='text-muted'>Sin ingredientes adicionales</span>`;
+                                        }
+    
+                                        productoHtml += `
+                                            <div class="producto-unidad">
+                                                <span><strong>Unidad ${i + 1}:</strong></span>
+                                                ${ingredientesHtml}
+                                                ${producto.nota ? `<div class="text-muted">Nota: ${producto.nota}</div>` : ""}
+                                            </div>`;
+                                    }
+    
+                                    productoHtml += `</div>`;
+                                    productosNotas += productoHtml;
+                                });
+                            } else {
+                                console.warn("Pedido sin productos:", pedido.idPedido);
+                            }
+    
                             tableBody += `
                                 <tr>
                                     <td>${pedido.id}</td>
                                     <td>${pedido.cliente_nombre}</td>
-                                    <td>${productosNotas}</td>
+                                    <td>${productosNotas || "<span class='text-muted'>Sin productos</span>"}</td>
                                     <td>${pedido.estado}</td>
                                     <td>
                                         <form class="estado-form" data-id="${pedido.id}" method="POST">
@@ -79,7 +98,7 @@
                     } else {
                         tableBody = `<tr><td colspan="5" class="text-center">No hay pedidos disponibles.</td></tr>`;
                     }
-
+    
                     $("#pedidos-table tbody").html(tableBody);
                 },
                 error: function() {
@@ -87,16 +106,16 @@
                 }
             });
         }
-
+    
         $(document).on('click', '.cambiar-estado', function(e) {
             e.preventDefault();
-
+    
             const button = $(this);
             const form = button.closest('form');
             const pedidoId = form.data('id');
             const nuevoEstado = button.data('estado');
             const csrfToken = form.find('input[name="csrfmiddlewaretoken"]').val();
-
+    
             $.ajax({
                 url: `/cambiar_estado_pedido/${pedidoId}/`,
                 method: 'POST',
@@ -106,17 +125,18 @@
                 },
                 success: function(response) {
                     if (response.success) {
+                        console.log(`✔️ Estado cambiado exitosamente para el pedido ${pedidoId}.`);
                         cargarPedidosChef();
                     } else {
-                        alert('Error: ' + response.error);
+                        alert('❌ Error: ' + response.error);
                     }
                 },
                 error: function() {
-                    alert('Error al cambiar el estado.');
+                    alert('❌ Error al cambiar el estado.');
                 }
             });
         });
-
+    
         $(document).ready(function() {
             cargarPedidosChef();
             setInterval(cargarPedidosChef, 10000);
