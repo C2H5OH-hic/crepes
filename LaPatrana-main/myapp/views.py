@@ -609,7 +609,7 @@ def caja_diaria(request):
         productos = DetallePedido.objects.filter(pedido=pedido)
         if not productos.exists():
             print(f"No se encontraron productos para el pedido {pedido.idPedido}.")
-        
+
         total_pedido = sum(detalle.cantidad * detalle.producto.precio for detalle in productos)
         total_caja += total_pedido
 
@@ -686,12 +686,14 @@ def productos(request):
     categorias = Categoria.objects.all()
     return render(request, 'productos.html', {'productos': productos, 'categorias': categorias})
 
+@csrf_exempt
 def pedidos_publicos_view(request):
     """
     Renderiza la plantilla de pedidos públicos.
     """
     return render(request, 'pedidos_publicos.html')
 
+@csrf_exempt
 def pedidos_publicos_ajax(request):
 
     pedidos = Pedido.objects.filter(estado__in=['pendiente', 'aceptado', 'listo']).order_by('estado', 'idPedido')
@@ -717,7 +719,6 @@ def pedidos_publicos_ajax(request):
 
     return JsonResponse({"pedidos": data})
 
-@login_required
 def lista_productos(request):
     # Productos organizados por categoría utilizando el campo relacionado 'categoria__nombre'
     productos_simples = Producto.objects.filter(categoria__nombre='simple', disponible=True)
@@ -913,7 +914,7 @@ def agregar_ingrediente(request, producto_id):
             messages.error(request, "Faltan datos para agregar el ingrediente.")
 
     return redirect('vincular_ingredientes', producto_id=producto.idProducto)
-    
+
 @login_required
 def eliminar_ingrediente(request, producto_id, ingrediente_id):
     """
@@ -1068,7 +1069,7 @@ def analisis_costos_unitarios(request):
     Vista que muestra un análisis detallado de los costos unitarios de cada producto.
     """
     productos = Producto.objects.all()
-    
+
     # 🔹 Obtener datos de frecuencia de selección de ingredientes
     ingredientes_frecuencia = Ingrediente.objects.all().values_list('nombre', 'frecuencia_uso', 'costo_por_unidad')
     total_frecuencia = sum(i[1] for i in ingredientes_frecuencia)
