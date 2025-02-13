@@ -28,37 +28,41 @@
         <!-- Tabla de costos actuales -->
         <div class="mt-4">
             <h3>Costos Actuales</h3>
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
                         <th>Producto</th>
-                        <th>Costo Ingredientes</th>
-                        <th>Costo Actividades</th>
-                        <th>Costo Ponderado Ingredientes</th>
-                        <th>Costo Unitario Total</th>
-                        <th><span class="text-info">Costo con IVA</span></th>  <!-- Nueva columna -->
-                        <th>Precio Venta</th>
-                        <th>Margen de Beneficio</th>
-                        <th><span class="text-info">Margen con IVA</span></th>  <!-- Nueva columna -->
+                        <th>Costo Unitario</th>
+                        <th>Costo con IVA</th>  <!-- Nueva columna -->
+                        <th>Precio de Venta</th>
+                        <th>Margen</th>
+                        <th>Margen con IVA</th>  <!-- Nueva columna -->
                     </tr>
                 </thead>
                 <tbody>
-                    {% for producto in analisis %}
+                    {% for resultado in resultados %}
                     <tr>
-                        <td>{{ producto.nombre }}</td>
-                        <td>${{ producto.costo_ingredientes|floatformat:2 }}</td>
-                        <td>${{ producto.costo_actividades|floatformat:2 }}</td>
-                        <td class="text-warning">${{ producto.costo_ponderado_ingredientes|floatformat:2 }}</td>
-                        <td>${{ producto.costo_unitario|floatformat:2 }}</td>
-                        <td class="text-info"><strong>${{ producto.costo_unitario_iva|floatformat:2 }}</strong></td>  <!-- Nuevo dato -->
-                        <td>${{ producto.precio_venta|floatformat:2 }}</td>
-                        <td class="{% if producto.margen_beneficio < 0 %}text-danger{% else %}text-success{% endif %}">
-                            ${{ producto.margen_beneficio|floatformat:2 }}
+                        <td>{{ resultado.producto.nombre }}</td>
+                        <td>${{ resultado.costo_unitario|floatformat:2 }}</td>
+                        <td class="text-info"><strong>${{ resultado.costo_unitario_iva|floatformat:2 }}</strong></td>
+                        <td>${{ resultado.producto.precio|floatformat:2 }}</td>
+                        <td>
+                            {% if resultado.margen > 0 %}
+                            <span class="text-success">${{ resultado.margen|floatformat:2 }}</span>
+                            {% else %}
+                            <span class="text-danger">${{ resultado.margen|floatformat:2 }}</span>
+                            {% endif %}
                         </td>
-                        <td class="{% if producto.margen_beneficio_iva < 0 %}text-danger{% else %}text-success{% endif %}">
-                            <strong>${{ producto.margen_beneficio_iva|floatformat:2 }}</strong>
-                        </td>  <!-- Nuevo dato -->
+                        <td>
+                            {% if resultado.margen_iva > 0 %}
+                            <span class="text-success">${{ resultado.margen_iva|floatformat:2 }}</span>
+                            {% else %}
+                            <span class="text-danger">${{ resultado.margen_iva|floatformat:2 }}</span>
+                            {% endif %}
+                        </td>
                     </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="text-center text-danger">No hay productos disponibles.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

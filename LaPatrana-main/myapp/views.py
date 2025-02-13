@@ -845,12 +845,20 @@ def gestion_costos(request):
 
     for producto in productos:
         costo_unitario = producto.calcular_costo_unitario()
+        costo_unitario_iva = costo_unitario * (1 + Decimal(settings.IVA_RATE))
         margen = producto.margen_beneficio()
+        margen_iva = producto.precio - costo_unitario_iva
+
         resultados.append({
             'producto': producto,
-            'costo_unitario': costo_unitario,
-            'margen': margen,
+            'costo_unitario': float(costo_unitario),
+            'costo_unitario_iva': float(costo_unitario_iva),
+            'margen': float(margen),
+            'margen_iva': float(margen_iva),
         })
+
+    # Depuración: Imprimir los datos antes de enviarlos a la plantilla
+    print("📌 Datos enviados a la plantilla:", json.dumps(resultados, indent=4, default=str))
 
     return render(request, 'gestion_costos.html', {'resultados': resultados})
 
@@ -954,57 +962,6 @@ def lista_compras(request):
             )
 
     return render(request, 'lista_compras.html', {'compras': compras})
-
-@login_required
-def analisis_costos_unitarios(request):
-    """
-    Vista que muestra un análisis detallado de los costos unitarios de cada producto.
-    """
-    productos = Producto.objects.all()
-
-    # 🔹 Obtener datos de frecuencia de selección de ingredientes
-    ingredientes_frecuencia = Ingrediente.objects.all().values_list('nombre', 'frecuencia_uso', 'costo_por_unidad')
-    total_frecuencia = sum(i[1] for i in ingredientes_frecuencia)
-
-    analisis = []
-
-    for producto in productos:
-        # 🔹 Costo total de los ingredientes usados en el producto
-        costo_ingredientes = producto.costo_ingredientes()
-        costo_actividades = producto.costo_actividades()
-
-        # 🔹 Cálculo del costo ponderado de ingredientes seleccionados
-        if total_frecuencia > 0:
-            costo_ponderado_ingredientes = sum(
-                i[2] * Decimal(i[1]) / Decimal(total_frecuencia) for i in ingredientes_frecuencia
-            )
-        else:
-            costo_ponderado_ingredientes = Decimal(0)  # 🔹 Si no hay datos, asumimos 0
-
-        # 🔹 Costo Unitario Total
-        costo_unitario = costo_ingredientes + costo_actividades + costo_ponderado_ingredientes
-        costo_unitario_iva = costo_unitario * Decimal(1.19)  # 🔹 Convertimos el IVA a Decimal
-
-        # 🔹 Precio fijo de venta
-        precio_venta = producto.precio
-
-        # 🔹 Margen de beneficio
-        margen_beneficio = precio_venta - costo_unitario
-        margen_beneficio_iva = precio_venta - costo_unitario_iva
-
-        analisis.append({
-            'nombre': producto.nombre,
-            'costo_ingredientes': costo_ingredientes,
-            'costo_actividades': costo_actividades,
-            'costo_ponderado_ingredientes': costo_ponderado_ingredientes,
-            'costo_unitario': costo_unitario,
-            'costo_unitario_iva': costo_unitario_iva,
-            'precio_venta': precio_venta,
-            'margen_beneficio': margen_beneficio,
-            'margen_beneficio_iva': margen_beneficio_iva,
-        })
-
-    return render(request, 'analisis_costos.html', {'analisis': analisis})
 
 #Gestión productos
 @login_required
