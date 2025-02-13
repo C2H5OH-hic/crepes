@@ -983,7 +983,7 @@ def analisis_costos_unitarios(request):
 
         # 🔹 Costo Unitario Total
         costo_unitario = costo_ingredientes + costo_actividades + costo_ponderado_ingredientes
-        costo_unitario_iva = costo_unitario * Decimal(1.19)  # 🔹 Convertimos el IVA a Decimal
+        costo_unitario_iva = costo_unitario * (1 + Decimal(settings.IVA_RATE))  # 🔹 Se asegura que se usa IVA desde settings
 
         # 🔹 Precio fijo de venta
         precio_venta = producto.precio
@@ -994,15 +994,18 @@ def analisis_costos_unitarios(request):
 
         analisis.append({
             'nombre': producto.nombre,
-            'costo_ingredientes': costo_ingredientes,
-            'costo_actividades': costo_actividades,
-            'costo_ponderado_ingredientes': costo_ponderado_ingredientes,
-            'costo_unitario': costo_unitario,
-            'costo_unitario_iva': costo_unitario_iva,
-            'precio_venta': precio_venta,
-            'margen_beneficio': margen_beneficio,
-            'margen_beneficio_iva': margen_beneficio_iva,
+            'costo_ingredientes': float(costo_ingredientes),
+            'costo_actividades': float(costo_actividades),
+            'costo_ponderado_ingredientes': float(costo_ponderado_ingredientes),
+            'costo_unitario': float(costo_unitario),
+            'costo_unitario_iva': float(costo_unitario_iva),
+            'precio_venta': float(precio_venta),
+            'margen_beneficio': float(margen_beneficio),
+            'margen_beneficio_iva': float(margen_beneficio_iva),
         })
+
+    # Depuración: Ver qué valores se están enviando a la plantilla
+    print("📌 Datos enviados a la plantilla:", json.dumps(analisis, indent=4, default=str))
 
     return render(request, 'analisis_costos.html', {'analisis': analisis})
 

@@ -40,24 +40,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for resultado in resultados %}
+                    {% for producto in analisis %}
                     <tr>
-                        <td>{{ resultado.producto.nombre }}</td>
-                        <td>${{ resultado.costo_unitario|floatformat:2 }}</td>
-                        <td class="text-info"><strong>${{ resultado.costo_unitario_iva|floatformat:2 }}</strong></td>
-                        <td>${{ resultado.producto.precio|floatformat:2 }}</td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>${{ producto.costo_unitario|floatformat:2 }}</td>
+                        <td class="text-info"><strong>${{ producto.costo_unitario_iva|floatformat:2 }}</strong></td>
+                        <td>${{ producto.precio_venta|floatformat:2 }}</td>
                         <td>
-                            {% if resultado.margen > 0 %}
-                            <span class="text-success">${{ resultado.margen|floatformat:2 }}</span>
+                            {% if producto.margen_beneficio > 0 %}
+                            <span class="text-success">${{ producto.margen_beneficio|floatformat:2 }}</span>
                             {% else %}
-                            <span class="text-danger">${{ resultado.margen|floatformat:2 }}</span>
+                            <span class="text-danger">${{ producto.margen_beneficio|floatformat:2 }}</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if resultado.margen_iva > 0 %}
-                            <span class="text-success">${{ resultado.margen_iva|floatformat:2 }}</span>
+                            {% if producto.margen_beneficio_iva > 0 %}
+                            <span class="text-success">${{ producto.margen_beneficio_iva|floatformat:2 }}</span>
                             {% else %}
-                            <span class="text-danger">${{ resultado.margen_iva|floatformat:2 }}</span>
+                            <span class="text-danger">${{ producto.margen_beneficio_iva|floatformat:2 }}</span>
                             {% endif %}
                         </td>
                     </tr>
