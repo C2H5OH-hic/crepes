@@ -1007,7 +1007,7 @@ def analisis_costos_unitarios(request):
     # Depuración: Ver qué valores se están enviando a la plantilla
     print("📌 Datos enviados a la plantilla:", json.dumps(analisis, indent=4, default=str))
 
-    return render(request, 'analisis_costos.html', {'analisis': analisis})
+    return render(request, 'gestion_costos.html', {'analisis': analisis})
 
 #Gestión productos
 @login_required
