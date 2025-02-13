@@ -18,6 +18,7 @@ from reportlab.lib import colors
 from datetime import datetime, date
 from .models import User, Producto, Pedido, DetallePedido, Actividad, ValidacionCosto, Ingrediente, ProductoIngrediente, Insumo, Proveedor, Compra, DetalleCompra, Categoria, DetallePedidoIngrediente
 from pathlib import Path
+from .utils import generar_pdf_caja_diaria
 import uuid
 import json
 
@@ -475,120 +476,11 @@ def listProductos(request):
         ]
         return JsonResponse({'productos': data}, safe=False)
 
-
 @login_required
 def generar_caja_diaria(request):
-    fecha_actual = date.today()
-    pedidos = Pedido.objects.filter(created_at__date=fecha_actual, estado='despachado')
-    compras = Compra.objects.prefetch_related('detalles').filter(fecha__date=fecha_actual)
-
-    total_caja = 0
-    detalles_pedidos = []
-    total_compras = 0
-    detalles_compras = []
-
-    # Procesar pedidos
-    for pedido in pedidos:
-        productos = DetallePedido.objects.filter(pedido=pedido)
-        total_pedido = sum(detalle.cantidad * detalle.producto.precio for detalle in productos)
-        total_caja += total_pedido
-
-        detalles_pedidos.append({
-            'id': pedido.idPedido,
-            'cliente': pedido.cliente_nombre,
-            'hora': pedido.created_at.strftime('%H:%M:%S'),
-            'productos': [
-                f"{detalle.producto.nombre} (x{detalle.cantidad})"
-                for detalle in productos
-            ],
-            'total_pedido': total_pedido
-        })
-
-    # Procesar compras
-    for compra in compras:
-        total_compra = sum(detalle.cantidad * detalle.precio_unitario for detalle in compra.detalles.all())
-        total_compras += total_compra
-
-        detalles = [
-            f"{detalle.nombre_insumo if detalle.nombre_insumo else detalle.ingrediente.nombre} - {detalle.cantidad} x ${detalle.precio_unitario:.2f}"
-            for detalle in compra.detalles.all()
-        ]
-
-        detalles_compras.append({
-            'id': compra.id,
-            'proveedor': compra.proveedor.nombre,
-            'fecha': compra.fecha.strftime('%H:%M:%S'),
-            'detalles': detalles,
-            'total_compra': total_compra
-        })
-
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="caja_diaria_{fecha_actual}.pdf"'
-
-    pdf = canvas.Canvas(response, pagesize=letter)
-    ancho, alto = letter
-    y = alto - 50
-
-    # Encabezado con logo y título
-    logo_path = Path(settings.BASE_DIR).resolve() / 'myapp' / 'static' / 'img' / 'logocrepes.jpg'
-    if logo_path.exists():
-        pdf.drawImage(str(logo_path), 50, alto - 100, width=100, height=50)
-    pdf.setFont("Helvetica-Bold", 18)
-    pdf.drawString(200, alto - 70, "Reporte Diario - Caja")
-    pdf.line(50, alto - 120, ancho - 50, alto - 120)
-    y = alto - 130
-
-    # Totales generales
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(50, y, f"Total de Ingresos: ${total_caja:.2f}")
-    pdf.drawString(50, y - 20, f"Total de Compras: ${total_compras:.2f}")
-    pdf.drawString(50, y - 40, f"Balance Neto: ${total_caja - total_compras:.2f}")
-    pdf.line(50, y - 50, ancho - 50, y - 50)
-    y -= 70
-
-    # Tablas
-    data_pedidos = [["ID Pedido", "Cliente", "Hora", "Productos", "Total"]] + [
-        [detalle['id'], detalle['cliente'], detalle['hora'], "\n".join(detalle['productos']), f"${detalle['total_pedido']:.2f}"]
-        for detalle in detalles_pedidos
-    ]
-    data_compras = [["ID Compra", "Proveedor", "Hora", "Detalles", "Total"]] + [
-        [
-            detalle['id'],
-            detalle['proveedor'],
-            detalle['fecha'],
-            "\n".join(detalle['detalles']),
-            f"${detalle['total_compra']:.2f}"
-        ]
-        for detalle in detalles_compras
-    ]
-
-    # Dibujar tablas
-    table_pedidos = Table(data_pedidos, colWidths=[50, 100, 80, 250, 70])
-    table_pedidos.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-    ]))
-    table_pedidos.wrapOn(pdf, 50, y - len(data_pedidos) * 20)
-    table_pedidos.drawOn(pdf, 50, y - len(data_pedidos) * 20)
-
-    y -= len(data_pedidos) * 20 + 40
-    table_compras = Table(data_compras, colWidths=[50, 100, 80, 250, 70])
-    table_compras.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-    ]))
-    table_compras.wrapOn(pdf, 50, y - len(data_compras) * 20)
-    table_compras.drawOn(pdf, 50, y - len(data_compras) * 20)
-
-    pdf.save()
+    buffer = generar_pdf_caja_diaria()
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="caja_diaria_{date.today()}.pdf"'
     return response
 
 @login_required

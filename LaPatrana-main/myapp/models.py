@@ -410,7 +410,7 @@ class DetalleCompra(models.Model):
         elif self.tipo == 'insumo' and self.nombre_insumo:
             # Actualizar stock del insumo
             insumo, created = Insumo.objects.get_or_create(nombre=self.nombre_insumo)
-            insumo.stock_actual += self.cantidad
+            insumo.stock_actual = Decimal(str(insumo.stock_actual)) + Decimal(str(self.cantidad))
             insumo.save()
 
 class Proveedor(models.Model):
