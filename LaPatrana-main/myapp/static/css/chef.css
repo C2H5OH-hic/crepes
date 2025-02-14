@@ -1,6 +1,7 @@
 /* Estilo general */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2rem; /* Aumenta el tamaño general del texto */
     margin: 0;
     padding: 20px;
     background-color: #f5f5f5;
@@ -18,7 +19,7 @@ header {
 header h1 {
     text-align: center;
     color: #905234ff;
-    font-size: 2.5rem;
+    font-size: 3rem; /* Aumenta el tamaño del título */
     margin: 0;
 }
 
@@ -45,10 +46,11 @@ header h1 {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem; /* Aumenta el tamaño del texto dentro de la tabla */
 }
 
 .table th, .table td {
-    padding: 15px;
+    padding: 20px; /* Aumenta el espaciado entre celdas para mejorar la legibilidad */
     text-align: center;
     border: 1px solid #ddd;
     color: #333333;
@@ -77,12 +79,13 @@ header h1 {
     height: 80px;
     border-radius: 50%;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1.2rem; /* Hace que los botones sean más legibles */
     font-family: 'Poppins', Arial, sans-serif;
     font-weight: 600;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    padding: 12px 18px; /* Aumenta el tamaño del botón */
 }
 
 /* Colores de botones */
@@ -130,4 +133,24 @@ header h1 {
 
 .btn-compras:hover {
     background-color: #db8918ff;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+    body {
+        font-size: 1.1rem;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+    }
+
+    .table {
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
 }
