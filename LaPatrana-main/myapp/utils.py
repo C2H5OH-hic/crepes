@@ -100,3 +100,16 @@ def generar_pdf_caja_diaria():
     doc.build(elements)
     buffer.seek(0)
     return buffer
+
+
+def enviar_informe_caja_diaria():
+    buffer = generar_pdf_caja_diaria()
+
+    email = EmailMessage(
+        subject=f"Informe Caja Diaria - {now().date()}",
+        body="Adjunto el informe diario de la caja.",
+        from_email='ca.zunigavera@gmail.com',
+        to=['ca.zunigavera@gmail.com', 'mazma53@gmail.com'],
+    )
+    email.attach(f"Caja_Diaria_{now().date()}.pdf", buffer.getvalue(), "application/pdf")
+    email.send()
