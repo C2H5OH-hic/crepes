@@ -20,6 +20,17 @@ def generar_pdf_caja_diaria():
     elements = []
     styles = getSampleStyleSheet()
 
+    # **Agregar el logo como marca de agua**
+    logo_path = Path(settings.BASE_DIR).resolve() / 'myapp' / 'static' / 'img' / 'logocrepes.jpg'
+    
+    def draw_watermark(canvas, doc):
+        if logo_path.exists():
+            width, height = letter
+            # Dibuja la imagen en el centro de la página con transparencia
+            canvas.setFillAlpha(0.1)  # Transparencia del 10%
+            canvas.drawImage(str(logo_path), width / 4, height / 4, width=300, height=300, preserveAspectRatio=True, mask='auto')
+            canvas.setFillAlpha(1)  # Restaurar opacidad normal
+
     # **Encabezado**
     elements.append(Paragraph("<b>Reporte Diario - Caja</b>", styles['Title']))
     elements.append(Spacer(1, 12))  # Espaciado
@@ -96,8 +107,8 @@ def generar_pdf_caja_diaria():
     elements.append(table_compras)
     elements.append(Spacer(1, 12))
 
-    # **Generar el PDF**
-    doc.build(elements)
+    # **Generar el PDF con marca de agua**
+    doc.build(elements, onFirstPage=draw_watermark, onLaterPages=draw_watermark)
     buffer.seek(0)
     return buffer
 
