@@ -21,7 +21,7 @@ def generar_pdf_caja_diaria():
     styles = getSampleStyleSheet()
 
     # **Agregar el logo como marca de agua**
-    logo_path = Path(settings.BASE_DIR).resolve() / 'myapp' / 'static' / 'img' / 'logocrepes.jpg'
+    logo_path = Path(settings.BASE_DIR) / "myapp" / "static" / "img" / "logocrepes.jpg"
     
     def draw_watermark(canvas, doc):
         if logo_path.exists():
