@@ -53,7 +53,8 @@ body {
   text-decoration: none;
 }
 
-/* Estilo base para botones (se aplica a navegación, hero, propuesta, etc.) */
+/* Estilo base para botones, que se aplica en navegación, hero, propuesta, etc.
+   Se define display inline-block y overflow: hidden para que el pseudo-elemento se recorte al contenedor */
 .btn,
 .navigation button,
 .hero button,
@@ -62,6 +63,8 @@ body {
 .hero a.btn,
 .propuesta a.btn {
   position: relative;
+  display: inline-block;
+  overflow: hidden;
   background-color: var(--primary-color);
   color: #fff;
   border: none;
@@ -69,12 +72,11 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  overflow: hidden;
   transition: background-color 0.3s ease, transform 0.3s ease;
   text-decoration: none;
 }
 
-/* Efecto hover: cambio de color, ligera elevación y efecto overlay */
+/* Efecto hover: cambio de color y leve elevación */
 .btn:hover,
 .navigation button:hover,
 .navigation a.btn:hover,
@@ -86,7 +88,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* Overlay sutil en botones usando pseudo-elemento */
+/* Pseudo-elemento overlay en botones, confinado al botón gracias a overflow:hidden */
 .btn::after,
 .navigation button::after,
 .navigation a.btn::after,
@@ -97,12 +99,11 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -100%;
+  width: 200%;
   height: 100%;
   background: rgba(255, 255, 255, 0.2);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: left 0.5s ease-out, opacity 0.3s ease;
   pointer-events: none;
   z-index: -1;
 }
@@ -114,7 +115,7 @@ body {
 .hero a.btn:hover::after,
 .propuesta button:hover::after,
 .propuesta a.btn:hover::after {
-  opacity: 1;
+  left: 100%;
 }
 
 /* Sección Hero */
@@ -196,11 +197,6 @@ body {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.hero button,
-.hero a.btn {
-  /* Ya están definidas en .btn, se aplican aquí */
 }
 
 /* Sección de Propuesta de Valor */
