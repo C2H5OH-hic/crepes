@@ -53,6 +53,7 @@ body {
   text-decoration: none;
 }
 
+/* Estilo de botones en navegación */
 .navigation button,
 .navigation a.btn {
   position: relative;
@@ -84,6 +85,7 @@ body {
   background: rgba(255, 255, 255, 0.2);
   transform: skewX(-45deg);
   transition: left 0.5s ease-out;
+  z-index: -1;  /* Pseudo-elemento detrás del contenido */
 }
 
 .navigation button:hover::after,
@@ -183,12 +185,32 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   text-decoration: none;
+  position: relative;
 }
 
 .hero button:hover,
 .hero a.btn:hover {
   background-color: var(--primary-color);
   transform: translateY(-2px);
+}
+
+.hero button::after,
+.hero a.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-45deg);
+  transition: left 0.5s ease-out;
+  z-index: -1;
+}
+
+.hero button:hover::after,
+.hero a.btn:hover::after {
+  left: 100%;
 }
 
 /* Sección de Propuesta de Valor */
@@ -224,12 +246,32 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   text-decoration: none;
+  position: relative;
 }
 
 .propuesta button:hover,
 .propuesta a.btn:hover {
   background-color: var(--secondary-color);
   transform: translateY(-2px);
+}
+
+.propuesta button::after,
+.propuesta a.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-45deg);
+  transition: left 0.5s ease-out;
+  z-index: -1;
+}
+
+.propuesta button:hover::after,
+.propuesta a.btn:hover::after {
+  left: 100%;
 }
 
 /* Sección de Contacto */
@@ -313,7 +355,7 @@ footer.visible {
   transform: translateY(0);
 }
 
-/* (Opcional) Estilos para tabla de productos y botón de detalle */
+/* (Opcional) Estilos para la tabla de productos y botón de detalle */
 .productos-table {
   width: 100%;
   border-collapse: collapse;
