@@ -1,180 +1,354 @@
 /* inicio.css */
 
-/* 1) Aplica la fuente cargada externamente a todo el body (o a los elementos que quieras) */
+/* Variables CSS para centralizar colores y facilitar ajustes */
+:root {
+  --primary-color: #db8918;        /* Tono naranja del logo */
+  --secondary-color: #e8c216;      /* Color secundario para hover y acentos */
+  --accent-color: #db8918;         /* Acento usando el mismo naranja */
+  --accent-hover: #e8c216;
+  --text-color: #333333;           /* Texto principal */
+  --footer-bg: #2c2c2c;            /* Fondo del footer (gris muy oscuro) */
+  --hero-overlay: rgba(0, 0, 0, 0.3); /* Overlay sutil en el hero */
+}
+
+/* Box-sizing global */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Cuerpo: fondo blanco para un look limpio y profesional */
 body {
-    font-family: "Back to Black Bold Demo", cursive;
-    margin: 0;
-    padding: 0;
-    background-color: #f1b05eff;
-    color: #905234ff;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
-/* Barra de Navegación */
+/* Navegación fija con contenedor */
 .navigation {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-    z-index: 100;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 40px;
+  z-index: 110;
+  background: transparent;
+  transition: background-color 0.3s ease;
 }
 
-.navigation button {
-    position: relative;
-    background-color: #db8918ff;
-    color: #ffffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.navigation button:hover {
-    background-color: #e8c216ff;
-    color: #905234ff;
+.nav-logo {
+  max-height: 50px;
 }
 
-.navigation button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: skewX(-45deg);
-    transition: left 0.5s ease-out;
+.nav-buttons button,
+.nav-buttons a {
+  margin-left: 10px;
+  text-decoration: none;
 }
 
-.navigation button:hover::after {
-    left: 100%;
+.navigation button,
+.navigation a.btn {
+  position: relative;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Hero section con carrusel dinámico */
+.navigation button:hover,
+.navigation a.btn:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.navigation button::after,
+.navigation a.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-45deg);
+  transition: left 0.5s ease-out;
+}
+
+.navigation button:hover::after,
+.navigation a.btn:hover::after {
+  left: 100%;
+}
+
+/* Sección Hero */
 .hero {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-    color: #ffffff;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  color: #fff;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--hero-overlay);
+  z-index: 1;
 }
 
 .hero-carousel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .hero-carousel img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
 }
 
 .hero-carousel img.active {
-    opacity: 1;
+  opacity: 1;
 }
 
-/* Logo en la sección hero */
 .hero-logo {
-    display: block;
-    margin: 0 auto 20px auto; /* Centra el logo y añade espacio inferior */
-    max-width: 150px; /* Ajusta el tamaño máximo del logo */
-    height: auto; /* Mantiene la proporción del logo */
-    z-index: 2; /* Asegura que el logo esté encima del fondo */
-    position: relative;
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5)); /* Sombra para destacar */
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 150px;
+  height: auto;
+  z-index: 2;
+  position: relative;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
 }
 
 .hero-content {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
 }
 
-/* Ajusta la tipografía de tus textos en la sección hero */
 .hero h1 {
-    font-size: 48px;
-    font-style: italic;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  font-family: 'Poppins', sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  margin: 0 0 20px;
 }
 
 .hero p {
-    font-size: 18px;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.hero button {
-    background-color: #e8c216ff;
-    color: #905234ff;
-    border: none;
-    padding: 15px 30px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.hero button,
+.hero a.btn {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
 }
 
-.hero button:hover {
-    background-color: #db8918ff;
-    color: #ffffffff;
+.hero button:hover,
+.hero a.btn:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
 }
 
-/* Footer */
+/* Sección de Propuesta de Valor */
+.propuesta {
+  padding: 60px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.propuesta h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: var(--accent-color);
+}
+
+.propuesta p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.propuesta button,
+.propuesta a.btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.propuesta button:hover,
+.propuesta a.btn:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+/* Sección de Contacto */
+.contacto {
+  padding: 40px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.contacto h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: var(--accent-color);
+}
+
+.contacto p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.contacto a {
+  color: #333;
+  text-decoration: none;
+}
+
+/* Estilos para redes sociales y enlaces de mapas en Contacto */
+.contacto .social-media {
+  margin: 20px 0;
+}
+
+.contacto .social-media a {
+  margin: 0 10px;
+  color: var(--accent-color);
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.contacto .social-media a:hover {
+  color: var(--accent-hover);
+}
+
+.contacto .map-links {
+  margin: 10px 0;
+}
+
+.contacto .map-links a.map-icon {
+  margin: 0 10px;
+  color: var(--accent-color);
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.contacto .map-links a.map-icon:hover {
+  color: var(--accent-hover);
+}
+
+.contacto iframe {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  border: 0;
+  margin-top: 20px;
+}
+
+/* Footer con efecto slide-up */
 footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #905234ff;
-    color: #ffffffff;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+  text-align: center;
+  padding: 10px 0;
+  background-color: var(--footer-bg);
+  color: #fff;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  transform: translateY(100%);
+  transition: transform 0.5s ease-in-out;
+  z-index: 90;
 }
 
+footer.visible {
+  transform: translateY(0);
+}
+
+/* (Opcional) Estilos para tabla de productos y botón de detalle */
 .productos-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    font-size: 1rem;
-    text-align: left;
-    background-color: #ffffff;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 1rem;
+  text-align: left;
+  background-color: #fff;
 }
 
-.productos-table th, .productos-table td {
-    border: 1px solid #dddddd;
-    padding: 0.75rem;
+.productos-table th,
+.productos-table td {
+  border: 1px solid #dddddd;
+  padding: 0.75rem;
 }
 
 .productos-table th {
-    background-color: #db8918ff;
-    color: #ffffff;
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
 .btn-detalle {
-    background-color: #db8918ff;
-    color: #ffffff;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .btn-detalle:hover {
-    background-color: #e8c216ff;
-    color: #905234ff;
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+/* Evitar que el footer fijo solape el contenido */
+main {
+  margin-bottom: 70px;
 }

@@ -1,53 +1,122 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Inicio</title>
-
-    <!-- Cargar la fuente externamente -->
-    <link 
-      href="https://db.onlinewebfonts.com/c/6f6eb705e52040bf4ffeafdbd28877f0?family=Back+to+Black+Bold+Demo" 
-      rel="stylesheet" 
-      type="text/css"
-    />
-
-    <!-- Tu propio archivo CSS -->
-    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crepería Blues | El Auténtico Sabor Francés</title>
+  
+  <!-- Meta SEO -->
+  <meta name="description" content="Descubre el auténtico sabor de las crepas francesas, elaboradas con ingredientes frescos y de alta calidad.">
+  <meta name="keywords" content="crepería, crepas, francesas, gastronomía, sur de Chile">
+  <meta name="author" content="Suralimento SpA">
+  
+  <!-- Fuentes modernas: Poppins y Open Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Fuente especial para el mensaje -->
+  <link rel="preconnect" href="https://db.onlinewebfonts.com" crossorigin>
+  <link href="https://db.onlinewebfonts.com/c/6f6eb705e52040bf4ffeafdbd28877f0?family=Back+to+Black+Bold+Demo" rel="stylesheet" type="text/css">
+  
+  <!-- FontAwesome desde CDN (sin integrity para evitar problemas) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+  
+  <!-- Archivo CSS -->
+  <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
 </head>
 <body>
-    <nav class="navigation">
-        <button id="login-btn">Iniciar Sesión</button>
-        <button id="products-btn">Productos</button>
-    </nav>
-    <main>
-        <section class="hero">
-            <div class="hero-carousel">
-                <img src="{% static 'img/creperia1.webp' %}" alt="Imagen 1" class="active">
-                <img src="{% static 'img/creperia2.webp' %}" alt="Imagen 2">
-                <img src="{% static 'img/creperia3.webp' %}" alt="Imagen 3">
-            </div>
-            <div class="hero-content">
-                <img src="{% static 'img/logo.png' %}" alt="Logo de la empresa" class="hero-logo">
-                <h1>Bienvenidos a Crepería Blues</h1>
-                <p>Gestiona tus pedidos y conoce nuestros productos de manera sencilla.</p>
-                <button id="view-products-btn">Ver Productos</button>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Suralimento SpA. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Variables globales para URLs (Django) -->
-    <script>
-        const productosUrl = "{% url 'lista_productos_publicos' %}";
-        const loginUrl = "{% url 'signin' %}";
-    </script>
-
-    <!-- Archivos JS -->
-    <script src="{% static 'js/scrollEffects.js' %}"></script>
-    <script src="{% static 'js/carousel.js' %}"></script>
+  <!-- Navegación fija -->
+  <nav class="navigation">
+    <div class="nav-container">
+      <img src="{% static 'img/logo.png' %}" alt="Logo Crepería Blues" class="nav-logo">
+      <div class="nav-buttons">
+        <a href="{% url 'signin' %}" id="login-btn" class="btn">Iniciar Sesión</a>
+        <a href="{% url 'lista_productos_publicos' %}" id="products-btn" class="btn">Productos</a>
+      </div>
+    </div>
+  </nav>
+  
+  <main>
+    <!-- Sección Hero -->
+    <section class="hero">
+      <div class="hero-carousel">
+        <img src="{% static 'img/creperia1.webp' %}" alt="Imagen de Crepas" class="active">
+        <img src="{% static 'img/creperia2.webp' %}" alt="Imagen de Crepas">
+        <img src="{% static 'img/creperia3.webp' %}" alt="Imagen de Crepas">
+      </div>
+      <div class="hero-content">
+        <h1>El Auténtico Sabor Francés</h1>
+        <p>Redescubre las crepas con un toque moderno en el sur de Chile.</p>
+        <a href="{% url 'lista_productos_publicos' %}" id="view-products-btn" class="btn">Pruébalas Ahora</a>
+      </div>
+    </section>
+    
+    <!-- Sección de Propuesta de Valor -->
+    <section class="propuesta">
+      <h2>Nuestra Promesa</h2>
+      <p>En Crepería Blues fusionamos la tradición francesa con ingredientes locales frescos para crear crepas inigualables. Cada bocado es una experiencia de calidad y pasión.</p>
+      <a href="{% url 'lista_productos_publicos' %}" id="learn-more-btn" class="btn">Descubre Más</a>
+    </section>
+    
+    <!-- Sección de Contacto -->
+    <section class="contacto">
+      <h2>Contáctanos</h2>
+      <p><strong>Dirección:</strong> Calle Principal 123, Ciudad, País</p>
+      <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
+      <p><strong>Email:</strong> <a href="mailto:info@creperiablues.cl">info@creperiablues.cl</a></p>
+      
+      <!-- Redes Sociales -->
+      <div class="social-media">
+        <a href="https://www.facebook.com/tu-pagina" target="_blank" class="social-icon">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/tu-pagina" target="_blank" class="social-icon">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+      
+      <!-- Enlaces a Mapas con iconos -->
+      <div class="map-links">
+        <a href="https://maps.google.com/?q=Calle+Principal+123,+Ciudad,+País" target="_blank" class="map-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </a>
+        <a href="https://maps.apple.com/?q=Calle+Principal+123,+Ciudad,+País" target="_blank" class="map-icon">
+          <i class="fab fa-apple"></i>
+        </a>
+      </div>
+      
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.811124836764!2d-58.38155948465066!3d-34.60368368047426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb4f4e1f4e6d%3A0x7f5b56a4e1a8c1f3!2sObelisco!5e0!3m2!1ses-419!2sar!4v1616035269575!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+  </main>
+  
+  <!-- Footer con efecto slide-up -->
+  <footer>
+    <p>&copy; 2025 Suralimento SpA. Todos los derechos reservados.</p>
+  </footer>
+  
+  <!-- Scripts -->
+  <script src="{% static 'js/scrollEffects.js' %}"></script>
+  <script src="{% static 'js/carousel.js' %}"></script>
+  
+  <!-- Script para efecto slide-up del footer -->
+  <script>
+    function checkFooterVisibility() {
+      const threshold = 50; // Umbral en píxeles
+      const footer = document.querySelector('footer');
+      if (window.scrollY + window.innerHeight >= document.body.offsetHeight - threshold) {
+        footer.classList.add('visible');
+      } else {
+        footer.classList.remove('visible');
+      }
+    }
+    window.addEventListener('scroll', checkFooterVisibility);
+    document.addEventListener('DOMContentLoaded', checkFooterVisibility);
+  </script>
 </body>
 </html>

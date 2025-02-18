@@ -1125,3 +1125,5 @@ def eliminar_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, id=categoria_id)
     categoria.delete()
     return redirect('gestionar_categorias')
+
+
